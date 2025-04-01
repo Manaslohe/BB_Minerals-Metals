@@ -71,7 +71,7 @@ const WhyChooseUs = () => {
     <div className="min-h-screen bg-gradient-to-br from-white via-gray-50 to-amber-50/30 relative">
       {/* Floating Back Button */}
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate('/')}
         className="fixed top-6 left-6 z-50 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-amber-500/20 text-blue-900 hover:text-amber-500 transition-all duration-300 group hover:shadow-amber-500/20"
       >
         <svg

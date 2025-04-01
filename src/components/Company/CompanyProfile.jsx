@@ -40,7 +40,7 @@ const CompanyProfilePage = () => {
       {/* Header with Back Button */}
       <div className="container mx-auto py-6 px-4">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/')}
           className="flex items-center gap-2 text-blue-900 hover:text-amber-500 transition-colors duration-300 group"
         >
           <svg
