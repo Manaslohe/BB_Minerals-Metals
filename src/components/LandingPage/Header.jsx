@@ -266,7 +266,7 @@ function Header() {
         >
           <div className="flex relative flex-col items-start py-2 md:pb-4 md:pt-0 aspect-[2] max-md:py-2">
             <img
-              src="src/assets/logo.png"
+              src="logo.png"
               alt="Company logo background"
               className="absolute ml-4 max-md:scale-110"
             />

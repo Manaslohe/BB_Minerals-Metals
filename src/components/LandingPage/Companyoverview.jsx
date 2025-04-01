@@ -23,19 +23,19 @@ function CompanyOverview() {
 
   const slides = [
     {
-      image: "src/assets/e1.png",
+      image: "/e1.png",
       title: "ESTABLISHED EXPERTISE",
       description: "B B Minerals and Metals, led by Mr. Shiv Jagdishchandra Gupta, has been a trusted name in the trading of minerals, ferro alloys, and charcoal for over a decade.",
       icon: <Award className="text-amber-500 w-12 h-12" strokeWidth={1.5} />
     },
     {
-      image: "src/assets/e2.png",
+      image: "/e2.png",
       title: "QUALITY ASSURANCE",
       description: "We maintain stringent quality standards across our entire product range, ensuring consistent excellence in every delivery.",
       icon: <CheckCircle2 className="text-amber-500 w-12 h-12" strokeWidth={1.5} />
     },
     {
-      image: "src/assets/e3.png",
+      image: "/e3.png",
       title: "GLOBAL REACH",
       description: "Our extensive network and strategic partnerships enable us to serve clients across international markets efficiently.",
       icon: <Globe className="text-amber-500 w-12 h-12" strokeWidth={1.5} />

@@ -41,7 +41,7 @@ function ProductsSection() {
       variants={containerVariants}
     >
       <motion.img 
-        src="src/assets/split.png" 
+        src="/split.png" 
         alt="Decorative split" 
         className="w-full h-28 object-cover -mb-1" // Added negative margin to join with header
         variants={itemVariants}
