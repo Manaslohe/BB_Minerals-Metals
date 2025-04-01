@@ -29,6 +29,12 @@ const mobileMenuVariants = {
   }
 };
 
+const buttonVariants = {
+  initial: { scale: 1 },
+  hover: { scale: 1.05 },
+  tap: { scale: 0.95 }
+};
+
 function Header() {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -85,13 +91,13 @@ function Header() {
   const NavigationItems = ({ isMobile = false, className = "" }) => (
     <nav className={`flex gap-30 px-20 py-3 w-full text-base font-bold 
       ${isMobile ? 
-        "text-white bg-amber-500 space-y-2" : 
+        "text-white space-y-2" : 
         "text-white bg-amber-500 rounded-3xl"} 
       max-md:px-5 max-md:mt-6 max-md:max-w-full ${className}`}
     >
       {isMobile ? (
         // Mobile navigation with dropdowns
-        <motion.div className="w-full space-y-1">
+        <motion.div className="w-full space-y-3">
           {['COMPANY', 'PRODUCT'].map((item, index) => (
             <motion.div
               key={item}
@@ -99,10 +105,10 @@ function Header() {
               custom={index}
               initial="hidden"
               animate="visible"
-              className="w-full mb-2"
+              className="w-full"
             >
               <div 
-                className="flex justify-between items-center py-4 px-3 rounded-lg hover:bg-amber-600 transition-colors"
+                className="flex justify-between items-center py-3 px-4 rounded-lg hover:bg-amber-600 transition-colors"
                 onClick={() => toggleExpandItem(item)}
               >
                 <div className="font-bold text-lg">{item}</div>
@@ -114,26 +120,42 @@ function Header() {
                 </motion.div>
               </div>
               {expandedItem === item && (
-                <div className="bg-amber-600 rounded-lg mt-1">
-                  <div className="p-3 space-y-2">
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="mt-1"
+                >
+                  <div className="space-y-1 py-2 px-2">
                     {(item === 'COMPANY' ? companySubmenu : productSubmenu).map((subItem, idx) => (
                       <motion.div
                         key={idx}
                         variants={menuItemVariants}
                         custom={idx}
-                        className="text-base py-2 px-4 rounded-md hover:bg-amber-700 transition-colors cursor-pointer font-bold"
+                        className="text-base py-3 px-6 rounded-lg hover:bg-amber-600 active:bg-amber-700 transition-colors cursor-pointer"
                         onClick={() => {
-                          if (item === 'PRODUCT' && subItem === "Visit Product Page") {
+                          if (item === 'COMPANY') {
+                            if (subItem === "Excellence") {
+                              navigate('/company/excellence');
+                            } else if (subItem === "Vision & Mission") {
+                              navigate('/company/vision-mission');
+                            } else if (subItem === "Company Profile") {
+                              navigate('/company/profile');
+                            } else if (subItem === "Founder Journey") {
+                              navigate('/company/founders-journey');
+                            }
+                          } else if (item === 'PRODUCT' && subItem === "Visit Product Page") {
                             navigate('/products');
-                            setIsMobileMenuOpen(false);
                           }
+                          setIsMobileMenuOpen(false);
                         }}
                       >
-                        {subItem}
+                        <span className="font-semibold">{subItem}</span>
                       </motion.div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               )}
             </motion.div>
           ))}
@@ -145,7 +167,7 @@ function Header() {
               custom={index + 2}
               initial="hidden"
               animate="visible"
-              className="py-4 px-3 rounded-lg hover:bg-amber-600 transition-colors cursor-pointer"
+              className="py-3 px-4 rounded-lg hover:bg-amber-600 active:bg-amber-700 transition-colors cursor-pointer"
               onClick={() => {
                 if (item === 'INQUIRY') navigate('/inquiry');
                 if (item === 'CONTACT US') navigate('/contact');
@@ -285,18 +307,28 @@ function Header() {
 
         {/* Mobile Menu Button - Visible only on Mobile */}
         <motion.button
-          className="md:hidden p-2 mr-2 mobile-menu-button ml-auto"
+          className="md:hidden mt-8 flex items-center justify-center 
+            bg-amber-500 hover:bg-amber-600 w-13 h-13 rounded-full 
+            shadow-md transition-all duration-200 mobile-menu-button 
+             mr-4"
           onClick={toggleMobileMenu}
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-          whileTap={{ scale: 0.9 }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          variants={buttonVariants}
+          initial="initial"
+          whileHover="hover"
+          whileTap="tap"
         >
-          {isMobileMenuOpen ? (
-            <X className="h-7 w-7" />
-          ) : (
-            <Menu className="h-7 w-7" />
-          )}
+          <motion.div
+            initial={{ rotate: 0 }}
+            animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-5 w-5 text-white" />
+            ) : (
+              <Menu className="h-5 w-5 text-white" />
+            )}
+          </motion.div>
         </motion.button>
       </div>
 
