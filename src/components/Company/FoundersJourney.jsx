@@ -86,7 +86,7 @@ const FoundersJourneyPage = () => {
         className="absolute top-4 left-4 md:top-8 md:left-8 z-20"
       >
         <button 
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/')}
           className="flex items-center justify-center px-4 py-2 bg-white/90 backdrop-blur-sm
                     hover:bg-amber-500 text-blue-900 hover:text-white rounded-lg
                     shadow-md hover:shadow-lg transition-all duration-300 group"
