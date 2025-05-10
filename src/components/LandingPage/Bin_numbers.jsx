@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
+import { useState, useRef, useEffect } from 'react';
 
-function BBInNumbers() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, margin: "-100px" });
-  const controls = useAnimation();
-  const [counts, setCounts] = useState({ years: 0, tons: 0, employees: 0 });
+const BinNumbers = () => {
+  const sectionRef = useRef(null);
+  const [isInView, setIsInView] = useState(false);
+  const [counts, setCounts] = useState({ years: 0, sqft: 0, professionals: 0 });
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   const stats = [
     {
@@ -15,157 +14,131 @@ function BBInNumbers() {
       key: "years"
     },
     {
-      number: 6000,
-      label: "TONS PROCESSED",
-      description: "With cutting-edge infrastructure, we ensure superior quality and unmatched value for our customers.",
-      key: "tons"
+      number: 64000,
+      label: "SQ. FT OF WORLD-CLASS FACILITIES",
+      description: "With cutting-edge infrastructure for minerals, ferro alloys, and charcoal processing, we ensure superior quality and unmatched value for our customers.",
+      key: "sqft"
     },
     {
-      number: 40,
-      label: "EMPLOYEES",
-      description: "Empowering our workforce, supporting communities, and embracing sustainability for a better future.",
-      key: "employees"
+      number: 90,
+      label: "SKILLED PROFESSIONALS",
+      description: "Our strength lies in empowering our workforce, supporting communities, and embracing sustainability for a better future.",
+      key: "professionals"
     }
   ];
 
-  // Counter animation logic
+  // Intersection Observer for triggering animations
   useEffect(() => {
-    if (isInView) {
-      const duration = 2000; // Animation duration in ms
-      stats.forEach(stat => {
-        const increment = stat.number / (duration / 16);
-        let current = 0;
-        
-        const timer = setInterval(() => {
-          current += increment;
-          if (current >= stat.number) {
-            current = stat.number;
-            clearInterval(timer);
-          }
-          setCounts(prev => ({
-            ...prev,
-            [stat.key]: Math.floor(current)
-          }));
-        }, 16);
-      });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Only trigger animation when element comes into view
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        } else {
+          // Reset counters when section scrolls out of view
+          setIsInView(false);
+          setCounts({ years: 0, sqft: 0, professionals: 0 });
+        }
+      },
+      { threshold: 0.25, rootMargin: "-100px" }
+    );
 
-      controls.start("visible");
-    } else {
-      setCounts({ years: 0, tons: 0, employees: 0 });
-      controls.start("hidden");
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
     }
-  }, [isInView, controls]);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.2,
-        delayChildren: 0.3 
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
       }
-    }
-  };
+    };
+  }, []);
 
-  const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
-    visible: { 
-      y: 0, 
-      opacity: 1,
+  // Counter animation with optimized RAF
+  useEffect(() => {
+    if (!isInView) return;
+
+    const startTime = performance.now();
+    const duration = 2000; // Animation duration in ms
     
-    }
-  };
+    let animationFrameId;
+    
+    const updateCounters = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Use easeOutExpo for smoother animation ending
+      const easeOutExpo = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      
+      const newCounts = {};
+      stats.forEach(stat => {
+        newCounts[stat.key] = Math.floor(stat.number * easeOutExpo);
+      });
+      
+      setCounts(newCounts);
+      
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(updateCounters);
+      }
+    };
+    
+    animationFrameId = requestAnimationFrame(updateCounters);
+    
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [isInView]);
 
   return (
-    <motion.section 
-      ref={ref}
-      className="flex flex-row items-start px-14 py-30 bg-zinc-100 max-md:px-5 max-md:flex-col"
-      variants={containerVariants}
-      initial="hidden"
-      animate={controls}
+    <section 
+      ref={sectionRef}
+      id="bin-numbers-section"
+      className={`flex flex-col py-16 px-16 bg-gray-900 text-white w-full max-md:px-5 transition-opacity duration-700 ${isInView ? 'opacity-100' : 'opacity-0'}`}
+      aria-label="Bin Numbers Statistics"
     >
-      <motion.h2 
-        className="text-6xl font-semibold text-sky-900 w-[311px] mr-10 max-md:text-4xl max-md:w-full max-md:mb-10"
-        variants={itemVariants}
-      >
-        BB IN <br /> NUMBERS
-      </motion.h2>
-
-      <div className="flex flex-row flex-wrap gap-6 items-start">
-        <motion.div 
-          className="flex shrink-0 bg-amber-500 rounded-sm h-[148px] w-[30px] max-md:hidden"
-          variants={itemVariants}
-          whileHover={{ scaleY: 1.1 }}
-        />
-
-        <motion.article 
-          className="flex flex-col items-start group w-[300px]"
-          variants={itemVariants}
+      <div className="flex flex-row justify-between items-start w-full max-lg:flex-col">
+        <h2 
+          className={`text-6xl font-bold text-white max-w-xs max-md:text-4xl max-md:mb-10 transform transition-transform duration-700 ${isInView ? 'translate-y-0' : 'translate-y-16'}`}
         >
-          <motion.h3 
-            className="text-6xl font-semibold text-sky-900 transition-colors duration-300 group-hover:text-amber-500 max-md:text-4xl"
-            animate={{ scale: isInView ? 1 : 0.95 }}
-          >
-            {counts.years}+
-          </motion.h3>
-          <p className="text-lg font-medium text-black mt-2 max-md:text-base">YEARS OF EXPERTISE</p>
-          <p className="self-stretch mt-2 text-sm leading-relaxed text-neutral-700">
-            Pioneering minerals, ferro alloys,
-            and charcoal trading since 2007,
-            delivering quality and reliability.
-          </p>
-        </motion.article>
+          BBMAM IN <br />
+          <span className="mt-4 inline-block">NUMBERS</span>
+        </h2>
 
-        <motion.div 
-          className="flex shrink-0 bg-amber-500 rounded-sm h-[148px] w-[30px] max-md:hidden"
-          variants={itemVariants}
-          whileHover={{ scaleY: 1.1 }}
-        />
-
-        <motion.article 
-          className="flex flex-col group"
-          variants={itemVariants}
-        >
-          <motion.h3 
-            className="self-start text-6xl font-semibold text-sky-900 transition-colors duration-300 group-hover:text-amber-500 max-md:text-4xl"
-            animate={{ scale: isInView ? 1 : 0.95 }}
-          >
-            {counts.tons.toLocaleString()}+
-          </motion.h3>
-          <p className="text-lg font-medium text-black mt-2 max-md:text-base">TONS PROCESSED</p>
-          <p className="self-stretch mt-2 text-sm leading-relaxed text-neutral-700">
-            With cutting-edge infrastructure for minerals, <br />
-            ferro alloys, and charcoal processing, we ensure <br />
-            superior quality and unmatched value for our customers.
-          </p>
-        </motion.article>
-
-        <motion.div 
-          className="flex shrink-0 bg-amber-500 rounded-sm h-[148px] w-[30px] max-md:hidden"
-          variants={itemVariants}
-          whileHover={{ scaleY: 1.1 }}
-        />
-
-        <motion.article 
-          className="flex flex-col group"
-          variants={itemVariants}
-        >
-          <motion.h3 
-            className="self-start text-6xl font-semibold text-sky-900 transition-colors duration-300 group-hover:text-amber-500 max-md:text-4xl"
-            animate={{ scale: isInView ? 1 : 0.95 }}
-          >
-            {counts.employees}+
-          </motion.h3>
-          <p className="text-lg font-medium text-black mt-2 max-md:text-base">EMPLOYEES</p>
-          <p className="self-stretch mt-2 text-sm leading-relaxed text-neutral-700">
-            Our strength lies in empowering our workforce, <br />
-            supporting communities, and embracing <br />
-            sustainability for a better future.
-          </p>
-        </motion.article>
+        <div className="flex flex-row justify-between flex-1 ml-16 max-lg:ml-0 max-lg:mt-8 max-md:flex-col max-md:gap-10">
+          {stats.map((stat, index) => (
+            <div 
+              key={stat.key}
+              className={`flex flex-row transform transition-all duration-700 ${isInView ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+              style={{ transitionDelay: `${index * 150}ms` }}
+              onMouseEnter={() => setHoveredItem(stat.key)}
+              onMouseLeave={() => setHoveredItem(null)}
+              tabIndex={0}
+              aria-label={`${stat.label}: ${stat.number}+`}
+            >
+              <div 
+                className={`flex shrink-0 bg-yellow-500 rounded-sm h-40 w-8 mr-4 transition-all duration-300 ${hoveredItem === stat.key ? 'bg-yellow-400 h-44' : ''}`}
+              />
+              
+              <article className="flex flex-col max-w-xs">
+                <h3 
+                  className={`text-6xl font-bold text-white max-md:text-4xl transition-all duration-500 ${hoveredItem === stat.key ? 'text-yellow-400 scale-110' : ''}`}
+                  style={{ transformOrigin: 'left' }}
+                >
+                  {stat.key === 'sqft' ? counts[stat.key].toLocaleString() : counts[stat.key]}+
+                </h3>
+                <p className={`text-base font-medium mt-1 transition-colors duration-300 ${hoveredItem === stat.key ? 'text-yellow-400' : 'text-white'}`}>
+                  {stat.label}
+                </p>
+                <p className="text-sm mt-2 text-gray-300 leading-relaxed">
+                  {stat.description}
+                </p>
+              </article>
+            </div>
+          ))}
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
-}
+};
 
-export default BBInNumbers;
+export default BinNumbers;

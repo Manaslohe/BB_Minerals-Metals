@@ -35,7 +35,7 @@ function PartnersSection() {
     },
     {
       id: 6,
-      url: "https://cdn.builder.io/api/v1/image/assets/TEMP/ab2154c4c2c091ccaffd35d9c05ba4dab2a79224",
+      url: "./p6.png",
       name: "Sunflag Steel",
     },
   ];
@@ -92,31 +92,23 @@ function PartnersSection() {
   return (
     <motion.section
       id="partners-section"
-      className="w-full py-12 md:py-20 bg-white relative overflow-hidden"
+      className="w-full py-12 md:py-20 bg-gray-900 relative overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}
     >
       {/* Title section */}
       <motion.div 
-        className="container mx-auto px-4 md:px-8 mb-12 md:mb-16"
+        className="container mx-auto px-4 pt-10 pb-8"
         variants={itemVariants}
       >
-        <div className="relative flex mb-8">
-          <motion.div 
-            className="absolute h-full w-1.5 md:w-2 bg-amber-500 rounded-none"
-            initial={{ height: 0 }}
-            animate={{ height: "100%" }}
-            transition={{ duration: 0.8 }}
-          />
-          <div className="ml-4 md:ml-6">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-[#004080] leading-tight">
-              OUR PARTNERS
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-700 mt-2">
-              Stronger Together, Growing Forever.
-            </p>
-          </div>
+        <div className="mb-10 text-center sm:text-left">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 tracking-tight">
+            OUR PARTNERS
+          </h2>
+          <p className="text-xl sm:text-2xl text-white/60 font-light">
+            Stronger Together, Growing Forever.
+          </p>
         </div>
       </motion.div>
 

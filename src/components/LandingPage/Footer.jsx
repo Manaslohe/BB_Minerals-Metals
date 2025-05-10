@@ -1,220 +1,404 @@
-"use client";
-import React, { useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { Mail, Phone } from 'lucide-react';
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Mail, Phone, ArrowUpRight, ChevronDown, ChevronUp } from "lucide-react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-function FooterSection() {
-  const controls = useAnimation();
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+const Footer = () => {
+  // Mobile accordion state
+  const [openSection, setOpenSection] = useState(null);
 
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    }
-  }, [controls, inView]);
+  const toggleSection = (section) => {
+    setOpenSection(openSection === section ? null : section);
+  };
 
-  // Enhanced animation variants
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.8,
+      transition: { 
+        duration: 0.8, 
         ease: "easeOut",
-        staggerChildren: 0.15,
-      },
-    },
+        staggerChildren: 0.15
+      }
+    }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { y: 30, opacity: 0 },
     visible: {
-      opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
+      opacity: 1,
+      transition: { 
+        type: "spring", 
+        stiffness: 80, 
+        damping: 12,
+        duration: 0.6
+      }
+    }
   };
 
-  const logoVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.7, ease: "easeOut" },
-    },
-  };
+  const linkHoverStyle = "group flex items-center gap-2 text-gray-300 hover:text-amber-400 transform transition-all duration-300 ease-out hover:translate-x-1";
+  const arrowStyle = "transform transition-all duration-300 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0";
+
+  // Mobile accordion header style
+  const accordionHeaderStyle = "flex justify-between items-center w-full text-amber-500 font-bold text-lg tracking-wide relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-12 after:h-0.5 after:bg-amber-500/30";
 
   return (
-    <motion.footer
-      ref={ref}
-      className="px-0 py-8 text-white bg-blue-900"
+    <motion.footer 
+      className="bg-gray-900 text-white py-12 sm:py-16 relative overflow-hidden"
       initial="hidden"
-      animate={controls}
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
       variants={containerVariants}
     >
-      <div className="flex px-20 py-0 max-md:flex-col max-md:px-8 max-md:py-0 items-center">
-        <motion.div
-          variants={logoVariants}
-          whileHover={{ scale: 1.03 }}
-          className="w-[25%] min-w-[200px] flex justify-center items-center max-md:w-full max-md:mb-8"
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <motion.div 
+          className="h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent mb-12"
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+        />
+        
+        {/* Mobile view: Logo centered at top */}
+        <motion.div 
+          variants={itemVariants} 
+          className="block sm:hidden mb-8 flex justify-center"
         >
-          <motion.img
-            src="/logow.png"
-            alt="BB Minerals & Metals Logo"
-            className="w-full h-auto object-contain"
-          />
-        </motion.div>
-        <div className="flex grow justify-between pl-[10%] max-md:pl-0 max-md:py-8 max-sm:flex-col">
-          <FooterColumn
-            title="ABOUT US"
-            links={[
-              "Company Profile",
-              "Founder's Journey",
-              "Corporate Presentation",
-              "Brochure",
-            ]}
-            itemVariants={itemVariants}
-          />
-          <FooterColumn
-            title="LEADERSHIP"
-            links={["Vision & Mission", "Why Choose Us"]}
-            itemVariants={itemVariants}
-          />
-          <LocationColumn itemVariants={itemVariants} />
-        </div>
-      </div>
-      <ContactRibbon itemVariants={itemVariants} />
-    </motion.footer>
-  );
-}
-
-function FooterColumn({ title, links, itemVariants }) {
-  const navigate = useNavigate();
-  return (
-    <motion.div 
-      className="relative pl-8 mr-16 max-md:mr-8 max-sm:mb-10"
-      variants={itemVariants}
-    >
-      <motion.div 
-        className="absolute left-0 w-1.5 bg-yellow-500 rounded h-full max-h-56"
-        initial={{ height: 0 }}
-        animate={{ height: "100%" }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      />
-      <motion.h2 
-        className="mb-5 text-xl font-semibold text-yellow-500"
-        variants={itemVariants}
-      >
-        {title}
-      </motion.h2>
-      <nav className="flex flex-col gap-3">
-        {links.map((link, index) => (
-          <motion.a
-            key={index}
-            href="#"
-            className="text-lg hover:text-yellow-300 transition-colors duration-300 inline-block"
-            variants={itemVariants}
-            whileHover={{ 
-              x: 5, 
-              transition: { duration: 0.2 },
-              textShadow: "0px 0px 8px rgba(255,255,255,0.3)" 
-            }}
-            onClick={() => {
-              if (link === "Vision & Mission") {
-                navigate('/company/vision-mission');
-              } else if (link === "Why Choose Us") {
-                navigate('/company/why-choose-us');
-              } else if (link === "Company Profile") {
-                navigate('/company/profile');
-              } else if (link === "Founder's Journey") {
-                navigate('/company/founders-journey');
-              }
-            }}
-          >
-            {link}
-          </motion.a>
-        ))}
-      </nav>
-    </motion.div>
-  );
-}
-
-function LocationColumn({ itemVariants }) {
-  return (
-    <motion.div 
-      className="relative pl-8 mr-16 max-md:mr-8 max-sm:mb-10"
-      variants={itemVariants}
-    >
-      <motion.div 
-        className="absolute left-0 w-1.5 bg-yellow-500 rounded h-full max-h-56"
-        initial={{ height: 0 }}
-        animate={{ height: "100%" }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      />
-      <motion.h2 
-        className="mb-5 text-xl font-semibold text-yellow-500"
-        variants={itemVariants}
-      >
-        LOCATION
-      </motion.h2>
-      <motion.address 
-        className="text-lg leading-relaxed text-white max-w-xs not-italic"
-        variants={itemVariants}
-      >
-        Works: SZ 3, SZ 4 & SZ 5, MIDC, Butibori, Nagpur - 441122 
-        <br/>
-        <span className="text-yellow-200">GSTIN: 27BKHPG4665F1Z3</span>
-        <br/>
-        Maharashtra (Code: 27)
-      </motion.address>
-    </motion.div>
-  );
-}
-
-const ContactRibbon = () => {
-  return (
-    <div className="relative w-full mt-4">
-      <div className="relative w-[70%] flex items-center max-md:w-full">
-        {/* Main ribbon */}
-        <div className="flex-1 bg-blue-700 h-12 flex items-center justify-between pl-6 pr-8 
-            max-md:min-h-[80px] max-md:h-auto max-md:py-4 max-md:flex-col max-md:items-start max-md:gap-4">
-          <Link 
-            to="/contact"  // Changed from href to to
-            className="font-bold text-yellow-400 text-lg max-md:pl-4 hover:text-yellow-300 transition-colors duration-300 cursor-pointer"
-          >
-            CONTACT US
-          </Link>
-          <div className="flex items-center space-x-8 
-              max-md:flex-col max-md:space-x-0 max-md:space-y-3 max-md:w-full max-md:pl-4">
-            {/* Email section */}
-            <div className="flex items-center space-x-2 max-md:w-full">
-              <Mail size={24} color="#FAA719" />
-              <a href="mailto:contact@bbmam.in" className="text-white hover:text-yellow-200 transition-colors duration-300">
-                contact@bbmam.in
-              </a>
-            </div>
-            
-            {/* Phone section */}
-            <div className="flex items-center space-x-2 max-md:w-full">
-              <Phone size={24} color="#FAA719" />
-              <a href="tel:+919333884664" className="text-white hover:text-yellow-200 transition-colors duration-300">
-                +91 93338 84664
-              </a>
-            </div>
+          <div className="relative w-40 h-28 transition-transform duration-300 hover:scale-105">
+            <img 
+              src="/logow.png" 
+              alt="BB Minerals & Metals Logo" 
+              className="w-full h-full object-contain filter brightness-110 drop-shadow-lg"
+              loading="lazy"
+            />
           </div>
+        </motion.div>
+        
+        {/* Desktop view: Original grid layout */}
+        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
+          {/* Logo column with enhanced responsiveness */}
+          <motion.div 
+            variants={itemVariants} 
+            className="lg:col-span-1 flex items-start justify-center md:justify-start"
+          >
+            <div className="relative w-48 sm:w-56 lg:w-64 h-32 sm:h-36 lg:h-40 transition-transform duration-300 hover:scale-105">
+              <img 
+                src="/logow.png" 
+                alt="BB Minerals & Metals Logo" 
+                className="w-full h-full object-contain filter brightness-110 drop-shadow-lg"
+                loading="lazy"
+              />
+            </div>
+          </motion.div>
+
+          {/* About Us column with enhanced hover effects */}
+          <motion.div variants={itemVariants} className="space-y-6">
+            <h3 className="text-amber-500 font-bold text-lg tracking-wide relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-12 after:h-0.5 after:bg-amber-500/30">
+              ABOUT US
+            </h3>
+            <ul className="space-y-3">
+              {["Company Profile", "Our History", "Brochure", "Eco-Friendly & Sustainability"].map((item, index) => (
+                <motion.li 
+                  key={index}
+                  whileHover={{ x: 8 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <Link to={`/${item.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`} 
+                    className={linkHoverStyle}>
+                    {item}
+                    <ArrowUpRight size={16} className={arrowStyle} />
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Leadership column */}
+          <motion.div variants={itemVariants} className="space-y-6">
+            <h3 className="text-amber-500 font-semibold text-lg tracking-wide relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-12 after:h-0.5 after:bg-amber-500/30">
+              LEADERSHIP
+            </h3>
+            <ul className="space-y-3">
+              {["Vision & Mission", "Why Choose Us"].map((item, index) => (
+                <motion.li 
+                  key={index}
+                  whileHover={{ x: 8 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  <Link to={`/${item.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`} 
+                    className={linkHoverStyle}>
+                    {item}
+                    <ArrowUpRight size={16} className={arrowStyle} />
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Contact Us column */}
+          <motion.div variants={itemVariants} className="space-y-6">
+            <h3 className="text-amber-500 font-bold text-lg tracking-wide relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-12 after:h-0.5 after:bg-amber-500/30">
+              CONTACT US
+            </h3>
+            <div className="space-y-4">
+              <motion.a 
+                href="mailto:contact@bbmam.in" 
+                className="flex items-center space-x-3 text-gray-300 hover:text-amber-400 transition-colors group"
+                whileHover={{ x: 8 }}
+              >
+                <Mail className="text-amber-500 group-hover:text-amber-400" size={18} />
+                <span className="text-base">contact@bbmam.in</span>
+              </motion.a>
+              
+              <div className="flex items-center space-x-2">
+                <Phone color="#F59E0B" size={16} />
+                <a href="tel:+919333884664" className="text-sm hover:text-amber-400 transition-colors">
+                  +91 93338 84664
+                </a>
+              </div>
+              
+              <div>
+                <div className="flex items-center space-x-2">
+                  <Phone color="#F59E0B" size={16} />
+                  <a href="tel:+917122984227" className="text-sm hover:text-amber-400 transition-colors">
+                    0712-2984227
+                  </a>
+                </div>
+                <div className="text-gray-400 text-xs pl-6">(Office Number)</div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Location column */}
+          <motion.div variants={itemVariants} className="space-y-6">
+            <h3 className="text-amber-500 font-bold text-lg tracking-wide relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-12 after:h-0.5 after:bg-amber-500/30">
+              LOCATION
+            </h3>
+            <div className="space-y-6">
+              <div>
+                <p className="font-semibold mb-2 text-sm text-amber-500/80">FACTORY LOCATION</p>
+                <address className="not-italic text-gray-300 leading-relaxed">
+                  SZ 2-5, MIDC, Butibori,<br />
+                  Nagpur – 441122,<br />
+                  Maharashtra, Bharat
+                </address>
+              </div>
+              
+              <div>
+                <p className="font-medium mb-1 text-xs">OFFICE LOCATION</p>
+                <address className="not-italic text-gray-300 leading-relaxed">
+                  C-3 & C-4, Vaishnav<br />
+                  Sagar Bungalow, New<br />
+                  Manish Nagar,<br />
+                  Sambhaji Nagar, Nagpur<br />
+                  440015, Bharat
+                </address>
+              </div>
+            </div>
+          </motion.div>
         </div>
         
-        {/* Semi-circular right end */}
-        <div className="w-6 h-12 bg-blue-700 rounded-r-full max-md:hidden" />
+        {/* Mobile view: Accordion-style layout */}
+        <div className="sm:hidden space-y-4 mb-8">
+          {/* About Us Section */}
+          <motion.div variants={itemVariants}>
+            <button 
+              onClick={() => toggleSection('about')}
+              className={accordionHeaderStyle}
+              aria-expanded={openSection === 'about'}
+            >
+              ABOUT US
+              {openSection === 'about' ? 
+                <ChevronUp size={18} className="text-amber-500" /> : 
+                <ChevronDown size={18} className="text-amber-500" />
+              }
+            </button>
+            
+            {openSection === 'about' && (
+              <motion.ul 
+                className="space-y-3 mt-4 pl-1"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                {["Company Profile", "Our History", "Brochure", "Eco-Friendly & Sustainability"].map((item, index) => (
+                  <li key={index}>
+                    <Link to={`/${item.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`} 
+                      className={linkHoverStyle}>
+                      {item}
+                      <ArrowUpRight size={16} className={arrowStyle} />
+                    </Link>
+                  </li>
+                ))}
+              </motion.ul>
+            )}
+          </motion.div>
+          
+          {/* Leadership Section */}
+          <motion.div variants={itemVariants}>
+            <button 
+              onClick={() => toggleSection('leadership')}
+              className={accordionHeaderStyle}
+              aria-expanded={openSection === 'leadership'}
+            >
+              LEADERSHIP
+              {openSection === 'leadership' ? 
+                <ChevronUp size={18} className="text-amber-500" /> : 
+                <ChevronDown size={18} className="text-amber-500" />
+              }
+            </button>
+            
+            {openSection === 'leadership' && (
+              <motion.ul 
+                className="space-y-3 mt-4 pl-1"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                {["Vision & Mission", "Why Choose Us"].map((item, index) => (
+                  <li key={index}>
+                    <Link to={`/${item.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`} 
+                      className={linkHoverStyle}>
+                      {item}
+                      <ArrowUpRight size={16} className={arrowStyle} />
+                    </Link>
+                  </li>
+                ))}
+              </motion.ul>
+            )}
+          </motion.div>
+          
+          {/* Contact Us Section */}
+          <motion.div variants={itemVariants}>
+            <button 
+              onClick={() => toggleSection('contact')}
+              className={accordionHeaderStyle}
+              aria-expanded={openSection === 'contact'}
+            >
+              CONTACT US
+              {openSection === 'contact' ? 
+                <ChevronUp size={18} className="text-amber-500" /> : 
+                <ChevronDown size={18} className="text-amber-500" />
+              }
+            </button>
+            
+            {openSection === 'contact' && (
+              <motion.div 
+                className="space-y-4 mt-4 pl-1"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <a 
+                  href="mailto:contact@bbmam.in" 
+                  className="flex items-center space-x-3 text-gray-300 hover:text-amber-400 transition-colors"
+                >
+                  <Mail className="text-amber-500" size={18} />
+                  <span className="text-base">contact@bbmam.in</span>
+                </a>
+                
+                <div className="flex items-center space-x-2">
+                  <Phone color="#F59E0B" size={16} />
+                  <a href="tel:+919333884664" className="text-sm hover:text-amber-400 transition-colors">
+                    +91 93338 84664
+                  </a>
+                </div>
+                
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <Phone color="#F59E0B" size={16} />
+                    <a href="tel:+917122984227" className="text-sm hover:text-amber-400 transition-colors">
+                      0712-2984227
+                    </a>
+                  </div>
+                  <div className="text-gray-400 text-xs pl-6">(Office Number)</div>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+          
+          {/* Location Section */}
+          <motion.div variants={itemVariants}>
+            <button 
+              onClick={() => toggleSection('location')}
+              className={accordionHeaderStyle}
+              aria-expanded={openSection === 'location'}
+            >
+              LOCATION
+              {openSection === 'location' ? 
+                <ChevronUp size={18} className="text-amber-500" /> : 
+                <ChevronDown size={18} className="text-amber-500" />
+              }
+            </button>
+            
+            {openSection === 'location' && (
+              <motion.div 
+                className="space-y-4 mt-4 pl-1"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div>
+                  <p className="font-semibold mb-1 text-sm text-amber-500/80">FACTORY LOCATION</p>
+                  <address className="not-italic text-gray-300 leading-relaxed text-sm">
+                    SZ 2-5, MIDC, Butibori,<br />
+                    Nagpur – 441122,<br />
+                    Maharashtra, Bharat
+                  </address>
+                </div>
+                
+                <div>
+                  <p className="font-medium mb-1 text-xs text-amber-500/80">OFFICE LOCATION</p>
+                  <address className="not-italic text-gray-300 leading-relaxed text-sm">
+                    C-3 & C-4, Vaishnav<br />
+                    Sagar Bungalow, New<br />
+                    Manish Nagar,<br />
+                    Sambhaji Nagar, Nagpur<br />
+                    440015, Bharat
+                  </address>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
+        
+        {/* Enhanced bottom section */}
+        <motion.div 
+          className="h-px bg-gradient-to-r from-transparent via-gray-700 to-transparent mb-12 sm:mb-16"
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+        />
+        
+        <div className="relative">
+          <motion.div 
+            className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2"
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 200 }}
+          >
+            <img 
+              src="/mii.png" 
+              alt="Made in India" 
+              className="h-24 sm:h-32 md:h-36 lg:h-40 w-auto opacity-90 transition-opacity duration-300 hover:opacity-100"
+              loading="lazy"
+            />
+          </motion.div>
+
+          <motion.p 
+            variants={itemVariants}
+            className="relative text-center text-gray-400 text-xs sm:text-sm pt-10 sm:pt-12 md:pt-14 font-light tracking-wide"
+          >
+            © {new Date().getFullYear()} BB Minerals & Metals. All rights reserved.
+          </motion.p>
+        </div>
       </div>
-    </div>
+      
+      {/* Background gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-950/50 pointer-events-none" />
+    </motion.footer>
   );
 };
 
-export default FooterSection;
+export default Footer;
