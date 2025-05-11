@@ -1,7 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const CertificationsCompliance = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  // Set up intersection observer for scroll animations - matched with Product.jsx
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Toggle visibility based on intersection
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.15, rootMargin: "-50px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    };
+  }, []);
 
   const certifications = [
     {
@@ -45,15 +66,27 @@ const CertificationsCompliance = () => {
 
   return (
     <section 
+      ref={sectionRef}
       id="certifications-section"
-      className="w-full bg-gray-900 py-16 sm:py-20 overflow-hidden"
+      className={`w-full bg-gray-900 py-16 sm:py-20 overflow-hidden transition-opacity duration-500
+                ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
       <div className="container mx-auto px-4 pt-10 pb-8 relative z-10">
         <div className="mb-10 text-center sm:text-left">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 tracking-tight">
+          <h2 
+            className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 tracking-tight
+                      transform transition-all duration-500 ease-out
+                      ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            style={{ transitionDelay: '50ms', transformOrigin: 'center sm:left' }}
+          >
             CERTIFICATIONS & COMPLIANCE
           </h2>
-          <p className="text-xl sm:text-2xl text-white/60 font-light">
+          <p 
+            className={`text-xl sm:text-2xl text-white/60 font-light
+                      transform transition-all duration-500 ease-out
+                      ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+            style={{ transitionDelay: '100ms' }}
+          >
             Committed to Quality and International Standards
           </p>
         </div>
@@ -63,10 +96,12 @@ const CertificationsCompliance = () => {
         {/* Background with improved visibility */}
         <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
           <div 
-            className="w-full h-full bg-cover bg-center"
+            className={`w-full h-full bg-cover bg-center transition-all duration-500
+                      transform ${isVisible ? 'scale-100 opacity-100' : 'scale-105 opacity-80'}`}
             style={{
               backgroundImage: 'url(/certib.png)',
               filter: 'brightness(0.8) saturate(1.3)',
+              transitionDelay: '150ms'
             }}
           ></div>
           {/* Subtle overlay gradient */}
@@ -78,7 +113,9 @@ const CertificationsCompliance = () => {
             {certifications.map((cert, index) => (
               <div 
                 key={index} 
-                className="w-full"
+                className={`w-full transform transition-all duration-500 ease-out
+                          ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+                style={{ transitionDelay: `${75 + index * 30}ms` }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >

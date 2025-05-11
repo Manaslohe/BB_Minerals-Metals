@@ -89,7 +89,7 @@ const Inquiry = () => {
           alt="Background"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-amber-500/80"></div>
+        <div className="absolute inset-0 bg-gray-900/70"></div>
       </div>
       
       {/* Content Container */}
@@ -165,7 +165,7 @@ const Inquiry = () => {
               transition={{ duration: 0.3 }}
             >
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-amber-500/30 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-rose-500/20 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl"></div>
               
               <h3 className="text-3xl font-bold text-white mb-8 text-center">
                 Send Us a Message

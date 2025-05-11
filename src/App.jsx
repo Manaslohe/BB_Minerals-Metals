@@ -9,6 +9,9 @@ import VisionMissionPage from './components/Company/Vision&Mission'
 import WhyChooseUs from './components/Company/WhyChooseUs'
 import CompanyProfilePage from './components/Company/CompanyProfile'
 import FoundersJourneyPage from './components/Company/FoundersJourney'
+import HistoryPage from './components/Company/History'
+import DirectorMessage from './components/Company/Directorm'
+import Manufacturing from './components/Company/Manufacturing'
 
 function App() {
   return (
@@ -23,6 +26,9 @@ function App() {
         <Route path="/company/why-choose-us" element={<WhyChooseUs />} />
         <Route path="/company/profile" element={<CompanyProfilePage />} />
         <Route path="/company/founders-journey" element={<FoundersJourneyPage />} />
+        <Route path="/our-history" element={<HistoryPage />} />
+        <Route path="/company/promoter-message" element={<DirectorMessage />} />
+        <Route path="/company/manufacturing-unit" element={<Manufacturing />} />
       </Routes>
     </Router>
   )

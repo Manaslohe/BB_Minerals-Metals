@@ -16,10 +16,10 @@ function Excellence() {
   // Internal component for section header with improved styling
   const SectionHeader = ({ title }) => (
     <header className="mb-12 transform transition-all duration-300 hover:scale-[1.01]">
-      <h2 className="mb-4 text-4xl md:text-5xl font-bold text-sky-900 tracking-tight">
+      <h2 className="mb-4 text-4xl md:text-5xl font-bold text-white tracking-tight">
         {title}
       </h2>
-      <div className="bg-gradient-to-r from-sky-900 to-sky-700 rounded-full h-2 w-48 md:w-64 transition-all duration-300" />
+      <div className="bg-gradient-to-r from-amber-500 to-amber-400 rounded-full h-2 w-48 md:w-64 transition-all duration-300" />
     </header>
   );
 
@@ -27,10 +27,10 @@ function Excellence() {
   const BackButton = () => (
     <button 
       onClick={() => window.history.back()} 
-      className="group flex items-center gap-3 text-sky-900 font-semibold mb-10 hover:text-amber-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-sky-50"
+      className="group flex items-center gap-3 text-white font-semibold mb-10 hover:text-amber-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-gray-800"
     >
       <ArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200" size={20} />
-      <span>Back</span>
+      <span>BACK</span>
     </button>
   );
 
@@ -53,11 +53,11 @@ function Excellence() {
 
   // Enhanced info card component
   const InfoCard = ({ title, icon, children }) => (
-    <article className="group bg-white rounded-2xl p-5 lg:p-6 transition-all duration-300 border border-gray-100">
+    <article className="group bg-transparent rounded-2xl p-5 lg:p-6 transition-all duration-300">
       <div className="flex flex-col md:flex-row gap-4 items-start">
         <IconBadge icon={icon} />
         <div className="flex-1 w-full">
-          <h3 className="mb-3 text-lg lg:text-xl font-bold text-sky-900">{title}</h3>
+          <h3 className="mb-3 text-lg lg:text-xl font-bold text-amber-500">{title}</h3>
           <div className="mb-4 h-1 bg-amber-500 w-24 transform origin-left transition-all duration-300 group-hover:w-full" />
           {children}
         </div>
@@ -72,44 +72,44 @@ function Excellence() {
         rel="stylesheet"
       />
       
-      <div className="h-screen bg-white font-['Inter']">
+      <div className="h-screen bg-gray-900 text-white font-['Inter']">
         <div className="h-full grid grid-cols-1 lg:grid-cols-2">
-          <div className="p-4 sm:p-6 lg:p-8">
+          <div className="p-4 sm:p-6 lg:p-8 bg-[#151D28]">
             <div className="max-w-4xl mx-auto">
               <BackButton />
               <SectionHeader title="Our Excellence" />
               
               <div className="space-y-5">
                 <InfoCard title="Environmental Commitment & R&D" icon={icons.environmental}>
-                  <ul className="space-y-3 text-gray-700 text-sm lg:text-base">
+                  <ul className="space-y-3 text-white text-sm lg:text-base">
                     <li className="flex flex-col lg:flex-row gap-2 lg:items-center">
-                      <span className="font-semibold text-sky-900 lg:min-w-48 xl:min-w-56">Advanced Air Fume System:</span>
-                      <span className="text-gray-600 leading-relaxed flex-1">50,000 cubic meters per minute capacity to minimize pollution.</span>
+                      <span className="font-semibold text-white lg:min-w-48 xl:min-w-56">Advanced Air Fume System:</span>
+                      <span className="text-gray-300 leading-relaxed flex-1">50,000 cubic meters per minute capacity to minimize pollution.</span>
                     </li>
                     <li className="flex flex-col lg:flex-row gap-2 lg:items-center">
-                      <span className="font-semibold text-sky-900 lg:min-w-48 xl:min-w-56">Advanced Laboratory:</span>
-                      <span className="text-gray-600 leading-relaxed flex-1">R&D: Enhancing product quality. Quality Testing: Maintaining high industry standards.</span>
+                      <span className="font-semibold text-white lg:min-w-48 xl:min-w-56">Advanced Laboratory Equipment:</span>
+                      <span className="text-gray-300 leading-relaxed flex-1">R&D: Enhancing product quality. Quality Testing: Maintaining high industry standards.</span>
                     </li>
                   </ul>
                 </InfoCard>
 
                 <InfoCard title="Production Capacity & Workforce" icon={icons.production}>
-                  <ul className="space-y-3 text-gray-700 text-sm lg:text-base">
+                  <ul className="space-y-3 text-white text-sm lg:text-base">
                     <li className="flex flex-col lg:flex-row gap-2 lg:items-center">
-                      <span className="font-semibold text-sky-900 lg:min-w-48 xl:min-w-56">Installed capacity:</span>
-                      <span className="text-gray-600 leading-relaxed flex-1">400 MT per month</span>
+                      <span className="font-semibold text-white lg:min-w-48 xl:min-w-56">Installed capacity:</span>
+                      <span className="text-gray-300 leading-relaxed flex-1">400 MT per month</span>
                     </li>
                     <li className="flex flex-col lg:flex-row gap-2 lg:items-center">
-                      <span className="font-semibold text-sky-900 lg:min-w-48 xl:min-w-56">Regulatory Compliance:</span>
-                      <span className="text-gray-600 leading-relaxed flex-1">Fully adheres to all statutory and regulatory requirements.</span>
+                      <span className="font-semibold text-white lg:min-w-48 xl:min-w-56">Regulatory Compliance:</span>
+                      <span className="text-gray-300 leading-relaxed flex-1">Fully adheres to all statutory and regulatory requirements.</span>
                     </li>
                     <li className="flex flex-col lg:flex-row gap-2 lg:items-center">
-                      <span className="font-semibold text-sky-900 lg:min-w-48 xl:min-w-56">Motto:</span>
-                      <span className="text-gray-600 leading-relaxed flex-1">Compliance first, complain never.</span>
+                      <span className="font-semibold text-white lg:min-w-48 xl:min-w-56">Motto:</span>
+                      <span className="text-gray-300 leading-relaxed flex-1">Compliance first, complain never.</span>
                     </li>
                     <li className="flex flex-col lg:flex-row gap-2 lg:items-center">
-                      <span className="font-semibold text-sky-900 lg:min-w-48 xl:min-w-56">Workforce:</span>
-                      <span className="text-gray-600 leading-relaxed flex-1">40+ skilled professionals contributing to the company's growth.</span>
+                      <span className="font-semibold text-white lg:min-w-48 xl:min-w-56">Workforce:</span>
+                      <span className="text-gray-300 leading-relaxed flex-1">90+ skilled professionals contributing to the company's growth.</span>
                     </li>
                   </ul>
                 </InfoCard>

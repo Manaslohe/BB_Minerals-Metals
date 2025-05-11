@@ -41,7 +41,7 @@ const CompanyOverview = () => {
         }
       },
       { 
-        threshold: [0.15, 0.3],
+        threshold: [0.15],
         rootMargin: "-50px" 
       }
     );
@@ -131,24 +131,24 @@ const CompanyOverview = () => {
     <section 
       ref={sectionRef}
       id="company-overview"
-      className={`w-full bg-gray-900 py-8 sm:py-12 md:py-20 overflow-hidden transition-opacity duration-700 
+      className={`w-full bg-gray-900 py-8 sm:py-12 md:py-20 overflow-hidden transition-opacity duration-500 
         ${isVisible || hasAnimated ? 'opacity-100' : 'opacity-0'}`}
     >
       <div className="container mx-auto px-4 md:px-6 pt-4 sm:pt-6 md:pt-10 pb-2 sm:pb-4 md:pb-8">
         <div className="mb-4 sm:mb-6 md:mb-10 text-center sm:text-left overflow-hidden">
           <h2 
             className={`text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-transparent bg-clip-text bg-white mb-1 sm:mb-2 tracking-tight
-                      transform transition-all duration-700 ease-out
+                      transform transition-all duration-500 ease-out
                       ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-            style={{ transitionDelay: '100ms' }}
+            style={{ transitionDelay: '50ms' }}
           >
             COMPANY OVERVIEW
           </h2>
           <p 
             className={`text-base sm:text-lg md:text-2xl text-white/60 font-light px-4 sm:px-0
-                      transform transition-all duration-700 ease-out
+                      transform transition-all duration-500 ease-out
                       ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-            style={{ transitionDelay: '250ms' }}
+            style={{ transitionDelay: '100ms' }}
           >
             Discover our journey, expertise, and industrial excellence
           </p>
@@ -156,14 +156,14 @@ const CompanyOverview = () => {
       </div>
 
       <div className="container mx-auto px-4 md:px-6">
-        <div className={`grid grid-cols-1 lg:grid-cols-10 gap-4 sm:gap-6 lg:gap-12 transform transition-all duration-700 ease-out ${
+        <div className={`grid grid-cols-1 lg:grid-cols-10 gap-4 sm:gap-6 lg:gap-12 transform transition-all duration-500 ease-out ${
           isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
-        }`} style={{ transitionDelay: hasAnimated ? '0ms' : '200ms' }}>
+        }`} style={{ transitionDelay: hasAnimated ? '150ms' : '200ms' }}>
           <div className="lg:col-span-4 relative w-full h-44 sm:h-56 md:h-72 lg:h-[450px] flex items-center justify-center overflow-hidden rounded-xl">
             {slides.map((slide, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 transition-all duration-700 ease-in-out transform ${
+                className={`absolute inset-0 transition-all duration-500 ease-in-out transform ${
                   currentSlide === index
                     ? 'opacity-100 z-10 scale-100'
                     : slideDirection === 'next'
@@ -172,16 +172,16 @@ const CompanyOverview = () => {
                 }`}
               >
                 <div className="h-full w-full flex items-center justify-center">
-                  <div className={`relative transition-all duration-700 ${
+                  <div className={`relative transition-all duration-400 ${
                     currentSlide === index ? 'scale-100' : 'scale-90'
                   }`}>
-                    <div className={`absolute -inset-4 rounded-full bg-amber-500/10 blur-xl transition-opacity duration-700 ${
+                    <div className={`absolute -inset-4 rounded-full bg-amber-500/10 blur-xl transition-opacity duration-500 ${
                       currentSlide === index ? 'opacity-100' : 'opacity-0'
                     }`}></div>
                     <img
                       src={slide.image}
                       alt={slide.title}
-                      className={`object-contain w-3/4 sm:w-4/5 lg:w-full h-full mx-auto relative z-10 transition-all duration-700 ${
+                      className={`object-contain w-3/4 sm:w-4/5 lg:w-full h-full mx-auto relative z-10 transition-all duration-500 ${
                         currentSlide === index ? 'brightness-100' : 'brightness-50'
                       }`}
                       style={{
@@ -203,7 +203,7 @@ const CompanyOverview = () => {
                 <button
                   key={index}
                   onClick={() => handleDotClick(index)}
-                  className={`rounded-full h-2 sm:h-3 transition-all duration-500 ease-out focus:outline-none focus:ring-2 focus:ring-amber-500 ${
+                  className={`rounded-full h-2 sm:h-3 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-amber-500 ${
                     currentSlide === index 
                       ? 'bg-white w-6 sm:w-8' 
                       : 'bg-gray-500 hover:bg-gray-400 w-2 sm:w-3'
@@ -217,21 +217,21 @@ const CompanyOverview = () => {
               {slides.map((slide, index) => (
                 <div 
                   key={index}
-                  className={`absolute inset-0 space-y-4 sm:space-y-6 transition-all duration-700 ease-in-out transform ${
+                  className={`absolute inset-0 space-y-4 sm:space-y-6 transition-all duration-400 ease-in-out transform ${
                     currentSlide === index
                       ? 'opacity-100 translate-y-0'
                       : 'opacity-0 translate-y-8 pointer-events-none'
                   }`}
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
-                    <div className={`text-amber-500 bg-amber-500/10 p-1.5 sm:p-2 rounded-full transition-all duration-500 ${
+                    <div className={`text-amber-500 bg-amber-500/10 p-1.5 sm:p-2 rounded-full transition-all duration-300 ${
                       currentSlide === index ? 'scale-100 rotate-0' : 'scale-90 rotate-12'
                     }`}>
                       <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12">
                         {slide.icon}
                       </div>
                     </div>
-                    <h2 className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-amber-500 transition-all duration-500 ${
+                    <h2 className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-amber-500 transition-all duration-300 ${
                       currentSlide === index ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'
                     }`}>
                       {slide.title}
@@ -240,9 +240,9 @@ const CompanyOverview = () => {
 
                   <div className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed space-y-3 sm:space-y-4">
                     {slide.description.split('\n').map((paragraph, i) => (
-                      <p key={i} className={`transition-all duration-700 ${
+                      <p key={i} className={`transition-all duration-400 ${
                         currentSlide === index ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
-                      }`} style={{ transitionDelay: currentSlide === index ? `${200 + i * 100}ms` : '0ms' }}>
+                      }`} style={{ transitionDelay: currentSlide === index ? `${100 + i * 50}ms` : '0ms' }}>
                         {paragraph.startsWith('•') ? (
                           <span className="flex items-start">
                             <span className="text-amber-400 mr-2 text-xl sm:text-2xl leading-none">•</span>
@@ -261,14 +261,14 @@ const CompanyOverview = () => {
             <div className="flex justify-center lg:justify-start gap-2 sm:gap-3 pt-4 sm:pt-6 lg:pt-8">
               <button
                 onClick={() => handleSlideChange('prev')}
-                className="p-2 sm:p-3 rounded-full bg-gray-800 hover:bg-amber-500 text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                className="p-2 sm:p-3 rounded-full bg-gray-800 hover:bg-amber-500 text-white transition-all duration-200 hover:scale-105 active:scale-95"
                 aria-label="Previous slide"
               >
                 <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
               <button
                 onClick={() => handleSlideChange('next')}
-                className="p-2 sm:p-3 rounded-full bg-gray-800 hover:bg-amber-500 text-white transition-all duration-300 hover:scale-105 active:scale-95"
+                className="p-2 sm:p-3 rounded-full bg-gray-800 hover:bg-amber-500 text-white transition-all duration-200 hover:scale-105 active:scale-95"
                 aria-label="Next slide"
               >
                 <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />

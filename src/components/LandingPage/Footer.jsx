@@ -98,15 +98,20 @@ const Footer = () => {
               ABOUT US
             </h3>
             <ul className="space-y-3">
-              {["Company Profile", "Our History", "Brochure", "Eco-Friendly & Sustainability"].map((item, index) => (
+              {[
+                { name: "Company Profile", path: "/company/profile" },
+                { name: "Our History", path: "/our-history" },
+                { name: "Brochure", path: "/brochure" },
+                { name: "Eco-Friendly & Sustainability", path: "/eco-friendly-sustainability" }
+              ].map((item, index) => (
                 <motion.li 
                   key={index}
                   whileHover={{ x: 8 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Link to={`/${item.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`} 
+                  <Link to={item.path} 
                     className={linkHoverStyle}>
-                    {item}
+                    {item.name}
                     <ArrowUpRight size={16} className={arrowStyle} />
                   </Link>
                 </motion.li>
@@ -120,15 +125,18 @@ const Footer = () => {
               LEADERSHIP
             </h3>
             <ul className="space-y-3">
-              {["Vision & Mission", "Why Choose Us"].map((item, index) => (
+              {[
+                { name: "Vision & Mission", path: "/company/vision-mission" },
+                { name: "Why Choose Us", path: "/company/why-choose-us" }
+              ].map((item, index) => (
                 <motion.li 
                   key={index}
                   whileHover={{ x: 8 }}
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
-                  <Link to={`/${item.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`} 
+                  <Link to={item.path} 
                     className={linkHoverStyle}>
-                    {item}
+                    {item.name}
                     <ArrowUpRight size={16} className={arrowStyle} />
                   </Link>
                 </motion.li>
@@ -222,11 +230,16 @@ const Footer = () => {
                 animate={{ height: 'auto', opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                {["Company Profile", "Our History", "Brochure", "Eco-Friendly & Sustainability"].map((item, index) => (
+                {[
+                  { name: "Company Profile", path: "/company/profile" },
+                  { name: "Our History", path: "/our-history" },
+                  { name: "Brochure", path: "/brochure" },
+                  { name: "Eco-Friendly & Sustainability", path: "/eco-friendly-sustainability" }
+                ].map((item, index) => (
                   <li key={index}>
-                    <Link to={`/${item.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`} 
+                    <Link to={item.path} 
                       className={linkHoverStyle}>
-                      {item}
+                      {item.name}
                       <ArrowUpRight size={16} className={arrowStyle} />
                     </Link>
                   </li>
@@ -256,11 +269,14 @@ const Footer = () => {
                 animate={{ height: 'auto', opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                {["Vision & Mission", "Why Choose Us"].map((item, index) => (
+                {[
+                  { name: "Vision & Mission", path: "/company/vision-mission" },
+                  { name: "Why Choose Us", path: "/company/why-choose-us" }
+                ].map((item, index) => (
                   <li key={index}>
-                    <Link to={`/${item.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`} 
+                    <Link to={item.path} 
                       className={linkHoverStyle}>
-                      {item}
+                      {item.name}
                       <ArrowUpRight size={16} className={arrowStyle} />
                     </Link>
                   </li>

@@ -93,10 +93,30 @@ function Header() {
     { name: "Company Profile", path: "/company/profile" },
     { name: "Founder Journey", path: "/company/founders-journey" },
     { name: "Vision & Mission", path: "/company/vision-mission" },
-    { name: "Excellence", path: "/company/excellence" }
+    { name: "Excellence", path: "/company/excellence" },
+    { name: "Promoter Message", path: "/company/promoter-message" },
+    { name: "Manufacturing Unit", path: "/company/manufacturing-unit" }
   ];
 
-  const productSubmenu = [{ name: "Visit Product Page", path: "/products" }];
+  // Smooth scroll function to scroll to the product section
+  const scrollToProducts = () => {
+    const productSection = document.getElementById("products-section");
+    if (productSection) {
+      // If we're already on the page with products section
+      productSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      setIsMobileMenuOpen(false);
+    } else {
+      // If we're not on the home page, first navigate to home then scroll
+      navigate("/");
+      // Wait for navigation to complete before scrolling
+      setTimeout(() => {
+        const section = document.getElementById("products-section");
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 300);
+    }
+  };
 
   const NavigationItems = ({ isMobile = false, className = "" }) => (
     <nav
@@ -116,45 +136,58 @@ function Header() {
               animate="visible"
               className="w-full"
             >
-              <div
-                className="flex justify-between items-center py-3 px-4 rounded-lg hover:bg-amber-600 transition-colors"
-                onClick={() => toggleExpandItem(item)}
-              >
-                <div className="font-bold text-lg">{item}</div>
-                <motion.div
-                  animate={{ rotate: expandedItem === item ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
+              {item === "PRODUCT" ? (
+                <div
+                  className="py-3 px-4 rounded-lg hover:bg-amber-600 active:bg-amber-700 transition-colors cursor-pointer"
+                  onClick={scrollToProducts}
                 >
-                  <ChevronDown className="h-5 w-5" />
-                </motion.div>
-              </div>
-              {expandedItem === item && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="mt-1"
-                >
-                  <div className="space-y-1 py-2 px-2">
-                    {(item === "COMPANY" ? companySubmenu : productSubmenu).map(
-                      (subItem, idx) => (
-                        <motion.div
-                          key={idx}
-                          variants={menuItemVariants}
-                          custom={idx}
-                          className="text-base py-3 px-6 rounded-lg hover:bg-amber-600 active:bg-amber-700 transition-colors cursor-pointer"
-                          onClick={() => {
-                            navigate(subItem.path);
-                            setIsMobileMenuOpen(false);
-                          }}
-                        >
-                          <span className="font-semibold">{subItem.name}</span>
-                        </motion.div>
-                      )
-                    )}
+                  <div className="font-bold text-lg">{item}</div>
+                </div>
+              ) : (
+                <>
+                  <div
+                    className="flex justify-between items-center py-3 px-4 rounded-lg hover:bg-amber-600 transition-colors"
+                    onClick={() => toggleExpandItem(item)}
+                  >
+                    <div className="font-bold text-lg">{item}</div>
+                    <motion.div
+                      animate={{ rotate: expandedItem === item ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronDown className="h-5 w-5" />
+                    </motion.div>
                   </div>
-                </motion.div>
+                  {expandedItem === item && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="mt-1"
+                    >
+                      <div className="space-y-1 py-2 px-2">
+                        {(item === "COMPANY" ? companySubmenu : []).map(
+                          (subItem, idx) => (
+                            <motion.div
+                              key={idx}
+                              variants={menuItemVariants}
+                              custom={idx}
+                              className="text-base py-3 px-6 rounded-lg hover:bg-amber-600 active:bg-amber-700 transition-colors cursor-pointer"
+                              onClick={() => {
+                                navigate(subItem.path);
+                                setIsMobileMenuOpen(false);
+                              }}
+                            >
+                              <span className="font-semibold">
+                                {subItem.name}
+                              </span>
+                            </motion.div>
+                          )
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </>
               )}
             </motion.div>
           ))}
@@ -188,7 +221,7 @@ function Header() {
           <MenuItem
             label="PRODUCT"
             isActive={isActive("/products")}
-            submenu={productSubmenu}
+            onClick={scrollToProducts}
           />
           <MenuItem label="CAREER" isActive={isActive("/career")} />
           <MenuItem
@@ -222,11 +255,11 @@ function Header() {
         {isActive && (
           <div className="absolute inset-0 bg-amber-500 rounded-sm shadow-md" />
         )}
-        
+
         {/* Hover state - separate from active state */}
-        <div 
+        <div
           className="absolute inset-0 bg-amber-500 rounded-sm shadow-md origin-left transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
-          style={{ display: isActive ? 'none' : 'block' }}
+          style={{ display: isActive ? "none" : "block" }}
         />
       </div>
 
@@ -286,7 +319,7 @@ function Header() {
               <MenuItem
                 label="PRODUCT"
                 isActive={isActive("/products")}
-                submenu={productSubmenu}
+                onClick={scrollToProducts}
               />
               <MenuItem label="CAREER" isActive={isActive("/career")} />
               <MenuItem

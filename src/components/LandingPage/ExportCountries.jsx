@@ -1,23 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactCountryFlag from 'react-country-flag';
-import { X } from 'lucide-react'; // Import X icon for close button
+import WorldwidePopup from '../WorldwidePopup';
 
 const GlobalPresence = () => {
   const [hoveredCountry, setHoveredCountry] = useState(null);
-  const [isWorldwidePopupOpen, setIsWorldwidePopupOpen] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(null); // For mobile view
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+  const isMobile = useRef(false);
 
-  // Add useEffect for handling scroll lock
+  // Add intersection observer for scroll animations
   useEffect(() => {
-    if (isWorldwidePopupOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isWorldwidePopupOpen]);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { 
+        threshold: 0.15,
+        rootMargin: "-50px" 
+      }
+    );
 
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      isMobile.current = window.innerWidth < 768;
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
+  // Handle country interaction for both hover and click
+  const handleCountryInteraction = (countryCode, isClick = false) => {
+    setHoveredCountry(isClick ? null : countryCode);
+    if (isClick || isMobile.current) {
+      setSelectedCountry(countryCode === selectedCountry ? null : countryCode);
+    }
+  };
+
+  // Country maps and details
   const countryMaps = {
     IN: '/maps/india.png',
     RU: '/maps/russia.png',
@@ -37,19 +77,37 @@ const GlobalPresence = () => {
     KR: { name: 'S KOREA', isHQ: false },
   };
 
-  const renderCountryButton = (countryCode, name) => (
+  const renderCountryButton = (countryCode, name, index) => (
     <div 
-      className="relative w-fit"
-      onMouseEnter={() => setHoveredCountry(countryCode)}
-      onMouseLeave={() => setHoveredCountry(null)}
+      className={`relative w-fit transform transition-all duration-500 ease-out
+                 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+      style={{ transitionDelay: `${75 + index * 30}ms` }}
+      onMouseEnter={() => handleCountryInteraction(countryCode)}
+      onMouseLeave={() => handleCountryInteraction(null)}
+      onClick={() => handleCountryInteraction(countryCode, true)}
     >
-      <div className="flex items-center space-x-3 bg-amber-500 p-1 rounded w-48 transform transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/20 cursor-pointer">
+      <div className={`
+        flex items-center space-x-3 p-1 rounded w-48 
+        transition-all duration-300 
+        ${(hoveredCountry === countryCode || selectedCountry === countryCode) 
+          ? 'bg-amber-500 shadow-lg shadow-amber-500/20 transform scale-105' 
+          : 'bg-amber-500 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/20'
+        }
+        cursor-pointer
+      `}>
         <ReactCountryFlag
           countryCode={countryCode}
           svg
           style={{ width: '4em', height: '3em' }}
+          className="transition-transform duration-300 ease-out"
+          aria-label={`Flag of ${name}`}
         />
-        <span className="text-lg font-bold text-gray-900">{name}</span>
+        <span className={`
+          text-lg font-bold text-gray-900 transition-all duration-300
+          ${(hoveredCountry === countryCode || selectedCountry === countryCode) ? 'scale-105' : ''}
+        `}>
+          {name}
+        </span>
       </div>
       {countryCode === 'IN' && (
         <span className="pointer-events-none absolute left-52 top-1/2 -translate-y-1/2 text-amber-500 text-sm font-semibold bg-amber-500/10 px-4 py-1.5 rounded-full border border-amber-500/20">
@@ -59,119 +117,103 @@ const GlobalPresence = () => {
     </div>
   );
 
+  const countries = [
+    { code: 'IN', name: 'BHARAT' },
+    { code: 'RU', name: 'RUSSIA' },
+    { code: 'IT', name: 'ITALY' },
+    { code: 'ES', name: 'SPAIN' },
+    { code: 'JP', name: 'JAPAN' },
+    { code: 'KR', name: 'S KOREA' },
+  ];
+
   return (
-    <div className="bg-gray-900 text-white font-sans">
+    <div 
+      ref={sectionRef}
+      className={`bg-gray-900 text-white font-sans transition-opacity duration-500
+                ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+    >
       <div className="container mx-auto py-10 px-4">
-        {/* Title and Subtitle */}
+        {/* Title and Subtitle with animations */}
         <div className="mb-10 text-center sm:text-left relative">
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row sm:justify-between">
             <div>
-              <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 tracking-tight">
+              <h2 
+                className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 tracking-tight
+                          transform transition-all duration-500 ease-out
+                          ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+                style={{ transitionDelay: '50ms' }}
+              >
                 GLOBAL PRESENCE
               </h2>
-              <p className="text-xl sm:text-2xl text-white/60 font-light">
+              <p 
+                className={`text-xl sm:text-2xl text-white/60 font-light
+                          transform transition-all duration-500 ease-out
+                          ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+                style={{ transitionDelay: '100ms' }}
+              >
                 We serve a strong international client base across multiple regions, including
               </p>
-            </div>
-            <div className="relative">
-              <button 
-                onClick={() => setIsWorldwidePopupOpen(!isWorldwidePopupOpen)}
-                className="hidden sm:flex bg-amber-500 text-gray-900 font-semibold py-2 px-4 rounded items-center space-x-2 self-end mb-1 hover:bg-amber-400 transform hover:scale-105 transition-all duration-300 ease-in-out"
-              >
-                <img 
-                  src="/icons/down.png" 
-                  alt="arrow" 
-                  className={`w-6 h-6 transition-transform duration-300 ${isWorldwidePopupOpen ? 'rotate-180' : ''}`}
-                />
-                <span>BBMAM WORLDWIDE</span>
-              </button>
-
-              {/* Worldwide Popup */}
-              {isWorldwidePopupOpen && (
-                <>
-                  {/* Backdrop - removed backdrop-blur-sm */}
-                  <div 
-                    className="fixed inset-0 bg-gray-950/60 z-40"
-                    onClick={() => setIsWorldwidePopupOpen(false)}
-                  />
-                  
-                  {/* Dropdown Popup */}
-                  <div 
-                    className="absolute right-0 top-full mt-2 w-[48rem] max-w-[90vw] bg-gray-900 rounded-xl shadow-2xl overflow-hidden ring-1 ring-amber-500/20 z-50 origin-top animate-slideDown"
-                  >
-                    {/* Header with gradient */}
-                    <div className="bg-gradient-to-r from-amber-500/10 to-amber-600/10 p-8">
-                      <div className="flex justify-between items-start">
-                        <h3 className="text-2xl md:text-3xl font-bold text-amber-500">
-                          BBMAM WORLDWIDE
-                        </h3>
-                        <button 
-                          onClick={() => setIsWorldwidePopupOpen(false)}
-                          className="text-gray-400 hover:text-amber-500 p-2 rounded-full hover:bg-amber-500/10 transition-all duration-300 transform hover:scale-110"
-                        >
-                          <X size={24} />
-                        </button>
-                      </div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="p-8">
-                      <p className="text-lg leading-relaxed text-gray-300">
-                        At BB MINERALS AND METALS, we are dedicated to excellence, innovation, and customer satisfaction.
-                      </p>
-                      <p className="text-lg leading-relaxed text-gray-300 mt-4">
-                        With a strong global footprint, we have built long-term partnerships in countries such as Japan, Korea, Spain, Russia, Italy, and many more. Our reputation in international markets is founded on strict adherence to quality standards and a strong commitment to timely delivery, ensuring seamless supply chain operations for our clients.
-                      </p>
-                      <p className="text-lg leading-relaxed text-gray-300 mt-4">
-                        We prioritize precision, consistency, and reliability—qualities that make us a trusted supplier in the global Ferroalloys industry.
-                      </p>
-                    </div>
-                  </div>
-                </>
-              )}
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row">
+        {/* Desktop view - similar to original design */}
+        <div 
+          className={`hidden md:flex flex-row transform transition-all duration-500 ease-out
+                    ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+          style={{ transitionDelay: '200ms' }}
+        >
           {/* Left: Country List */}
-          <div className="md:w-1/3 flex flex-col space-y-4">
-            {renderCountryButton('IN', 'BHARAT')}
-            {renderCountryButton('RU', 'RUSSIA')}
-            {renderCountryButton('IT', 'ITALY')}
-            {renderCountryButton('ES', 'SPAIN')}
-            {renderCountryButton('JP', 'JAPAN')}
-            {renderCountryButton('KR', 'S KOREA')}
-            <p className="mt-4">AND MANY OTHER COUNTRIES.</p>
+          <div className="w-1/3 flex flex-col space-y-4">
+            {countries.map((country, index) => (
+              renderCountryButton(country.code, country.name, index)
+            ))}
+            <p className={`mt-4 transition-all duration-500 ease-out
+                        ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+                style={{ transitionDelay: '300ms' }}>
+              AND MANY OTHER COUNTRIES.
+            </p>
           </div>
 
-          {/* Right: World Map with Dots */}
-          <div className="md:w-2/3 relative h-[600px] rounded-xl overflow-hidden">
+          {/* Right: World Map with smooth transitions */}
+          <div className="w-2/3 relative h-[600px] rounded-xl overflow-hidden z-[1]">
+            {/* --- Add a wrapper for popup with higher z-index --- */}
+            <div className="absolute inset-0 pointer-events-none z-[20]">
+              {/* Render the WorldwidePopup here for desktop only */}
+              <div className="absolute top-6 right-6 pointer-events-auto">
+                <WorldwidePopup className="hidden md:block" />
+              </div>
+            </div>
+            {/* --- End popup wrapper --- */}
+
             {/* Default World Map */}
             <div
-              className="world-map absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
+              className="world-map absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-700 ease-in-out z-[1]"
               style={{
                 backgroundImage: `url(${countryMaps.default})`,
                 opacity: hoveredCountry ? 0 : 1
               }}
             />
 
-            {/* Country Specific Map with Overlay */}
-            {hoveredCountry && (
-              <div className="absolute inset-0">
+            {/* Country Specific Maps with smooth transitions */}
+            {Object.keys(countryMaps).filter(code => code !== 'default').map(countryCode => (
+              <div 
+                key={countryCode}
+                className={`absolute inset-0 transition-all duration-700 ease-in-out z-[2]
+                          ${hoveredCountry === countryCode ? 'opacity-100' : 'opacity-0'}`}
+              >
                 <div
-                  className="world-map absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-1000 ease-in-out"
+                  className="world-map absolute inset-0 bg-contain bg-center bg-no-repeat"
                   style={{
-                    backgroundImage: `url(${countryMaps[hoveredCountry]})`,
-                    transitionDelay: '150ms'
+                    backgroundImage: `url(${countryMaps[countryCode]})`,
                   }}
                 />
                 {/* Country Name Overlay */}
-                <div className="absolute inset-0 flex flex-col justify-end p-8">
+                <div className={`absolute inset-0 flex flex-col justify-end p-8 transition-all duration-500 ${hoveredCountry === countryCode ? 'opacity-100' : 'opacity-0'}`}>
                   <h3 className="text-white text-4xl font-bold mb-2 tracking-wider drop-shadow-lg">
-                    {countryDetails[hoveredCountry].name}
+                    {countryDetails[countryCode].name}
                   </h3>
-                  {countryDetails[hoveredCountry].isHQ && (
+                  {countryDetails[countryCode].isHQ && (
                     <div className="flex items-center space-x-2">
                       <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"/>
                       <span className="text-amber-500 text-lg drop-shadow-lg">Global Headquarters</span>
@@ -179,12 +221,100 @@ const GlobalPresence = () => {
                   )}
                 </div>
               </div>
-            )}
+            ))}
 
             {/* Interactive Hover Effect */}
-            <div className={`absolute inset-0 transition-all duration-1000 pointer-events-none
+            <div className={`absolute inset-0 transition-all duration-700 pointer-events-none z-[3]
               ${hoveredCountry ? 'ring-2 ring-amber-500/30' : ''}`}
             />
+          </div>
+        </div>
+
+        {/* Mobile view - Optimized layout with improved map visibility */}
+        <div className={`md:hidden relative transform transition-all duration-500 ease-out min-h-[600px]
+                       ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+             style={{ transitionDelay: '200ms' }}
+        >
+          
+          {/* Background map container with better sizing and visibility */}
+          <div className="absolute inset-0 w-full h-full rounded-xl overflow-hidden">
+            {/* Default world map - fixed visibility */}
+            <div
+              className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-700 ease-in-out"
+              style={{
+                backgroundImage: `url(${countryMaps.default})`,
+                opacity: (hoveredCountry || selectedCountry) ? 0.15 : 0.35
+              }}
+            />
+            
+            {/* Country-specific maps with improved visibility and sizing */}
+            {Object.keys(countryMaps).filter(code => code !== 'default').map(countryCode => (
+              <div
+                key={`mobile-${countryCode}`}
+                className={`absolute inset-0 transition-all duration-700 ease-in-out
+                          ${(hoveredCountry === countryCode || selectedCountry === countryCode) ? 'opacity-50' : 'opacity-0'}`}
+              >
+                <div
+                  className="absolute inset-0 bg-contain bg-center bg-no-repeat"
+                  style={{ backgroundImage: `url(${countryMaps[countryCode]})` }}
+                />
+              </div>
+            ))}
+            
+            {/* Lighter overlay gradient for better map visibility */}
+            <div className="absolute inset-0 bg-gradient-to-b from-gray-900/70 via-gray-900/60 to-gray-900/80 pointer-events-none"></div>
+          </div>
+
+          {/* Country buttons with improved spacing */}
+          <div className="relative z-10 flex flex-col space-y-3 p-4 pt-8">
+            {/* Removed "Currently viewing" indicator */}
+            
+            {/* Country buttons - stacked vertically */}
+            {countries.map((country, index) => (
+              <div
+                key={`mobile-btn-${country.code}`}
+                className={`transform transition-all duration-500 ease-out
+                          ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+                style={{ transitionDelay: `${75 + index * 30}ms` }}
+              >
+                <div 
+                  className={`flex items-center justify-between p-3 rounded-lg transition-all duration-300
+                            ${(hoveredCountry === country.code || selectedCountry === country.code)
+                              ? 'bg-amber-500 shadow-lg shadow-amber-500/20'
+                              : 'bg-gray-800/90 hover:bg-gray-800'}`}
+                  onClick={() => handleCountryInteraction(country.code, true)}
+                >
+                  <div className="flex items-center space-x-3">
+                    <ReactCountryFlag
+                      countryCode={country.code}
+                      svg
+                      style={{ width: '3em', height: '2.3em' }}
+                      className="rounded shadow-sm"
+                    />
+                    <span className={`text-base font-medium transition-colors
+                               ${(hoveredCountry === country.code || selectedCountry === country.code) ? 'text-gray-900' : 'text-white'}`}>
+                      {country.name}
+                    </span>
+                  </div>
+                  
+                  {country.code === 'IN' && (
+                    <span className="text-xs bg-amber-500/20 px-2 py-1 rounded text-amber-400">
+                      HQ
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+            <p className={`mt-2 text-center text-white/70 text-sm transform transition-all duration-500 ease-out
+                        ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+                style={{ transitionDelay: '300ms' }}>
+              AND MANY OTHER COUNTRIES.
+            </p>
+          </div>
+          
+          {/* Mobile worldwide info button with better positioning */}
+          <div className="flex justify-center mt-6 mb-6">
+            <WorldwidePopup className="sm:hidden" />
           </div>
         </div>
       </div>
