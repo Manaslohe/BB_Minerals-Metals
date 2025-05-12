@@ -3,38 +3,40 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Send, User, Mail, MessageCircle, ArrowLeft } from 'lucide-react';
 
 const Inquiry = () => {
+  // Updated animation variants to match other components
   const containerVariants = {
-    initial: { opacity: 0 },
-    animate: {
+    hidden: { opacity: 0 },
+    visible: {
       opacity: 1,
       transition: {
-        duration: 0.6,
-        staggerChildren: 0.15
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+        duration: 0.8,
       }
     }
   };
   
   const itemVariants = {
-    initial: { y: 30, opacity: 0 },
-    animate: {
+    hidden: { opacity: 0, y: 50 },
+    visible: { 
+      opacity: 1, 
       y: 0,
-      opacity: 1,
-      transition: { duration: 0.5, ease: "easeOut" }
+      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } 
     }
   };
 
   const titleVariants = {
-    initial: { x: -30, opacity: 0 },
-    animate: {
-      x: 0,
-      opacity: 1,
-      transition: { duration: 0.7, ease: "easeOut" }
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.7, ease: "easeOut" } 
     }
   };
 
   const answerVariants = {
-    initial: { y: 0 },
-    animate: {
+    hidden: { y: 0 },
+    visible: {
       y: [-2, 2, -2],
       transition: {
         duration: 2.5,
@@ -52,7 +54,7 @@ const Inquiry = () => {
   };
 
   const pulseVariants = {
-    animate: {
+    visible: {
       scale: [1, 1.2, 1],
       opacity: [1, 0.8, 1],
       transition: {
@@ -66,19 +68,19 @@ const Inquiry = () => {
   return (
     <motion.div
       variants={containerVariants}
-      initial="initial"
-      animate="animate"
+      initial="hidden"
+      animate="visible"
       className="min-h-screen relative bg-gray-100 overflow-hidden"
     >
       {/* Back Button */}
       <motion.button
         onClick={() => window.history.back()}
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
+        variants={itemVariants}
         whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
-        className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white transition-all duration-300 hover:shadow-lg"
+        whileTap={{ scale: 0.97 }}
+        className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white transition-all duration-300 hover:shadow-lg group"
       >
-        <ArrowLeft className="w-5 h-5" />
+        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" />
         <span className="text-sm font-medium hidden sm:inline">Back</span>
       </motion.button>
 
@@ -116,7 +118,7 @@ const Inquiry = () => {
                 We Have
                 <motion.div 
                   variants={answerVariants}
-                  animate="animate"
+                  animate="visible"
                   whileHover={{ scale: 1.05 }}
                   className="relative inline-block ml-3 text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] cursor-default"
                 >
@@ -146,7 +148,7 @@ const Inquiry = () => {
             >
               <motion.div 
                 variants={pulseVariants}
-                animate="animate"
+                animate="visible"
                 className="w-3 h-3 bg-green-400 rounded-full group-hover:bg-green-300"
               />
               <span className="text-white/90 font-medium tracking-wide group-hover:text-white">24hr Response Time</span>

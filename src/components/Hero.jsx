@@ -25,14 +25,16 @@ function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  // Handle smooth scrolling to BBInNumbers section
+  // Handle smooth scrolling to BBInNumbers section - fixed to target correct ID
   const scrollToNextSection = () => {
-    const nextSection = document.getElementById("bb-numbers-section");
+    const nextSection = document.getElementById("bin-numbers-section");
     if (nextSection) {
       nextSection.scrollIntoView({ 
         behavior: "smooth",
         block: "start" 
       });
+    } else {
+      console.log("Section not found: bin-numbers-section");
     }
   };
 
@@ -61,10 +63,10 @@ function Hero() {
           <div className="absolute inset-0 bg-gradient-to-l from-black/100 to-black/0"></div>
         </div>
         
-        {/* Text Container Slider */}
-        <div className="absolute right-0 top-28 md:top-52 w-full md:w-1/2 xl:w-2/5">
-          {/* Slide Indicators - positioned horizontally on right side */}
-          <div className="absolute right-[15%] top-0 flex flex-row space-x-3">
+        {/* Text Container Slider - Mobile optimization */}
+        <div className="absolute right-0 top-40 sm:top-36 md:top-52 w-full md:w-1/2 xl:w-2/5">
+          {/* Slide Indicators - mobile positioning improved */}
+          <div className="absolute right-4 sm:right-[10%] md:right-[15%] top-0 flex flex-row space-x-3">
             {slides.map((_, index) => (
               <button
                 key={index}
@@ -80,21 +82,21 @@ function Hero() {
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentSlide}
-              className="flex flex-row items-start text-white"
+              className="flex flex-row items-start text-white px-4 sm:px-0"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
             >
-              {/* Divider Line - Left of Text */}
-              <div className="flex items-start justify-center px-4 pt-4">
-                <div className="h-56 w-1 bg-amber-500"></div>
+              {/* Divider Line - Left of Text - adjusted height for mobile */}
+              <div className="flex items-start justify-center px-2 sm:px-4 pt-4">
+                <div className="h-40 sm:h-48 md:h-56 w-1 bg-amber-500"></div>
               </div>
               
-              {/* Text Content */}
-              <div className="p-4 flex-1">
+              {/* Text Content - mobile optimized */}
+              <div className="p-2 sm:p-4 flex-1">
                 <motion.h1 
-                  className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
+                  className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 md:mb-4"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
@@ -102,7 +104,7 @@ function Hero() {
                   {slides[currentSlide].title}
                 </motion.h1>
                 <motion.p
-                  className="text-sm md:text-base lg:text-lg opacity-90"
+                  className="text-xs sm:text-sm md:text-base lg:text-lg opacity-90"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.4, delay: 0.4 }}
@@ -114,9 +116,9 @@ function Hero() {
           </AnimatePresence>
         </div>
         
-        {/* Minimal Professional Scroll Indicator */}
+        {/* Scroll Indicator - enlarged for mobile */}
         <motion.div 
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer"
+          className="absolute bottom-6 sm:bottom-8 md:bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.5 }}
@@ -126,21 +128,22 @@ function Hero() {
         >
           <div className="flex flex-col items-center gap-2">
             <motion.div 
-              className="w-7 h-12 rounded-full border-2 border-white/80 flex justify-center items-start p-"
+              className="w-8 h-14 sm:w-7 sm:h-12 rounded-full border-2 border-white/80 flex justify-center items-start p-1"
             >
               <motion.div 
-                className="w-1.5 h-1.5 bg-amber-500 rounded-full"
+                className="w-2 h-2 sm:w-1.5 sm:h-1.5 bg-amber-500 rounded-full"
                 animate={{ 
-                  y: [2, 14, 2],
+                  y: [2, 16, 2],
                 }}
                 transition={{ 
                   repeat: Infinity,
-                  duration: 2.5, // Slower animation
+                  duration: 2.5,
                   ease: "easeInOut",
-                  repeatDelay: 0.5 // Pause before repeating
+                  repeatDelay: 0.5
                 }}
               />
             </motion.div>
+            <span className="text-white text-xs opacity-80">Scroll Down</span>
           </div>
         </motion.div>
       </motion.section>

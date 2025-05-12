@@ -91,11 +91,10 @@ function Header() {
 
   const companySubmenu = [
     { name: "Company Profile", path: "/company/profile" },
-    { name: "Founder Journey", path: "/company/founders-journey" },
-    { name: "Vision & Mission", path: "/company/vision-mission" },
     { name: "Excellence", path: "/company/excellence" },
     { name: "Promoter Message", path: "/company/promoter-message" },
-    { name: "Manufacturing Unit", path: "/company/manufacturing-unit" }
+    { name: "Manufacturing Unit", path: "/company/manufacturing-unit" },
+    { name: "Gallery", path: "/company/gallery" }
   ];
 
   // Smooth scroll function to scroll to the product section
@@ -294,10 +293,10 @@ function Header() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="container mx-auto px-6 py-5 flex items-center">
-        {/* Logo */}
+      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between">
+        {/* Logo - always on left side */}
         <motion.div
-          className="w-[180px] flex-shrink-0"
+          className="w-[140px] sm:w-[180px] flex-shrink-0"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -307,10 +306,10 @@ function Header() {
           <img src="/logo.png" alt="Company logo" className="w-full" />
         </motion.div>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation - hidden on mobile */}
         <div className="hidden md:block flex-grow ml-12">
           <nav className="flex w-full justify-end items-center pr-6">
-            <div className="flex items-center gap-38">
+            <div className="flex items-center gap-8">
               <MenuItem
                 label="COMPANY"
                 isActive={isActive("/company")}
@@ -337,11 +336,11 @@ function Header() {
           </nav>
         </div>
 
-        {/* Mobile Menu Button - with white icon */}
+        {/* Mobile Menu Button - aligned to right */}
         <motion.button
           className="md:hidden flex items-center justify-center 
             bg-amber-500/90 hover:bg-amber-600 w-10 h-10 rounded-full 
-            shadow-md transition-all duration-200 mobile-menu-button"
+            shadow-md transition-all duration-200 mobile-menu-button ml-auto"
           onClick={toggleMobileMenu}
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           variants={buttonVariants}
