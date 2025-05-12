@@ -63,16 +63,16 @@ function Hero() {
           <div className="absolute inset-0 bg-gradient-to-l from-black/100 to-black/0"></div>
         </div>
         
-        {/* Text Container Slider - Mobile optimization */}
-        <div className="absolute right-0 top-40 sm:top-36 md:top-52 w-full md:w-1/2 xl:w-2/5">
+        {/* Text Container Slider - Moved down for better mobile layout */}
+        <div className="absolute right-0 top-36 sm:top-40 md:top-52 w-full md:w-1/2 xl:w-2/5 px-4 sm:px-0">
           {/* Slide Indicators - mobile positioning improved */}
           <div className="absolute right-4 sm:right-[10%] md:right-[15%] top-0 flex flex-row space-x-3">
             {slides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentSlide === index ? "bg-amber-500 w-8" : "bg-white/50"
+                className={`w-3 h-3 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+                  currentSlide === index ? "bg-amber-500 w-7 sm:w-8" : "bg-white/50"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -82,7 +82,7 @@ function Hero() {
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentSlide}
-              className="flex flex-row items-start text-white px-4 sm:px-0"
+              className="flex flex-row items-start text-white mt-10 sm:mt-6 md:mt-0"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
@@ -90,13 +90,13 @@ function Hero() {
             >
               {/* Divider Line - Left of Text - adjusted height for mobile */}
               <div className="flex items-start justify-center px-2 sm:px-4 pt-4">
-                <div className="h-40 sm:h-48 md:h-56 w-1 bg-amber-500"></div>
+                <div className="h-48 sm:h-48 md:h-56 w-1.5 sm:w-1 bg-amber-500"></div>
               </div>
               
-              {/* Text Content - mobile optimized */}
+              {/* Text Content - enhanced for mobile */}
               <div className="p-2 sm:p-4 flex-1">
                 <motion.h1 
-                  className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 md:mb-4"
+                  className="text-2xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 md:mb-4"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
@@ -104,7 +104,7 @@ function Hero() {
                   {slides[currentSlide].title}
                 </motion.h1>
                 <motion.p
-                  className="text-xs sm:text-sm md:text-base lg:text-lg opacity-90"
+                  className="text-sm sm:text-sm md:text-base lg:text-lg opacity-90"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.4, delay: 0.4 }}

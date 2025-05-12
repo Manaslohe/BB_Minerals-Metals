@@ -379,12 +379,18 @@ function Header() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
               >
-                <button
+                <motion.button
                   onClick={toggleMobileMenu}
-                  className="p-2 hover:bg-amber-600 rounded-full transition-colors"
+                  className="p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors flex items-center justify-center"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  initial={{ rotate: -90 }}
+                  animate={{ rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  aria-label="Close menu"
                 >
-                  <X className="h-6 w-6 text-white" />
-                </button>
+                  <X className="h-6 w-6 text-white drop-shadow-sm" />
+                </motion.button>
               </motion.div>
               <div className="p-4">
                 <NavigationItems isMobile={true} className="flex-col" />
