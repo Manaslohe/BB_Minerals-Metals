@@ -63,8 +63,8 @@ function Hero() {
           <div className="absolute inset-0 bg-gradient-to-l from-black/100 to-black/0"></div>
         </div>
         
-        {/* Text Container Slider - Moved down for better mobile layout */}
-        <div className="absolute right-0 top-36 sm:top-40 md:top-52 w-full md:w-1/2 xl:w-2/5 px-4 sm:px-0">
+        {/* Text Container Slider - Adjusted mobile positioning */}
+        <div className="absolute right-0 top-52 sm:top-40 md:top-52 w-full md:w-1/2 xl:w-2/5 px-4 sm:px-0">
           {/* Slide Indicators - mobile positioning improved */}
           <div className="absolute right-4 sm:right-[10%] md:right-[15%] top-0 flex flex-row space-x-3">
             {slides.map((_, index) => (
