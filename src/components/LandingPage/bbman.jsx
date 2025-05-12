@@ -60,13 +60,14 @@ const BBMAN = () => {
                   {/* Play button with Lucide React PlayCircle icon and pointer cursor */}
                   <button
                     onClick={() => setShowVideo(true)}
-                    className={`absolute bottom-14 left-14 sm:bottom-45 sm:left-14 flex items-center gap-2 bg-amber-500 hover:bg-amber-600 
-                              text-white py-2 px-4 sm:py-2 sm:px-7 rounded-4xl transition-all duration-300 
+                    className={`absolute top-4 right-4 sm:top-auto sm:right-auto sm:bottom-14 sm:left-14 
+                              flex items-center gap-1 sm:gap-2 bg-amber-500 hover:bg-amber-600 
+                              text-white py-1 px-2 sm:py-2 sm:px-7 rounded-4xl transition-all duration-300 
                               z-20 shadow-lg transform cursor-pointer ${hovered ? 'opacity-100 translate-y-0 scale-105' : 'opacity-80 translate-y-1'}`}
                     aria-label="Play video"
                   >
-                    <PlayCircle size={40} strokeWidth={2} />
-                    <span className="font-medium text-2xl text-white">Play Video</span>
+                    <PlayCircle size={24} className="sm:w-10 sm:h-10" strokeWidth={2} />
+                    <span className="font-medium text-base sm:text-2xl text-white">Play Video</span>
                   </button>
                 </>
               )}
