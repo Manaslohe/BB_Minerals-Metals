@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 const BinNumbers = () => {
-  const sectionRef = useRef(null);
-  const [isInView, setIsInView] = useState(false);
+  const { isVisible, hasAnimated, ref } = useScrollAnimation("bin-numbers-section");
   const [counts, setCounts] = useState({ years: 0, sqft: 0, professionals: 0 });
   const [hoveredItem, setHoveredItem] = useState(null);
 
@@ -27,36 +27,9 @@ const BinNumbers = () => {
     }
   ];
 
-  // Intersection Observer for triggering animations
+  // Counter animation with optimized RAF - only runs when visible
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Only trigger animation when element comes into view
-        if (entry.isIntersecting) {
-          setIsInView(true);
-        } else {
-          // Reset counters when section scrolls out of view
-          setIsInView(false);
-          setCounts({ years: 0, sqft: 0, professionals: 0 });
-        }
-      },
-      { threshold: 0.25, rootMargin: "-100px" }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
-  // Counter animation with optimized RAF
-  useEffect(() => {
-    if (!isInView) return;
+    if (!isVisible) return;
 
     const startTime = performance.now();
     const duration = 2000; // Animation duration in ms
@@ -87,18 +60,19 @@ const BinNumbers = () => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isInView]);
+  }, [isVisible]);
 
   return (
     <section 
-      ref={sectionRef}
+      ref={ref}
       id="bin-numbers-section"
-      className={`flex flex-col py-16 px-16 bg-gray-900 text-white w-full max-md:px-5 transition-opacity duration-700 ${isInView ? 'opacity-100' : 'opacity-0'}`}
+      className={`flex flex-col py-16 px-16 bg-gray-900 text-white w-full max-md:px-5 transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
       aria-label="Bin Numbers Statistics"
     >
       <div className="flex flex-row justify-between items-start w-full max-lg:flex-col">
         <h2 
-          className={`text-6xl font-bold text-white max-w-xs max-md:text-4xl max-md:mb-10 transform transition-transform duration-700 ${isInView ? 'translate-y-0' : 'translate-y-16'}`}
+          className={`text-6xl font-bold text-white max-w-xs max-md:text-4xl max-md:mb-10 transform transition-transform duration-700 ${isVisible ? 'translate-y-0' : 'translate-y-16'}`}
+          style={{ transitionDelay: '100ms' }}
         >
           BBMAM IN <br />
           <span className="mt-4 inline-block">NUMBERS</span>
@@ -108,8 +82,9 @@ const BinNumbers = () => {
           {stats.map((stat, index) => (
             <div 
               key={stat.key}
-              className={`flex flex-row transform transition-all duration-700 ${isInView ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
-              style={{ transitionDelay: `${index * 150}ms` }}
+              className={`flex flex-row transform transition-all duration-700 ease-out
+                          ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+              style={{ transitionDelay: `${200 + index * 100}ms` }}
               onMouseEnter={() => setHoveredItem(stat.key)}
               onMouseLeave={() => setHoveredItem(null)}
               tabIndex={0}

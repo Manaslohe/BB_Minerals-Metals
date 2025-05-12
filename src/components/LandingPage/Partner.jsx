@@ -1,7 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import React from "react";
+import { motion } from "framer-motion";
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 function PartnersSection() {
@@ -19,6 +18,7 @@ function PartnersSection() {
       name: "Kalyani",
     },
     {
+      id: 3,
       id: 3,
       url: "https://cdn.builder.io/api/v1/image/assets/TEMP/76312ce5ec4a5044bb666fb05d7c2ebe91cc56a7",
       name: "Saarloha",

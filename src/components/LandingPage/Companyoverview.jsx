@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { UserCog, CheckCircle2, Globe, ChevronLeft, ChevronRight, Info } from 'lucide-react';
+import { UserCog, CheckCircle2, ChevronLeft, ChevronRight, Info } from 'lucide-react';
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 const CompanyOverview = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
   const [slideDirection, setSlideDirection] = useState('next');
   const [isChanging, setIsChanging] = useState(false);
+  const [isVisible, setIsVisible] = useState(false); // Add local isVisible state
+  const [hasAnimated, setHasAnimated] = useState(false); // Add local hasAnimated state
   const sectionRef = useRef(null);
 
   const slides = [
@@ -34,6 +35,7 @@ const CompanyOverview = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        // Now we have setIsVisible available
         setIsVisible(entry.isIntersecting);
         
         if (entry.isIntersecting && !hasAnimated) {

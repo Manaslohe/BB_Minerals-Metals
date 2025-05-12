@@ -166,7 +166,9 @@ const GlobalPresence = () => {
           {/* Left: Country List */}
           <div className="w-1/3 flex flex-col space-y-4">
             {countries.map((country, index) => (
-              renderCountryButton(country.code, country.name, index)
+              <div key={`country-${country.code}`}>
+                {renderCountryButton(country.code, country.name, index)}
+              </div>
             ))}
             <p className={`mt-4 transition-all duration-500 ease-out
                         ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}

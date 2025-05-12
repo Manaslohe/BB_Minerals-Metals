@@ -25,7 +25,7 @@ function Hero() {
     return () => clearInterval(interval);
   }, []);
 
-  // Handle smooth scrolling to BBInNumbers section - fixed to target correct ID
+  // Handle smooth scrolling to BBInNumbers section
   const scrollToNextSection = () => {
     const nextSection = document.getElementById("bin-numbers-section");
     if (nextSection) {

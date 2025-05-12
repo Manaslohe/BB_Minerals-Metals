@@ -35,11 +35,66 @@ const buttonVariants = {
   tap: { scale: 0.95 }
 };
 
+// Header reveal animation
+const headerVariants = {
+  hidden: {
+    y: -80,
+    opacity: 0
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+// Logo animation
+const logoVariants = {
+  hidden: {
+    opacity: 0,
+    x: -30,
+    scale: 0.9
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: {
+      duration: 0.7,
+      ease: "easeOut"
+    }
+  }
+};
+
+// Nav item animation for desktop
+const navItemVariants = {
+  hidden: { opacity: 0, y: -10 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.3 + i * 0.1,
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  })
+};
+
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [expandedItem, setExpandedItem] = React.useState(null);
+  const [hasLoaded, setHasLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    setHasLoaded(true);
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -49,16 +104,13 @@ function Header() {
     setExpandedItem(expandedItem === item ? null : item);
   };
 
-  // Check if route is active
   const isActive = (path) => {
-    // Set COMPANY as active by default when on home page
     if (path === "/company" && location.pathname === "/") {
       return true;
     }
     return location.pathname.includes(path);
   };
 
-  // Close mobile menu when clicking outside
   React.useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -76,7 +128,6 @@ function Header() {
     };
   }, [isMobileMenuOpen]);
 
-  // Prevent body scrolling when mobile menu is open
   React.useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -97,17 +148,13 @@ function Header() {
     { name: "Gallery", path: "/company/gallery" }
   ];
 
-  // Smooth scroll function to scroll to the product section
   const scrollToProducts = () => {
     const productSection = document.getElementById("products-section");
     if (productSection) {
-      // If we're already on the page with products section
       productSection.scrollIntoView({ behavior: "smooth", block: "start" });
       setIsMobileMenuOpen(false);
     } else {
-      // If we're not on the home page, first navigate to home then scroll
       navigate("/");
-      // Wait for navigation to complete before scrolling
       setTimeout(() => {
         const section = document.getElementById("products-section");
         if (section) {
@@ -124,7 +171,6 @@ function Header() {
       } w-full ${className}`}
     >
       {isMobile ? (
-        // Mobile navigation with dropdowns
         <motion.div className="w-full space-y-3">
           {["COMPANY", "PRODUCT"].map((item, index) => (
             <motion.div
@@ -210,52 +256,55 @@ function Header() {
           ))}
         </motion.div>
       ) : (
-        // Desktop navigation
         <div className="flex w-full justify-end gap-8 pr-6">
           <MenuItem
             label="COMPANY"
             isActive={isActive("/company")}
             submenu={companySubmenu}
+            index={0}
           />
           <MenuItem
             label="PRODUCT"
             isActive={isActive("/products")}
             onClick={scrollToProducts}
+            index={1}
           />
-          <MenuItem label="CAREER" isActive={isActive("/career")} />
+          <MenuItem label="CAREER" isActive={isActive("/career")} index={2} />
           <MenuItem
             label="INQUIRY"
             isActive={isActive("/inquiry")}
             onClick={() => navigate("/inquiry")}
+            index={3}
           />
-          <MenuItem label="BLOG" isActive={isActive("/blog")} />
+          <MenuItem label="BLOG" isActive={isActive("/blog")} index={4} />
           <MenuItem
             label="CONTACT US"
             isActive={isActive("/contact")}
             onClick={() => navigate("/contact")}
+            index={5}
           />
         </div>
       )}
     </nav>
   );
 
-  // Individual menu item component
-  const MenuItem = ({ label, submenu, isActive, onClick }) => (
+  const MenuItem = ({ label, submenu, isActive, onClick, index }) => (
     <motion.div
       className="relative whitespace-nowrap cursor-pointer group"
+      variants={navItemVariants}
+      custom={index}
+      initial="hidden"
+      animate={hasLoaded ? "visible" : "hidden"}
       whileHover={{ scale: 1.02 }}
       onClick={onClick}
     >
       <div className="text-white drop-shadow-md">{label}</div>
 
-      {/* Active indicator or hover indicator */}
       <div className="relative h-0.5 w-full">
-        {/* Active state */}
         {isActive && (
           <div className="absolute inset-0 bg-amber-500 rounded-sm shadow-md" />
         )}
 
-        {/* Hover state - separate from active state */}
         <div
           className="absolute inset-0 bg-amber-500 rounded-sm shadow-md origin-left transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
           style={{ display: isActive ? "none" : "block" }}
@@ -289,54 +338,53 @@ function Header() {
   return (
     <motion.header
       className="z-[100] w-full bg-transparent absolute top-0 left-0"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      variants={headerVariants}
+      initial="hidden"
+      animate="visible"
     >
-      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between">
-        {/* Logo - always on left side */}
+      <div className="container mx-auto px-6 py-5 flex items-center">
         <motion.div
-          className="w-[140px] sm:w-[180px] flex-shrink-0"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          className="w-[180px] flex-shrink-0"
+          variants={logoVariants}
           onClick={() => navigate("/")}
           style={{ cursor: "pointer" }}
         >
           <img src="/logo.png" alt="Company logo" className="w-full" />
         </motion.div>
 
-        {/* Desktop Navigation - hidden on mobile */}
         <div className="hidden md:block flex-grow ml-12">
           <nav className="flex w-full justify-end items-center pr-6">
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-38">
               <MenuItem
                 label="COMPANY"
                 isActive={isActive("/company")}
                 submenu={companySubmenu}
+                index={0}
               />
               <MenuItem
                 label="PRODUCT"
                 isActive={isActive("/products")}
                 onClick={scrollToProducts}
+                index={1}
               />
-              <MenuItem label="CAREER" isActive={isActive("/career")} />
+              <MenuItem label="CAREER" isActive={isActive("/career")} index={2} />
               <MenuItem
                 label="INQUIRY"
                 isActive={isActive("/inquiry")}
                 onClick={() => navigate("/inquiry")}
+                index={3}
               />
-              <MenuItem label="BLOG" isActive={isActive("/blog")} />
+              <MenuItem label="BLOG" isActive={isActive("/blog")} index={4} />
               <MenuItem
                 label="CONTACT US"
                 isActive={isActive("/contact")}
                 onClick={() => navigate("/contact")}
+                index={5}
               />
             </div>
           </nav>
         </div>
 
-        {/* Mobile Menu Button - aligned to right */}
         <motion.button
           className="md:hidden flex items-center justify-center 
             bg-amber-500/90 hover:bg-amber-600 w-10 h-10 rounded-full 
@@ -347,6 +395,7 @@ function Header() {
           initial="initial"
           whileHover="hover"
           whileTap="tap"
+          animate={{ opacity: 1, scale: 1 }}
         >
           <motion.div
             initial={{ rotate: 0 }}
@@ -362,7 +411,6 @@ function Header() {
         </motion.button>
       </div>
 
-      {/* Mobile Sidebar */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>

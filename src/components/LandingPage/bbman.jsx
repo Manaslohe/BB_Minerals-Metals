@@ -1,75 +1,24 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { PlayCircle } from 'lucide-react';
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 const BBMAN = () => {
-  const sectionRef = useRef(null);
-  const [isInView, setIsInView] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const { isVisible, hasAnimated } = useScrollAnimation("bbman-section");
   const [showVideo, setShowVideo] = useState(false);
   const [hovered, setHovered] = useState(false);
   
-  // Enhanced Intersection Observer with better triggers
-  useEffect(() => {
-    // Check if component is already in viewport on mount
-    const checkInitialVisibility = () => {
-      if (!sectionRef.current) return;
-      
-      const rect = sectionRef.current.getBoundingClientRect();
-      const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
-      
-      if (isInViewport) {
-        setIsInView(true);
-        setHasAnimated(true);
-      }
-    };
-    
-    // Run initial check
-    checkInitialVisibility();
-    
-    // Set up more aggressive observation
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          setHasAnimated(true);
-        }
-      },
-      { 
-        threshold: [0.05, 0.1, 0.15], 
-        rootMargin: "0px 0px -10% 0px" 
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-      
-      // Double check visibility after images might have loaded
-      setTimeout(checkInitialVisibility, 300);
-    }
-
-    // Clean up
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-  
   return (
     <section 
-      ref={sectionRef}
       id="bbman-section"
-      className={`w-full bg-gray-900 py-0 sm:py-4 transition-opacity duration-500 ${
-        isInView || hasAnimated ? 'opacity-100' : 'opacity-0'
+      className={`w-full bg-gray-900 py-0 sm:py-4 transition-opacity duration-700 ${
+        isVisible || hasAnimated ? 'opacity-100' : 'opacity-0'
       }`}
     >
       <div className="container mx-auto">
-        {/* Main content would go here */}
-        
-        {/* Bottom image/video with improved animation trigger */}
-        <div className={`sm:mt-12 lg:mt-24 transform transition-all duration-500 ease-out ${
-          isInView || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
-        }`} style={{ transitionDelay: hasAnimated ? '0ms' : '100ms' }}>
+        {/* Bottom image/video with consistent animation timing */}
+        <div className={`sm:mt-12 lg:mt-24 transform transition-all duration-700 ease-out ${
+          isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
+        }`} style={{ transitionDelay: hasAnimated ? '0ms' : '200ms' }}>
           <div className="w-[90%] sm:w-[90%] md:w-[85%] mx-auto">
             <div 
               className={`relative overflow-hidden rounded-lg border-2 transition-all duration-300 
@@ -78,7 +27,7 @@ const BBMAN = () => {
               onMouseLeave={() => setHovered(false)}
             >
               <div className={`absolute -inset-2 bg-amber-500/10 blur-xl rounded-lg transition-all duration-700 ${
-                isInView || hasAnimated ? 'opacity-100' : 'opacity-0 scale-150'
+                isVisible || hasAnimated ? 'opacity-100' : 'opacity-0 scale-150'
               }`}></div>
               
               {/* YouTube video (shown when play button is clicked) */}
@@ -99,7 +48,7 @@ const BBMAN = () => {
                     src="/about.png" 
                     alt="About BB Minerals and Metals" 
                     className={`relative z-10 w-full h-auto object-cover transition-all duration-700 ${
-                      isInView || hasAnimated ? 'scale-100 filter-none' : 'scale-105 blur-sm'
+                      isVisible || hasAnimated ? 'scale-100 filter-none' : 'scale-105 blur-sm'
                     } ${hovered ? 'brightness-95 scale-[1.02]' : 'brightness-100 scale-100'}`}
                     style={{ 
                       filter: 'drop-shadow(0 20px 30px rgba(251, 191, 36, 0.15))',

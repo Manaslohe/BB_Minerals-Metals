@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 const Laboratory = () => {
-  // State to manage responsive layout and animation
+  // State to manage responsive layout
   const [isMobile, setIsMobile] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
+  const { isVisible } = useScrollAnimation("laboratory-section");
 
-  // Effect to handle resize events and scroll animations
+  // Effect to handle resize events
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -18,35 +18,21 @@ const Laboratory = () => {
     // Add event listener for resize
     window.addEventListener('resize', handleResize);
 
-    // Set up intersection observer for scroll animations - improved observer options
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Toggle visibility based on intersection
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.25, rootMargin: "-100px" }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    // Clean up event listeners and observers
+    // Clean up event listeners
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
 
   return (
     <section 
-      ref={sectionRef}
+      id="laboratory-section"
       className={`w-full bg-gray-900 py-12 md:py-20 overflow-hidden transition-opacity duration-700
                 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start">
-          {/* Left content with animations - enhanced transitions */}
+          {/* Left content with animations - consistent timing */}
           <div className="w-full md:w-1/2 lg:w-6/12 mb-8 md:mb-0 md:pr-8">
             <h2 
               className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 md:mb-6 tracking-tight
@@ -60,7 +46,7 @@ const Laboratory = () => {
             <div 
               className={`transition-all duration-700 ease-out transform
                         ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-              style={{ transitionDelay: '250ms' }}
+              style={{ transitionDelay: '200ms' }}
             >
               <p className="text-base sm:text-lg md:text-xl leading-relaxed">
                 <span className="text-white transition-colors duration-300">BB Minerals and Metals' </span>
@@ -75,12 +61,12 @@ const Laboratory = () => {
             </div>
           </div>
 
-          {/* Right content - Images with animation - smoother transitions */}
+          {/* Right content - Images with animation - consistent timing */}
           <div 
             className={`w-full md:w-1/2 lg:w-6/12 relative
                       transform transition-all duration-700 ease-out
                       ${isVisible ? 'translate-x-0 opacity-100' : 'translate-x-12 opacity-0'}`}
-            style={{ transitionDelay: '200ms' }}
+            style={{ transitionDelay: '300ms' }}
           >
             {/* Mobile-first image layout with enhanced hover */}
             <div className="w-full overflow-hidden rounded-lg shadow-lg">
