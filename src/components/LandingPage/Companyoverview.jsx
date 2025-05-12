@@ -177,9 +177,6 @@ const CompanyOverview = () => {
                   <div className={`relative transition-all duration-400 ${
                     currentSlide === index ? 'scale-100' : 'scale-90'
                   }`}>
-                    <div className={`absolute -inset-4 rounded-full bg-amber-500/10 blur-xl transition-opacity duration-500 ${
-                      currentSlide === index ? 'opacity-100' : 'opacity-0'
-                    }`}></div>
                     <img
                       src={slide.image}
                       alt={slide.title}
@@ -189,7 +186,6 @@ const CompanyOverview = () => {
                       style={{
                         maxHeight: '100%',
                         maxWidth: '100%',
-                        filter: 'drop-shadow(0 8px 24px rgba(251, 191, 36, 0.2))'
                       }}
                       loading="lazy"
                     />

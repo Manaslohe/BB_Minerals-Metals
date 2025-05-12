@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useScrollAnimation } from "../../hooks/useScrollAnimation";
+import { useScrollAnimation } from "../../hooks/useScrollAnimation.js"; 
 
 const BinNumbers = () => {
   const { isVisible, hasAnimated, ref } = useScrollAnimation("bin-numbers-section");

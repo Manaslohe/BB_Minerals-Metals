@@ -9,14 +9,16 @@ const ProductsSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef(null);
 
-  // Intersection Observer setup with reduced threshold for quicker activation
+  // Modified Intersection Observer to only set visibility to true once
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Toggle visibility based on intersection
-        setIsVisible(entry.isIntersecting);
+        // Only set to true when intersecting, never back to false
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
       },
-      { threshold: 0.15, rootMargin: "-50px" } // Reduced threshold and margin for faster triggering
+      { threshold: 0.15, rootMargin: "-50px" }
     );
 
     if (sectionRef.current) {
@@ -77,25 +79,25 @@ const ProductsSection = () => {
     <section 
       ref={sectionRef}
       id="products-section"
-      className={`w-full bg-gray-900 py-10 sm:py-16 md:py-20 overflow-hidden transition-opacity duration-500
+      className={`w-full bg-gray-900 py-10 sm:py-16 md:py-20 overflow-hidden transition-opacity duration-700
                 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
       <div className="container mx-auto px-4 pt-6 sm:pt-10 pb-4 sm:pb-8">
-        {/* Animated heading with reduced duration */}
+        {/* Heading with persistent visibility once triggered */}
         <div className="mb-6 sm:mb-10 text-center sm:text-left overflow-hidden">
           <h2 
             className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-2 sm:mb-3 tracking-tight
-                      transform transition-all duration-500 ease-out
+                      transform transition-all duration-700 ease-out
                       ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-            style={{ transitionDelay: '50ms', transformOrigin: 'center sm:left' }}
+            style={{ transitionDelay: '100ms', transformOrigin: 'center sm:left' }}
           >
             OUR PRODUCTS
           </h2>
           <p 
             className={`text-lg sm:text-xl md:text-2xl text-white/60 font-light
-                      transform transition-all duration-500 ease-out
+                      transform transition-all duration-700 ease-out
                       ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-            style={{ transitionDelay: '100ms' }}
+            style={{ transitionDelay: '200ms' }}
           >
             Strength You Can Rely On. Quality You Can See.
           </p>
@@ -103,7 +105,7 @@ const ProductsSection = () => {
       </div>
 
       <div className="container mx-auto px-4 py-6 sm:py-10">
-        {/* Optimized grid layout with faster animations */}
+        {/* Optimized grid layout with persistent visibility once triggered */}
         <div 
           id="product-grid"
           className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8 lg:gap-10"
@@ -116,9 +118,9 @@ const ProductsSection = () => {
               className={`group relative aspect-square bg-gradient-to-b from-white to-gray-50 rounded-lg sm:rounded-xl overflow-hidden 
                      cursor-pointer shadow-md hover:shadow-xl hover:shadow-amber-500/20 
                      transition-all duration-400 ease-out hover:-translate-y-2
-                     transform transition-all duration-500 ease-out
+                     transform transition-all duration-700 ease-out
                      ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
-              style={{ transitionDelay: `${75 + index * 30}ms` }}
+              style={{ transitionDelay: `${150 + index * 50}ms` }}
             >
               {/* Mobile-optimized content container */}
               <div className="relative w-full h-full flex flex-col p-3 sm:p-4 overflow-hidden">

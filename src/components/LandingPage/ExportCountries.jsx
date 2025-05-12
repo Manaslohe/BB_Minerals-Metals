@@ -6,14 +6,21 @@ const GlobalPresence = () => {
   const [hoveredCountry, setHoveredCountry] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null); // For mobile view
   const [isVisible, setIsVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false); // Add state for tracking animation
   const sectionRef = useRef(null);
   const isMobile = useRef(false);
 
-  // Add intersection observer for scroll animations
+  // Modified intersection observer for one-way visibility change
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        // Set current visibility state
         setIsVisible(entry.isIntersecting);
+        
+        // Once visible, mark as animated
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+        }
       },
       { 
         threshold: 0.15,
@@ -30,7 +37,7 @@ const GlobalPresence = () => {
         observer.unobserve(sectionRef.current);
       }
     };
-  }, []);
+  }, [hasAnimated]);
 
   // Check if mobile
   useEffect(() => {
@@ -79,9 +86,9 @@ const GlobalPresence = () => {
 
   const renderCountryButton = (countryCode, name, index) => (
     <div 
-      className={`relative w-fit transform transition-all duration-500 ease-out
-                 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
-      style={{ transitionDelay: `${75 + index * 30}ms` }}
+      className={`relative w-fit transform transition-all duration-700 ease-out
+                 ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+      style={{ transitionDelay: `${150 + index * 100}ms` }}
       onMouseEnter={() => handleCountryInteraction(countryCode)}
       onMouseLeave={() => handleCountryInteraction(null)}
       onClick={() => handleCountryInteraction(countryCode, true)}
@@ -129,8 +136,8 @@ const GlobalPresence = () => {
   return (
     <div 
       ref={sectionRef}
-      className={`bg-gray-900 text-white font-sans transition-opacity duration-500
-                ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+      className={`bg-gray-900 text-white font-sans transition-opacity duration-700
+                ${isVisible || hasAnimated ? 'opacity-100' : 'opacity-0'}`}
     >
       <div className="container mx-auto py-10 px-4">
         {/* Title and Subtitle with animations */}
@@ -139,17 +146,17 @@ const GlobalPresence = () => {
             <div>
               <h2 
                 className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 tracking-tight
-                          transform transition-all duration-500 ease-out
-                          ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-                style={{ transitionDelay: '50ms' }}
+                          transform transition-all duration-700 ease-out
+                          ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+                style={{ transitionDelay: '100ms' }}
               >
                 GLOBAL PRESENCE
               </h2>
               <p 
                 className={`text-xl sm:text-2xl text-white/60 font-light
-                          transform transition-all duration-500 ease-out
-                          ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-                style={{ transitionDelay: '100ms' }}
+                          transform transition-all duration-700 ease-out
+                          ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+                style={{ transitionDelay: '200ms' }}
               >
                 We serve a strong international client base across multiple regions, including
               </p>
@@ -159,9 +166,9 @@ const GlobalPresence = () => {
 
         {/* Desktop view - similar to original design */}
         <div 
-          className={`hidden md:flex flex-row transform transition-all duration-500 ease-out
-                    ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
-          style={{ transitionDelay: '200ms' }}
+          className={`hidden md:flex flex-row transform transition-all duration-700 ease-out
+                    ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+          style={{ transitionDelay: '300ms' }}
         >
           {/* Left: Country List */}
           <div className="w-1/3 flex flex-col space-y-4">
@@ -170,9 +177,9 @@ const GlobalPresence = () => {
                 {renderCountryButton(country.code, country.name, index)}
               </div>
             ))}
-            <p className={`mt-4 transition-all duration-500 ease-out
-                        ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
-                style={{ transitionDelay: '300ms' }}>
+            <p className={`mt-4 transition-all duration-700 ease-out
+                        ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+                style={{ transitionDelay: '800ms' }}>
               AND MANY OTHER COUNTRIES.
             </p>
           </div>
@@ -233,9 +240,9 @@ const GlobalPresence = () => {
         </div>
 
         {/* Mobile view - Optimized layout with improved map visibility */}
-        <div className={`md:hidden relative transform transition-all duration-500 ease-out min-h-[600px]
-                       ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
-             style={{ transitionDelay: '200ms' }}
+        <div className={`md:hidden relative transform transition-all duration-700 ease-out min-h-[600px]
+                       ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+             style={{ transitionDelay: '300ms' }}
         >
           
           {/* Background map container with better sizing and visibility */}
@@ -275,9 +282,9 @@ const GlobalPresence = () => {
             {countries.map((country, index) => (
               <div
                 key={`mobile-btn-${country.code}`}
-                className={`transform transition-all duration-500 ease-out
-                          ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
-                style={{ transitionDelay: `${75 + index * 30}ms` }}
+                className={`transform transition-all duration-700 ease-out
+                          ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+                style={{ transitionDelay: `${300 + index * 100}ms` }}
               >
                 <div 
                   className={`flex items-center justify-between p-3 rounded-lg transition-all duration-300
@@ -307,9 +314,9 @@ const GlobalPresence = () => {
                 </div>
               </div>
             ))}
-            <p className={`mt-2 text-center text-white/70 text-sm transform transition-all duration-500 ease-out
-                        ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
-                style={{ transitionDelay: '300ms' }}>
+            <p className={`mt-2 text-center text-white/70 text-sm transform transition-all duration-700 ease-out
+                        ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+                style={{ transitionDelay: '900ms' }}>
               AND MANY OTHER COUNTRIES.
             </p>
           </div>
