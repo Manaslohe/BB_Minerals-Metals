@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -15,8 +16,44 @@ const BackToTop = () => {
       }
     };
 
+    // Function to check if any popup is open by looking for common modal indicators
+    const checkForPopups = () => {
+      // Look for common modal/popup indicators in the DOM
+      // Specifically check for ProductDetail component which appears as a modal
+      const hasModalOpen = document.body.classList.contains('modal-open') || 
+        document.body.hasAttribute('data-modal-open') ||
+        document.querySelector('[role="dialog"]') ||
+        document.querySelector('.modal.show') ||
+        document.querySelector('.popup:not(.hidden)') ||
+        document.querySelector('.dialog-open') ||
+        document.querySelector('.product-detail-modal') ||
+        // Check for the specific product detail component
+        document.querySelector('.bg-gray-900.rounded-xl.p-6.sm\\:p-8');
+        
+      setIsPopupOpen(hasModalOpen);
+    };
+
+    // Observer to watch for changes that might indicate a popup opened/closed
+    const bodyObserver = new MutationObserver(() => {
+      checkForPopups();
+    });
+
+    // Start observing document body for class and attribute changes
+    bodyObserver.observe(document.body, { 
+      attributes: true, 
+      childList: true,
+      subtree: true
+    });
+
     window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
+    
+    // Initial check
+    checkForPopups();
+
+    return () => {
+      window.removeEventListener("scroll", toggleVisibility);
+      bodyObserver.disconnect();
+    };
   }, []);
 
   const scrollToTop = () => {
@@ -44,13 +81,13 @@ const BackToTop = () => {
 
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isVisible && !isPopupOpen && (
         <motion.button
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-amber-500 text-white p-3 rounded-full shadow-lg hover:bg-amber-600 transition-colors duration-300 z-50"
+          className="fixed bottom-8 right-8 bg-amber-500 text-white p-3 rounded-full shadow-lg hover:bg-amber-600 transition-colors duration-300 z-40"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >

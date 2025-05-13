@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react';
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -118,24 +119,40 @@ const Contact = () => {
         )}
       </AnimatePresence>
 
-      {/* Back Button */}
-      <motion.button
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        onClick={() => navigate('/')}
-        className="fixed top-6 left-6 z-40 flex items-center gap-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full text-white hover:bg-amber-500/80 hover:text-[#0f1319] transition-all duration-300"
+      {/* Back button - desktop */}
+      <motion.div 
+        className="p-4 sm:p-6 hidden sm:block relative z-30"
+        variants={itemVariants}
       >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          className="h-5 w-5" 
-          fill="none" 
-          viewBox="0 0 24 24" 
-          stroke="currentColor"
+        <motion.button 
+          className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
+                    shadow-lg hover:shadow-amber-500/20 transition-all duration-300
+                    hover:scale-105 active:scale-95 cursor-pointer"
+          onClick={() => navigate(-1)}
+          whileHover={{ x: -3 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        <span className="font-medium">BACK</span>
-      </motion.button>
+          <ArrowLeft size={18} className="text-amber-500 group-hover:animate-pulse" />
+          <span className="font-medium text-sm">Back</span>
+        </motion.button>
+      </motion.div>
+
+      {/* Back button - mobile only */}
+      <motion.div 
+        className="fixed bottom-6 left-6 z-50 sm:hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.3 }}
+      >
+        <motion.button 
+          className="group flex items-center justify-center p-3 rounded-full bg-gray-800 text-white
+                   shadow-lg border border-amber-500/30 hover:bg-gray-700 transition-all duration-300 cursor-pointer"
+          onClick={() => navigate(-1)}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowLeft size={20} className="text-amber-500" />
+        </motion.button>
+      </motion.div>
 
       <div className="container mx-auto max-w-7xl relative z-10 px-4 py-16">
         {/* Restructured flex container */}

@@ -249,19 +249,19 @@ export default function HistoryPage() {
     >
       {/* Back Button - Modern & Professional */}
       <motion.div 
-        className="p-4 sm:p-6"
+        className="p-4 sm:p-6 relative z-30"
         variants={itemVariants}
       >
         <motion.button 
           className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
                     shadow-lg hover:shadow-amber-500/20 transition-all duration-300
-                    hover:scale-105 active:scale-95"
+                    hover:scale-105 active:scale-95 cursor-pointer"
           onClick={() => navigate(-1)}
           whileHover={{ x: -3 }}
           whileTap={{ scale: 0.95 }}
         >
           <ArrowLeft size={18} className="text-amber-500 group-hover:animate-pulse" />
-          <span className="font-medium text-sm">Back </span>
+          <span className="font-medium text-sm">Back</span>
         </motion.button>
       </motion.div>
       

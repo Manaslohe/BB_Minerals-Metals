@@ -1,117 +1,182 @@
 import React from 'react';
+import { ArrowLeft } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
 const VisionMissionPage = () => {
   const navigate = useNavigate();
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { 
+        duration: 0.6,
+        when: "beforeChildren",
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-white relative">
-      {/* Floating Back Button */}
-      <button
-        onClick={() => navigate('/')}
-        className="fixed top-6 left-6 z-50 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-amber-500/20 text-blue-900 hover:text-amber-500 transition-all duration-300 group hover:shadow-amber-500/20"
+    <motion.div 
+      className="min-h-screen bg-gray-900 text-white"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      {/* Mobile-only back button at top */}
+      <motion.div 
+        className="p-4 pt-5 pb-0 sm:hidden relative z-30"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.3 }}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5 transform group-hover:-translate-x-1 transition-transform duration-300"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+        <motion.button 
+          className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
+                  shadow-lg hover:shadow-amber-500/20 transition-all duration-300
+                  active:scale-95 cursor-pointer"
+          onClick={() => navigate(-1)}
+          whileTap={{ scale: 0.95 }}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-        <span className="text-lg font-medium">Back</span>
-      </button>
+          <ArrowLeft size={18} className="text-amber-500" />
+          <span className="font-medium text-sm">Back</span>
+        </motion.button>
+      </motion.div>
 
       {/* Main Content */}
       <div className="flex flex-col lg:flex-row min-h-screen">
         {/* Vision & Mission Section */}
-        <div className="lg:w-1/2 bg-gradient-to-br from-white via-gray-50 to-amber-50/30 p-4 lg:p-8 flex items-center justify-center">
-          {/* Background Animation */}
-          <div className="absolute inset-0 bg-grid-blue-900/[0.02] -z-1"></div>
+        <motion.div 
+          className="lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-4 lg:p-8 flex items-center justify-center relative"
+          variants={itemVariants}
+        >
+          {/* Desktop-only back button - unchanged */}
+          <motion.div 
+            className="absolute top-4 left-4 sm:top-6 sm:left-6 hidden sm:block z-30"
+            variants={itemVariants}
+          >
+            <motion.button 
+              className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
+                      shadow-lg hover:shadow-amber-500/20 transition-all duration-300
+                      hover:scale-105 active:scale-95 cursor-pointer"
+              onClick={() => navigate(-1)}
+              whileHover={{ x: -3 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <ArrowLeft size={18} className="text-amber-500 group-hover:animate-pulse" />
+              <span className="font-medium text-sm">Back</span>
+            </motion.button>
+          </motion.div>
           
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-8 border border-amber-500/10 hover:shadow-2xl hover:border-amber-500/20 transition-all duration-500 animate-fade-in-up max-w-2xl w-full hover:bg-white/90">
+          <motion.div 
+            className="bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.3)] p-8 border border-gray-700/50 hover:border-amber-600/30 transition-all duration-500 max-w-2xl w-full"
+            whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+            variants={itemVariants}
+          >
             {/* Vision Section */}
-            <div className="mb-8 relative group">
+            <motion.div className="mb-8 relative group" variants={itemVariants}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl p-3 shadow-lg rotate-3 transform group-hover:rotate-6 transition-all duration-300">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12" y2="16" />
-                  </svg>
+                  <img 
+                    src="/icons/vision.png" 
+                    alt="Vision Icon"
+                    className="w-8 h-8 object-contain"
+                  />
                 </div>
-                <h2 className="text-4xl font-bold text-blue-900 tracking-wider group-hover:text-amber-500 transition-colors duration-300">VISION</h2>
+                <h2 className="text-4xl font-bold text-white tracking-wider group-hover:text-amber-500 transition-colors duration-300">VISION</h2>
               </div>
-              <ul className="space-y-3 text-blue-900 text-lg pl-4">
+              <ul className="space-y-3 text-gray-300 text-lg pl-4">
                 {/* Vision List Items */}
-                <li className="flex items-start hover:bg-amber-50/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1">
+                <motion.li 
+                  className="flex items-start hover:bg-gray-700/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1"
+                  variants={itemVariants}
+                >
                   <span className="text-amber-500 text-2xl leading-none mr-3">•</span>
-                  <p className="text-lg">Be a <span className="font-semibold text-blue-900 hover:text-amber-500 transition-colors duration-300">global leader</span> in high-quality metal products.</p>
-                </li>
-                <li className="flex items-start hover:bg-amber-50/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1">
+                  <p className="text-lg">Be a <span className="font-semibold text-white hover:text-amber-500 transition-colors duration-300">global leader</span> in high-quality metal products.</p>
+                </motion.li>
+                <motion.li 
+                  className="flex items-start hover:bg-gray-700/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1"
+                  variants={itemVariants}
+                >
                   <span className="text-amber-500 text-2xl leading-none mr-3">•</span>
-                  <p className="text-lg">Drive <span className="font-semibold text-blue-900 hover:text-amber-500 transition-colors duration-300">innovation and sustainability</span> in the metal industry.</p>
-                </li>
-                <li className="flex items-start hover:bg-amber-50/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1">
+                  <p className="text-lg">Drive <span className="font-semibold text-white hover:text-amber-500 transition-colors duration-300">innovation and sustainability</span> in the metal industry.</p>
+                </motion.li>
+                <motion.li 
+                  className="flex items-start hover:bg-gray-700/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1"
+                  variants={itemVariants}
+                >
                   <span className="text-amber-500 text-2xl leading-none mr-3">•</span>
-                  <p className="text-lg">Revolutionize the metal sector with <span className="font-semibold text-blue-900 hover:text-amber-500 transition-colors duration-300">cutting-edge technology</span>.</p>
-                </li>
+                  <p className="text-lg">Revolutionize the metal sector with <span className="font-semibold text-white hover:text-amber-500 transition-colors duration-300">cutting-edge technology</span>.</p>
+                </motion.li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* Enhanced Decorative Divider */}
-            <div className="my-6 flex items-center gap-4 group">
+            <motion.div 
+              className="my-6 flex items-center gap-4 group"
+              variants={itemVariants}
+            >
               <div className="h-0.5 flex-1 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent group-hover:via-amber-500/40 transition-all duration-500"></div>
               <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
               <div className="h-0.5 flex-1 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent group-hover:via-amber-500/40 transition-all duration-500"></div>
-            </div>
+            </motion.div>
 
             {/* Mission Section */}
-            <div className="relative group">
+            <motion.div className="relative group" variants={itemVariants}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl p-3 shadow-lg">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  </svg>
+                  <img 
+                    src="/icons/mission.png" 
+                    alt="Mission Icon"
+                    className="w-8 h-8 object-contain"
+                  />
                 </div>
-                <h2 className="text-3xl font-bold text-blue-900 tracking-wider group-hover:text-amber-500 transition-colors duration-300">MISSION</h2>
+                <h2 className="text-3xl font-bold text-white tracking-wider group-hover:text-amber-500 transition-colors duration-300">MISSION</h2>
               </div>
-              <ul className="space-y-3 text-blue-900 text-lg pl-4">
+              <ul className="space-y-3 text-gray-300 text-lg pl-4">
                 {/* Mission List Items */}
-                <li className="flex items-start hover:bg-amber-50/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1">
+                <motion.li 
+                  className="flex items-start hover:bg-gray-700/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1" 
+                  variants={itemVariants}
+                >
                   <span className="text-amber-500 text-2xl leading-none mr-3">•</span>
-                  <p className="text-lg">Deliver <span className="font-semibold text-blue-900 hover:text-amber-500 transition-colors duration-300">premium metal products</span> with reliability and innovation.</p>
-                </li>
-                <li className="flex items-start hover:bg-amber-50/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1">
+                  <p className="text-lg">Deliver <span className="font-semibold text-white hover:text-amber-500 transition-colors duration-300">premium metal products</span> with reliability and innovation.</p>
+                </motion.li>
+                <motion.li 
+                  className="flex items-start hover:bg-gray-700/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1"
+                  variants={itemVariants}
+                >
                   <span className="text-amber-500 text-2xl leading-none mr-3">•</span>
-                  <p className="text-lg">Exceed expectations through <span className="font-semibold text-blue-900 hover:text-amber-500 transition-colors duration-300">quality and trust</span>.</p>
-                </li>
-                <li className="flex items-start hover:bg-amber-50/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1">
+                  <p className="text-lg">Exceed expectations through <span className="font-semibold text-white hover:text-amber-500 transition-colors duration-300">quality and trust</span>.</p>
+                </motion.li>
+                <motion.li 
+                  className="flex items-start hover:bg-gray-700/50 p-3 rounded-lg transition-all duration-300 hover:translate-x-1"
+                  variants={itemVariants}
+                >
                   <span className="text-amber-500 text-2xl leading-none mr-3">•</span>
-                  <p className="text-lg">Contribute to <span className="font-semibold text-blue-900 hover:text-amber-500 transition-colors duration-300">sustainable growth</span> in industries worldwide.</p>
-                </li>
+                  <p className="text-lg">Contribute to <span className="font-semibold text-white hover:text-amber-500 transition-colors duration-300">sustainable growth</span> in industries worldwide.</p>
+                </motion.li>
               </ul>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
         {/* Tagline & Image Section */}
-        <div className="lg:w-1/2 h-[600px] lg:h-screen relative overflow-hidden">
+        <motion.div 
+          className="lg:w-1/2 h-[600px] lg:h-screen relative overflow-hidden"
+          variants={itemVariants}
+        >
           <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
@@ -122,9 +187,17 @@ const VisionMissionPage = () => {
           >
             <div className="absolute inset-0 flex items-center justify-center p-8">
               <div className="text-center">
-                <div className="space-y-8 relative">
+                <motion.div 
+                  className="space-y-8 relative"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1, delay: 0.6 }}
+                >
                   {/* Main Title */}
-                  <div className="transform hover:scale-105 transition-all duration-500">
+                  <motion.div 
+                    className="transform hover:scale-105 transition-all duration-500"
+                    variants={itemVariants}
+                  >
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-wider">
                       <span className="block mb-4 text-white drop-shadow-[0_0_15px_rgba(251,191,36,0.3)]">
                         INSPIRING
@@ -133,63 +206,48 @@ const VisionMissionPage = () => {
                         TOMORROW
                       </span>
                     </h1>
-                  </div>
+                  </motion.div>
 
                   {/* Decorative Elements */}
-                  <div className="flex justify-center space-x-4">
+                  <motion.div 
+                    className="flex justify-center space-x-4"
+                    variants={itemVariants}
+                  >
                     <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent my-auto"></div>
                     <div className="w-3 h-3 rounded-full bg-amber-500 animate-pulse"></div>
                     <div className="w-16 h-0.5 bg-gradient-to-r from-amber-500 via-amber-500 to-transparent my-auto"></div>
-                  </div>
+                  </motion.div>
 
                   {/* Subtitle */}
-                  <div className="transform hover:scale-105 transition-all duration-500">
+                  <motion.div 
+                    className="transform hover:scale-105 transition-all duration-500"
+                    variants={itemVariants}
+                  >
                     <h2 className="text-3xl md:text-5xl font-bold tracking-[0.2em]">
                       <span className="block text-white mb-2">DELIVERING</span>
                       <span className="block text-amber-500 text-shadow-lg">EXCELLENCE</span>
                     </h2>
-                  </div>
+                  </motion.div>
 
                   {/* Quote Box */}
-                  <div className="mt-12 max-w-lg mx-auto">
-                    <div className="bg-black/30 backdrop-blur-sm p-6 rounded-xl border border-white/10 transform hover:scale-105 transition-all duration-500">
+                  <motion.div 
+                    className="mt-12 max-w-lg mx-auto"
+                    variants={itemVariants}
+                  >
+                    <div className="bg-black/30 backdrop-blur-sm p-6 rounded-xl border border-amber-500/10 transform hover:scale-105 transition-all duration-500 hover:border-amber-500/30">
                       <p className="text-white/90 text-xl font-light italic leading-relaxed">
                         "Crafting tomorrow's solutions with uncompromising excellence and revolutionary innovation"
                       </p>
                     </div>
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
-
-// Add these styles to your global CSS or create animation classes
-const styles = `
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 0.6s ease-out forwards;
-  }
-
-  .bg-grid-blue-900 {
-    background-size: 40px 40px;
-    background-image: linear-gradient(to right, rgba(30, 58, 138, 0.1) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(30, 58, 138, 0.1) 1px, transparent 1px);
-  }
-`;
 
 export default VisionMissionPage;

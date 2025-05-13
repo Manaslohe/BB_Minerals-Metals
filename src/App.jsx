@@ -12,6 +12,7 @@ import FoundersJourneyPage from './components/Company/FoundersJourney'
 import HistoryPage from './components/Company/History'
 import DirectorMessage from './components/Company/Directorm'
 import Manufacturing from './components/Company/Manufacturing'
+import EcoFriendly from './components/Company/eco'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/our-history" element={<HistoryPage />} />
         <Route path="/company/promoter-message" element={<DirectorMessage />} />
         <Route path="/company/manufacturing-unit" element={<Manufacturing />} />
+        <Route path="/eco-friendly-sustainability" element={<EcoFriendly />} />
       </Routes>
     </Router>
   )

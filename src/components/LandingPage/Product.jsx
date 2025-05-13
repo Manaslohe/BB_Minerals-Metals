@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Eye, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import ProductDetail from "../ProductDetail";
 
 const ProductsSection = () => {
@@ -7,6 +8,7 @@ const ProductsSection = () => {
   const [hoveredId, setHoveredId] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const sectionRef = useRef(null);
 
   // Modified Intersection Observer to only set visibility to true once
@@ -38,10 +40,14 @@ const ProductsSection = () => {
     document.body.style.overflow = 'hidden';
   };
 
+  // Enhanced closeProductDetail with animation timing
   const closeProductDetail = () => {
-    setSelectedProduct(null);
-    // Re-enable body scrolling
-    document.body.style.overflow = 'auto';
+    setIsClosing(true);
+    setTimeout(() => {
+      setSelectedProduct(null);
+      setIsClosing(false);
+      document.body.style.overflow = 'auto';
+    }, 300); // Duration matches the fadeOut animation
   };
 
   const products = [
@@ -70,7 +76,7 @@ const ProductsSection = () => {
     {
       id: 5,
       image: "/product5.png",
-      name: " Manganese Flake",
+      name: "Manganese Flake",
       price: "$699"
     }
   ];
@@ -115,6 +121,7 @@ const ProductsSection = () => {
               key={product.id}
               onMouseEnter={() => setHoveredId(product.id)}
               onMouseLeave={() => setHoveredId(null)}
+              onClick={() => handleViewProduct(product.id)} // Add click handler for mobile view
               className={`group relative aspect-square bg-gradient-to-b from-white to-gray-50 rounded-lg sm:rounded-xl overflow-hidden 
                      cursor-pointer shadow-md hover:shadow-xl hover:shadow-amber-500/20 
                      transition-all duration-400 ease-out hover:-translate-y-2
@@ -190,23 +197,48 @@ const ProductsSection = () => {
         </div>
       </div>
 
-      {/* Modal with faster animation */}
-      {selectedProduct && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto">
-          <div className="relative bg-gray-900 w-full max-w-6xl rounded-lg sm:rounded-xl shadow-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto 
-                        animate-[fadeIn_0.2s_ease-out]">
-            <button 
-              onClick={closeProductDetail}
-              className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-black/20 hover:bg-black/30 text-white rounded-full p-1.5 sm:p-2
-                       transition-colors duration-300 z-10"
-              aria-label="Close popup"
+      {/* Modal with Framer Motion animations */}
+      <AnimatePresence>
+        {selectedProduct && (
+          <motion.div 
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4 overflow-y-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            style={{ backdropFilter: 'blur(8px)' }}
+          >
+            <motion.div 
+              className="relative bg-gray-900 w-full max-w-6xl rounded-lg sm:rounded-xl shadow-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 10 }}
+              transition={{ 
+                type: "spring", 
+                stiffness: 300, 
+                damping: 30,
+                duration: 0.4
+              }}
             >
-              <X size={18} className="sm:size-20" />
-            </button>
-            <ProductDetail product={selectedProduct} onBack={closeProductDetail} />
-          </div>
-        </div>
-      )}
+              <motion.button 
+                onClick={closeProductDetail}
+                className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-black/20 hover:bg-amber-500 text-white rounded-full p-2 sm:p-2.5
+                         transition-all duration-200 z-10 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center
+                         hover:scale-110"
+                whileHover={{ rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label="Close popup"
+              >
+                <X size={20} className="sm:w-5 sm:h-5" />
+              </motion.button>
+              <ProductDetail 
+                product={selectedProduct} 
+                isClosing={isClosing} 
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

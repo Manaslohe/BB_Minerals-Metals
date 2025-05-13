@@ -29,7 +29,7 @@ const CompanyProfile = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[100vh] bg-gradient-to-b from-[#0a1218] to-[#121f29] text-white">
+    <div className="min-h-[100vh] bg-gray-900 text-white">
       <motion.div 
         className="container mx-auto px-6 py-16 h-full"
         initial="hidden"
@@ -39,13 +39,13 @@ const CompanyProfile = () => {
         {/* Back button with enhanced hover effect */}
         <motion.button
           variants={itemVariants}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1e2b36]/70 hover:bg-amber-600 text-white text-sm mb-12 transition-all duration-300 shadow-lg hover:shadow-xl hover:translate-y-[-2px] relative overflow-hidden group"
+          className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white shadow-lg hover:shadow-amber-500/20 transition-all duration-300 hover:scale-105 active:scale-95 mb-12 z-30 relative cursor-pointer"
           onClick={() => navigate(-1)}
-          whileTap={{ scale: 0.97 }}
+          whileHover={{ x: -3 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <span className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-amber-600/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-          <ArrowLeft size={16} className="relative z-10 group-hover:-translate-x-1 transition-transform duration-300" />
-          <span className="relative z-10">BACK</span>
+          <ArrowLeft size={18} className="text-amber-500 group-hover:animate-pulse" />
+          <span className="font-medium text-sm">Back</span>
         </motion.button>
 
         {/* Main content */}
@@ -67,35 +67,35 @@ const CompanyProfile = () => {
             </motion.h1>
             
             <motion.div 
-              className="space-y-6 text-gray-200 text-lg leading-relaxed"
+              className="space-y-6 text-gray-300 text-lg leading-relaxed"
               variants={itemVariants}
             >
               <motion.p 
-                className="backdrop-blur-sm bg-[#1a2730]/30 p-5 rounded-lg shadow-md hover:bg-[#1e2e3a]/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-l-2 border-transparent hover:border-amber-500/50 cursor-default"
-                whileHover={{ scale: 1.02 }}
+                className="bg-gradient-to-b from-gray-800 to-gray-800/80 p-5 rounded-lg shadow-xl hover:shadow-2xl hover:shadow-amber-900/10 transition-all border border-gray-700/50 hover:border-amber-600/30 cursor-default"
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                B B Minerals and Metals, led by <span className="font-semibold text-amber-400">Mr. Shiv Jagdishchandra Gupta</span>,
+                B B Minerals and Metals, led by <span className="font-semibold text-amber-500">Mr. Shiv Jagdishchandra Gupta</span>,
                 has been a trusted name in the trading of minerals, ferro alloys, and charcoal for over a decade.
               </motion.p>
               
               <motion.p 
-                className="backdrop-blur-sm bg-[#1a2730]/30 p-5 rounded-lg shadow-md hover:bg-[#1e2e3a]/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-l-2 border-transparent hover:border-amber-500/50 cursor-default"
-                whileHover={{ scale: 1.02 }}
+                className="bg-gradient-to-b from-gray-800 to-gray-800/80 p-5 rounded-lg shadow-xl hover:shadow-2xl hover:shadow-amber-900/10 transition-all border border-gray-700/50 hover:border-amber-600/30 cursor-default"
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                Classified as an SSI unit under the <span className="font-semibold text-amber-400">MSME Act</span>, the company 
-                holds a registered trademark and <span className="font-semibold text-amber-400">ISO certification</span>, ensuring
+                Classified as an SSI unit under the <span className="font-semibold text-amber-500">MSME Act</span>, the company 
+                holds a registered trademark and <span className="font-semibold text-amber-500">ISO certification</span>, ensuring
                 high-quality standards and regulatory compliance.
               </motion.p>
               
               <motion.p 
-                className="backdrop-blur-sm bg-[#1a2730]/30 p-5 rounded-lg shadow-md hover:bg-[#1e2e3a]/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-l-2 border-transparent hover:border-amber-500/50 cursor-default"
-                whileHover={{ scale: 1.02 }}
+                className="bg-gradient-to-b from-gray-800 to-gray-800/80 p-5 rounded-lg shadow-xl hover:shadow-2xl hover:shadow-amber-900/10 transition-all border border-gray-700/50 hover:border-amber-600/30 cursor-default"
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 With a robust supply chain and a growing client network, 
-                <span className="font-semibold text-amber-400"> B B Minerals and Metals</span> continues to expand its presence
+                <span className="font-semibold text-amber-500"> B B Minerals and Metals</span> continues to expand its presence
                 in both domestic and international markets.
               </motion.p>
             </motion.div>
@@ -107,7 +107,7 @@ const CompanyProfile = () => {
             variants={itemVariants}
           >
             <motion.div 
-              className="bg-gradient-to-br from-[#1a2730]/90 to-[#0f1a22]/90 rounded-3xl p-14 w-full h-full flex items-center justify-center shadow-[0_0_45px_-15px_rgba(245,158,11,0.3)] backdrop-blur-md hover:shadow-[0_0_55px_-12px_rgba(245,158,11,0.4)] transition-all duration-500"
+              className="bg-gradient-to-b from-gray-800 to-gray-800/80 rounded-2xl p-14 w-full h-full flex items-center justify-center shadow-xl border border-gray-700/50 hover:border-amber-600/30 transition-all duration-500"
               initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
               animate={{ opacity: 1, scale: 1, rotateY: 0 }}
               transition={{ delay: 0.4, duration: 0.8, type: "spring" }}
@@ -139,13 +139,11 @@ const CompanyProfile = () => {
                   </motion.span>
                 </motion.h2>
                 <motion.div 
-                  className="h-2 w-32 bg-amber-500 mt-8 rounded-full"
-                  whileInView={{ 
-                    width: ["0%", "32%", "28%"],
-                    opacity: [0, 1, 1],
-                    transition: { duration: 1.5, ease: "easeOut" }
-                  }}
-                  whileHover={{ width: "40%", transition: { duration: 0.4 } }}
+                  className="h-1 w-80 bg-amber-500 mt-8 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: 320 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                  whileHover={{ width: "100%", transition: { duration: 0.4 } }}
                 />
               </motion.div>
             </motion.div>
