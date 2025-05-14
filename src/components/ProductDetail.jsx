@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import ThreeDViewer from "./ThreeDViewer";
 
 // Product specific data mapping
 const productDetailsData = {
@@ -69,7 +70,6 @@ const productDetailsData = {
 const FloatingAnimation = () => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {/* Particles/Dots */}
       {[...Array(8)].map((_, i) => (
         <div
           key={i}
@@ -87,7 +87,6 @@ const FloatingAnimation = () => {
         />
       ))}
       
-      {/* Gradient Orb */}
       <div 
         className="absolute -top-32 -left-32 w-64 h-64 bg-amber-500/20 rounded-full blur-3xl opacity-30 animate-pulse-slow"
         style={{ animationDuration: '8s' }}
@@ -101,19 +100,18 @@ const FloatingAnimation = () => {
 };
 
 function ProductDetail({ product, isClosing = false }) {
-  // Get product specific data or use default
-  const productName = product?.name?.trim() || "High Carbon Ferro Chrome"; // Trim whitespace from product name
+  const [is3DViewerOpen, setIs3DViewerOpen] = useState(false);
+
+  const productName = product?.name?.trim() || "High Carbon Ferro Chrome";
   const productImage = product?.image || "https://cdn.builder.io/api/v1/image/assets/TEMP/b16646be3adda7285fa4a2ab2daa099b61a0a66b";
   const productData = productDetailsData[productName] || productDetailsData["High Carbon Ferro Chrome"];
   
-  // Debug check - log if we're not finding the product data
   React.useEffect(() => {
     if (!productDetailsData[productName]) {
       console.warn(`Product data not found for: "${productName}"`);
     }
   }, [productName]);
 
-  // Animation variants for staggered elements
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -134,7 +132,6 @@ function ProductDetail({ product, isClosing = false }) {
     }
   };
 
-  // Animation variants for bullet points with staggered delay
   const listVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -172,7 +169,6 @@ function ProductDetail({ product, isClosing = false }) {
       </motion.h1>
 
       <motion.section className="relative" variants={itemVariants}>
-        {/* Main content container */}
         <motion.div 
           className="flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 p-4 md:p-6 pl-6 md:pl-12 bg-gray-800 rounded-lg
                     hover:bg-gray-800/90 transition-colors duration-300"
@@ -180,9 +176,8 @@ function ProductDetail({ product, isClosing = false }) {
           whileHover={{ scale: 1.01 }}
           transition={{ type: "spring", stiffness: 400, damping: 30 }}
         >
-          {/* Product Image with Framer Motion effects */}
           <motion.figure 
-            className="flex justify-center items-center w-full md:w-auto perspective-1000"
+            className="flex justify-center items-center w-full md:w-auto perspective-1000 relative"
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
           >
@@ -217,10 +212,20 @@ function ProductDetail({ product, isClosing = false }) {
                 }}
               ></div>
             </motion.div>
+            
+            <motion.button
+              className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-amber-500 hover:bg-amber-600 
+                        text-gray-900 font-bold py-2 px-7 min-w-[150px] rounded-full flex items-center justify-center gap-2 shadow-lg"
+              initial={{ scale: 1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIs3DViewerOpen(true)}
+            >
+              View in 360°
+            </motion.button>
           </motion.figure>
 
           <div className="flex flex-col gap-8">
-            {/* Overview Section */}
             <motion.article 
               className="flex flex-col md:flex-row gap-4 items-start"
               variants={itemVariants}
@@ -246,7 +251,6 @@ function ProductDetail({ product, isClosing = false }) {
               </div>
             </motion.article>
 
-            {/* Uses & Applications Section */}
             <motion.article 
               className="flex flex-col md:flex-row gap-4 items-start"
               variants={itemVariants}
@@ -270,7 +274,6 @@ function ProductDetail({ product, isClosing = false }) {
                   className="flex flex-col gap-2"
                   variants={listVariants}
                 >
-                  {/* Bullet Points with Framer Motion */}
                   {productData.applications.map((item, index) => (
                     <motion.div 
                       key={index} 
@@ -292,7 +295,6 @@ function ProductDetail({ product, isClosing = false }) {
               </div>
             </motion.article>
             
-            {/* Types Section - Only for High Carbon Ferro Chrome */}
             {productData.hasTypes && (
               <motion.article 
                 className="flex flex-col md:flex-row gap-4 items-start"
@@ -317,7 +319,6 @@ function ProductDetail({ product, isClosing = false }) {
                     className="flex flex-col gap-2"
                     variants={listVariants}
                   >
-                    {/* Bullet Points */}
                     {productData.types.map((item, index) => (
                       <motion.div 
                         key={index} 
@@ -342,7 +343,6 @@ function ProductDetail({ product, isClosing = false }) {
           </div>
         </motion.div>
 
-        {/* Vertical amber line with proper z-index and positioning */}
         <motion.div 
           className="absolute top-0 left-0 w-2 md:w-3 bg-amber-500 h-full z-10 origin-top"
           initial={{ scaleY: 0 }}
@@ -351,6 +351,13 @@ function ProductDetail({ product, isClosing = false }) {
           style={{ transformOrigin: 'top' }}
         />
       </motion.section>
+
+      {/* Using the new ThreeDViewer component */}
+      <ThreeDViewer 
+        isOpen={is3DViewerOpen} 
+        onClose={() => setIs3DViewerOpen(false)} 
+        productName={productName}
+      />
     </motion.div>
   );
 }
