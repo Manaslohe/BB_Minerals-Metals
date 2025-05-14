@@ -107,7 +107,7 @@ const CompanyProfile = () => {
             variants={itemVariants}
           >
             <motion.div 
-              className="bg-gradient-to-b from-gray-800 to-gray-800/80 rounded-2xl p-14 w-full h-full flex items-center justify-center shadow-xl border border-gray-700/50 hover:border-amber-600/30 transition-all duration-500"
+              className="bg-gradient-to-b from-gray-800 to-gray-800/80 rounded-2xl md:p-14 p-8 w-full h-full flex items-center justify-center shadow-xl border border-gray-700/50 hover:border-amber-600/30 transition-all duration-500"
               initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
               animate={{ opacity: 1, scale: 1, rotateY: 0 }}
               transition={{ delay: 0.4, duration: 0.8, type: "spring" }}
@@ -120,11 +120,11 @@ const CompanyProfile = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="relative"
+                className="relative w-full flex flex-col items-center md:items-start"
               >
-                <span className="absolute -top-10 -left-10 text-8xl opacity-10 font-bold">"</span>
+                <span className="absolute md:-top-10 md:-left-10 -top-6 left-0 md:left-auto md:text-8xl text-5xl sm:text-6xl opacity-10 font-bold">"</span>
                 <motion.h2 
-                  className="text-5xl md:text-7xl font-bold text-white leading-tight"
+                  className="text-3xl sm:text-4xl md:text-7xl font-bold text-white leading-tight text-center md:text-left"
                   whileHover={{ scale: 1.02 }}
                 >
                   MINERALS <br/> THAT MOVE <br/> THE{" "}
@@ -139,9 +139,9 @@ const CompanyProfile = () => {
                   </motion.span>
                 </motion.h2>
                 <motion.div 
-                  className="h-1 w-80 bg-amber-500 mt-8 rounded-full"
+                  className="h-1 md:w-80 w-full sm:w-64 max-w-[320px] bg-amber-500 mt-6 md:mt-8 rounded-full self-center md:self-start"
                   initial={{ width: 0 }}
-                  animate={{ width: 320 }}
+                  animate={{ width: "100%", maxWidth: 320 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
                   whileHover={{ width: "100%", transition: { duration: 0.4 } }}
                 />

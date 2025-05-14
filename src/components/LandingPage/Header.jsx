@@ -253,7 +253,7 @@ function Header() {
     { name: "Excellence", path: "/company/excellence" },
     { name: "Promoter Message", path: "/company/promoter-message" },
     { name: "Manufacturing Unit", path: "/company/manufacturing-unit" },
-    { name: "Gallery", path: "/company/gallery" }
+    { name: "Gallery", path: "/company/gallery", comingSoon: true }
   ];
 
   const scrollToProducts = () => {
@@ -291,24 +291,26 @@ function Header() {
             >
               {item === "PRODUCT" ? (
                 <div
-                  className="py-3 px-4 rounded-lg hover:bg-amber-600 active:bg-amber-700 transition-colors cursor-pointer"
+                  className="py-3 px-4 rounded-lg hover:bg-gray-600 active:bg-gray-700 transition-colors cursor-pointer"
                   onClick={scrollToProducts}
                 >
-                  <div className="font-bold text-lg">{item}</div>
+                  <div className="font-bold text-lg text-white">{item}</div>
                 </div>
               ) : (
                 <>
                   <div
-                    className="flex justify-between items-center py-3 px-4 rounded-lg hover:bg-amber-600 transition-colors"
+                    className="flex justify-between items-center py-3 px-4 rounded-lg hover:bg-gray-600 transition-colors relative"
                     onClick={() => toggleExpandItem(item)}
                   >
-                    <div className="font-bold text-lg">{item}</div>
+                    <div className="font-bold text-lg text-white">{item}</div>
                     <motion.div
                       animate={{ rotate: expandedItem === item ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <ChevronDown className="h-5 w-5" />
+                      <ChevronDown className="h-5 w-5 text-white" />
                     </motion.div>
+                    {/* Orange underline for COMPANY by default */}
+                    <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-amber-500 rounded-full"></div>
                   </div>
                   {expandedItem === item && (
                     <motion.div
@@ -325,13 +327,17 @@ function Header() {
                               key={idx}
                               variants={menuItemVariants}
                               custom={idx}
-                              className="text-base py-3 px-6 rounded-lg hover:bg-amber-600 active:bg-amber-700 transition-colors cursor-pointer"
+                              className="text-base py-3 px-6 rounded-lg hover:bg-gray-600 active:bg-gray-700 transition-colors cursor-pointer"
                               onClick={() => {
-                                navigate(subItem.path);
+                                if (subItem.comingSoon) {
+                                  handleUnderConstructionClick(subItem.name);
+                                } else {
+                                  navigate(subItem.path);
+                                }
                                 setIsMobileMenuOpen(false);
                               }}
                             >
-                              <span className="font-semibold">
+                              <span className="font-semibold text-white">
                                 {subItem.name}
                               </span>
                             </motion.div>
@@ -345,22 +351,28 @@ function Header() {
             </motion.div>
           ))}
 
-          {["CAREER", "INQUIRY", "BLOG", "CONTACT US"].map((item, index) => (
+          {["INQUIRY", "BLOG", "CONTACT US"].map((item, index) => (
             <motion.div
               key={item}
               variants={menuItemVariants}
               custom={index + 2}
               initial="hidden"
               animate="visible"
-              className="py-3 px-4 rounded-lg hover:bg-amber-600 active:bg-amber-700 transition-colors cursor-pointer"
+              className="py-3 px-4 rounded-lg hover:bg-gray-600 active:bg-gray-700 transition-colors cursor-pointer relative"
               onClick={() => {
                 if (item === "INQUIRY") navigate("/inquiry");
                 else if (item === "CONTACT US") navigate("/contact");
-                else if (item === "CAREER" || item === "BLOG") handleUnderConstructionClick(item);
+                else if (item === "BLOG") handleUnderConstructionClick(item);
                 setIsMobileMenuOpen(false);
               }}
             >
-              <div className="font-bold text-lg">{item}</div>
+              <div className="font-bold text-lg text-white">{item}</div>
+              {/* Orange underline for active components */}
+              {((item === "INQUIRY" && isActive("/inquiry")) || 
+                (item === "CONTACT US" && isActive("/contact")) || 
+                (item === "BLOG" && isActive("/blog"))) && (
+                <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-amber-500 rounded-full"></div>
+              )}
             </motion.div>
           ))}
         </motion.div>
@@ -378,19 +390,18 @@ function Header() {
             onClick={scrollToProducts}
             index={1}
           />
-          <MenuItem label="CAREER" isActive={isActive("/career")} index={2} />
           <MenuItem
             label="INQUIRY"
             isActive={isActive("/inquiry")}
             onClick={() => navigate("/inquiry")}
-            index={3}
+            index={2}
           />
-          <MenuItem label="BLOG" isActive={isActive("/blog")} index={4} />
+          <MenuItem label="BLOG" isActive={isActive("/blog")} index={3} />
           <MenuItem
             label="CONTACT US"
             isActive={isActive("/contact")}
             onClick={() => navigate("/contact")}
-            index={5}
+            index={4}
           />
         </div>
       )}
@@ -406,7 +417,7 @@ function Header() {
       animate={hasLoaded ? "visible" : "hidden"}
       whileHover={{ scale: 1.02 }}
       onClick={
-        label === "CAREER" || label === "BLOG"
+        label === "BLOG"
           ? () => handleUnderConstructionClick(label)
           : onClick
       }
@@ -430,13 +441,17 @@ function Header() {
           initial={{ y: -10 }}
           animate={{ y: 0 }}
         >
-          {submenu.map((item, index) => (
+          {submenu.map((item, idx) => (
             <div
-              key={index}
+              key={idx}
               className="px-4 py-2 text-[#004080] hover:bg-amber-100 cursor-pointer font-semibold"
               onClick={(e) => {
                 e.stopPropagation();
-                navigate(item.path);
+                if (item.comingSoon) {
+                  handleUnderConstructionClick(item.name);
+                } else {
+                  navigate(item.path);
+                }
                 setIsMobileMenuOpen(false);
               }}
             >
@@ -481,19 +496,18 @@ function Header() {
                   onClick={scrollToProducts}
                   index={1}
                 />
-                <MenuItem label="CAREER" isActive={isActive("/career")} index={2} />
                 <MenuItem
                   label="INQUIRY"
                   isActive={isActive("/inquiry")}
                   onClick={() => navigate("/inquiry")}
-                  index={3}
+                  index={2}
                 />
-                <MenuItem label="BLOG" isActive={isActive("/blog")} index={4} />
+                <MenuItem label="BLOG" isActive={isActive("/blog")} index={3} />
                 <MenuItem
                   label="CONTACT US"
                   isActive={isActive("/contact")}
                   onClick={() => navigate("/contact")}
-                  index={5}
+                  index={4}
                 />
               </div>
             </nav>
@@ -529,14 +543,14 @@ function Header() {
           {isMobileMenuOpen && (
             <>
               <motion.div
-                className="fixed top-0 right-0 h-full bg-amber-500 shadow-lg w-[280px] z-50 mobile-sidebar overflow-y-auto"
+                className="fixed top-0 right-0 h-full bg-gray-500 shadow-lg w-[280px] z-50 mobile-sidebar overflow-y-auto"
                 variants={mobileMenuVariants}
                 initial="closed"
                 animate="open"
                 exit="closed"
               >
                 <motion.div
-                  className="flex justify-end p-4 border-b border-amber-400"
+                  className="flex justify-end p-4 border-b border-gray-400"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}

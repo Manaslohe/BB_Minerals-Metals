@@ -196,21 +196,21 @@ const Contact = () => {
                     whileHover={{ y: -3 }}
                   >
                     <div className="flex items-start justify-between">
-                      <div className={`flex items-start gap-4 ${info.href ? 'cursor-pointer' : ''}`} onClick={() => info.href ? window.location.href = info.href : null}>
-                        <div className="bg-amber-500/10 text-amber-400 p-3 rounded-lg">
+                      <div className={`flex items-start gap-3 sm:gap-4 ${info.href ? 'cursor-pointer' : ''}`} onClick={() => info.href ? window.location.href = info.href : null}>
+                        <div className="bg-amber-500/10 text-amber-400 p-2 sm:p-3 rounded-lg flex-shrink-0">
                           {info.icon}
                         </div>
-                        <div>
-                          <h3 className="text-sm uppercase tracking-wider text-gray-400 mb-1">{info.type}</h3>
-                          <p className="text-lg font-medium">{info.value}</p>
-                          {info.subtitle && <p className="text-sm text-gray-400 mt-1">{info.subtitle}</p>}
+                        <div className="min-w-0">
+                          <h3 className="text-xs sm:text-sm uppercase tracking-wider text-gray-400 mb-1">{info.type}</h3>
+                          <p className="text-base sm:text-lg font-medium whitespace-nowrap overflow-hidden text-ellipsis">{info.value}</p>
+                          {info.subtitle && <p className="text-xs sm:text-sm text-gray-400 mt-1">{info.subtitle}</p>}
                         </div>
                       </div>
                       
                       {/* Copy to clipboard button (for email and phone numbers) */}
                       <button 
                         onClick={() => copyToClipboard(info.value.replace(/\s+/g, ''), info.type)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 bg-white/10 rounded-lg hover:bg-amber-500/20 text-white"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 bg-white/10 rounded-lg hover:bg-amber-500/20 text-white flex-shrink-0 ml-1"
                         title={`Copy ${info.type}`}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,8 +1,31 @@
 "use client";
 import React from "react";
 import { ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion"; // Import framer-motion
 
 function Excellence() {
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { 
+        duration: 0.6,
+        when: "beforeChildren",
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
+
   // Icons with improved SVG implementation
   const icons = {
     environmental: {
@@ -15,28 +38,42 @@ function Excellence() {
 
   // Internal component for section header with improved styling
   const SectionHeader = ({ title }) => (
-    <header className="mb-12 transform transition-all duration-300 hover:scale-[1.01]">
+    <motion.header 
+      className="mb-12 transform transition-all duration-300 hover:scale-[1.01]"
+      variants={itemVariants}
+    >
       <h2 className="mb-4 text-4xl md:text-5xl font-bold text-white tracking-tight">
         {title}
       </h2>
-      <div className="bg-gradient-to-r from-amber-500 to-amber-400 rounded-full h-2 w-48 md:w-64 transition-all duration-300" />
-    </header>
+      <motion.div 
+        className="bg-gradient-to-r from-amber-500 to-amber-400 rounded-full h-2 w-48 md:w-64 transition-all duration-300"
+        initial={{ width: 0 }}
+        animate={{ width: "100%" }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+      />
+    </motion.header>
   );
 
   // Back button component
   const BackButton = () => (
-    <button 
+    <motion.button 
       onClick={() => window.history.back()} 
       className="group flex items-center gap-3 text-white font-semibold mb-10 hover:text-amber-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-gray-800"
+      variants={itemVariants}
+      whileHover={{ x: -3 }}
+      whileTap={{ scale: 0.95 }}
     >
       <ArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200" size={20} />
       <span>BACK</span>
-    </button>
+    </motion.button>
   );
 
   // Enhanced icon component
   const IconBadge = ({ icon }) => (
-    <div className="relative flex-shrink-0 transform transition-all duration-300 hover:scale-110">
+    <motion.div 
+      className="relative flex-shrink-0 transform transition-all duration-300 hover:scale-110"
+      variants={itemVariants}
+    >
       <div className="bg-gradient-to-br from-amber-500 to-amber-400 rounded-xl w-16 h-16 flex items-center justify-center">
         <svg 
           width="28" 
@@ -48,12 +85,16 @@ function Excellence() {
           <path d={icon.path} fill="white" />
         </svg>
       </div>
-    </div>
+    </motion.div>
   );
 
   // Enhanced info card component
   const InfoCard = ({ title, icon, children }) => (
-    <article className="group bg-transparent rounded-2xl p-5 lg:p-6 transition-all duration-300">
+    <motion.article 
+      className="group bg-transparent rounded-2xl p-5 lg:p-6 transition-all duration-300"
+      variants={itemVariants}
+      whileHover={{ y: -5, transition: { duration: 0.2 } }}
+    >
       <div className="flex flex-col md:flex-row gap-4 items-start">
         <IconBadge icon={icon} />
         <div className="flex-1 w-full">
@@ -62,7 +103,7 @@ function Excellence() {
           {children}
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 
   return (
@@ -79,7 +120,12 @@ function Excellence() {
               <BackButton />
               <SectionHeader title="Our Excellence" />
               
-              <div className="space-y-5">
+              <motion.div 
+                className="space-y-5"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+              >
                 <InfoCard title="Environmental Commitment & R&D" icon={icons.environmental}>
                   <ul className="space-y-3 text-white text-sm lg:text-base">
                     <li className="flex flex-col lg:flex-row gap-2 lg:items-center">
@@ -113,16 +159,21 @@ function Excellence() {
                     </li>
                   </ul>
                 </InfoCard>
-              </div>
+              </motion.div>
             </div>
           </div>
-          <div className="relative h-[40vh] lg:h-full">
+          <motion.div 
+            className="relative h-[40vh] lg:h-full hidden md:block"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+          >
             <img
               src="/excellence.png"
               className="object-cover w-full h-full"
               alt="State-of-the-art manufacturing facility showcasing our commitment to excellence"
             />
-          </div>
+          </motion.div>
         </div>
       </div>
     </>
