@@ -128,6 +128,8 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
 
   // Define initial camera position based on product type for better default view
   const getInitialCameraPosition = (path) => {
+    if (path.includes("High Carbon Ferro Chrome")) return [0, 5, 50];
+    if (path.includes("Low Carbon Ferro Chrome")) return [0, 5, 50];
     if (path.includes("SILICON METAL")) return [0, 5, 65];
     if (path.includes("Magneese")) return [0, 5, 70];
     if (path.includes("FEROMOLY")) return [0, 5, 60];
