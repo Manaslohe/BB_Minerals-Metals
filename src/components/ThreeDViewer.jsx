@@ -126,15 +126,15 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
 
   const modelPath = modelMapping[productName] || modelMapping["High Carbon Ferro Chrome"];
 
-  // Define initial camera position based on product type for better default view
+  // Define initial camera position based on product type for a more zoomed-in default view
   const getInitialCameraPosition = (path) => {
-    if (path.includes("High Carbon Ferro Chrome")) return [0, 5, 50];
-    if (path.includes("Low Carbon Ferro Chrome")) return [0, 5, 50];
-    if (path.includes("SILICON METAL")) return [0, 5, 65];
-    if (path.includes("Magneese")) return [0, 5, 70];
-    if (path.includes("FEROMOLY")) return [0, 5, 60];
-    if (path.includes("FERO CHROME")) return [0, 5, 60];
-    return [0, 5, 65]; // Default maximum zoomed out position
+    if (path.includes("High Carbon Ferro Chrome")) return [0, 1.5, 5.5];
+    if (path.includes("Low Carbon Ferro Chrome")) return [0, 1.5, 5.5];
+    if (path.includes("SILICON METAL")) return [0, 1.5, 6.5];
+    if (path.includes("Magneese")) return [0, 1.5, 7];
+    if (path.includes("FEROMOLY")) return [0, 1.5, 5.8];
+    if (path.includes("FERO CHROME")) return [0, 1.5, 5.8];
+    return [0, 1.5, 6]; // Default closer position
   };
 
   const initialCameraPosition = getInitialCameraPosition(modelPath);
