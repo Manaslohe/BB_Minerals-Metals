@@ -252,7 +252,7 @@ const GlobalPresence = () => {
               className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-700 ease-in-out"
               style={{
                 backgroundImage: `url(${countryMaps.default})`,
-                opacity: (hoveredCountry || selectedCountry) ? 0.15 : 0.35
+                opacity: (hoveredCountry || selectedCountry) ? 0.1 : 0.35
               }}
             />
             
@@ -261,7 +261,7 @@ const GlobalPresence = () => {
               <div
                 key={`mobile-${countryCode}`}
                 className={`absolute inset-0 transition-all duration-700 ease-in-out
-                          ${(hoveredCountry === countryCode || selectedCountry === countryCode) ? 'opacity-50' : 'opacity-0'}`}
+                          ${(hoveredCountry === countryCode || selectedCountry === countryCode) ? 'opacity-80' : 'opacity-0'}`}
               >
                 <div
                   className="absolute inset-0 bg-contain bg-center bg-no-repeat"
@@ -276,8 +276,6 @@ const GlobalPresence = () => {
 
           {/* Country buttons with improved spacing */}
           <div className="relative z-10 flex flex-col space-y-3 p-4 pt-8">
-            {/* Removed "Currently viewing" indicator */}
-            
             {/* Country buttons - stacked vertically */}
             {countries.map((country, index) => (
               <div
@@ -289,8 +287,8 @@ const GlobalPresence = () => {
                 <div 
                   className={`flex items-center justify-between p-3 rounded-lg transition-all duration-300
                             ${(hoveredCountry === country.code || selectedCountry === country.code)
-                              ? 'bg-amber-500 shadow-lg shadow-amber-500/20'
-                              : 'bg-gray-800/90 hover:bg-gray-800'}`}
+                              ? 'bg-amber-500 shadow-lg shadow-amber-500/20 ring-2 ring-amber-500'
+                              : selectedCountry ? 'bg-gray-800/70 hover:bg-gray-800 opacity-80' : 'bg-gray-800/90 hover:bg-gray-800'}`}
                   onClick={() => handleCountryInteraction(country.code, true)}
                 >
                   <div className="flex items-center space-x-3">
@@ -298,7 +296,7 @@ const GlobalPresence = () => {
                       countryCode={country.code}
                       svg
                       style={{ width: '3em', height: '2.3em' }}
-                      className="rounded shadow-sm"
+                      className={`rounded shadow-sm ${selectedCountry && selectedCountry !== country.code ? 'opacity-80' : ''}`}
                     />
                     <span className={`text-base font-medium transition-colors
                                ${(hoveredCountry === country.code || selectedCountry === country.code) ? 'text-gray-900' : 'text-white'}`}>

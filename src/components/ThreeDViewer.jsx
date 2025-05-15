@@ -126,6 +126,17 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
 
   const modelPath = modelMapping[productName] || modelMapping["High Carbon Ferro Chrome"];
 
+  // Define initial camera position based on product type for better default view
+  const getInitialCameraPosition = (path) => {
+    if (path.includes("SILICON METAL")) return [0, 5, 65];
+    if (path.includes("Magneese")) return [0, 5, 70];
+    if (path.includes("FEROMOLY")) return [0, 5, 60];
+    if (path.includes("FERO CHROME")) return [0, 5, 60];
+    return [0, 5, 65]; // Default maximum zoomed out position
+  };
+
+  const initialCameraPosition = getInitialCameraPosition(modelPath);
+
   if (!isOpen) return null;
 
   return (
@@ -173,7 +184,11 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
         <div className="h-full w-full relative">
           <Canvas
             shadows
-            camera={{ position: [0, 2, 10], fov: 40 }}
+            camera={{ 
+              position: initialCameraPosition, 
+              fov: 25, // Even smaller FOV for better perspective when maximally zoomed out
+              far: 2000 // Further increased far clipping plane
+            }}
             gl={{
               preserveDrawingBuffer: true,
               antialias: true,
@@ -204,10 +219,12 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
               autoRotate={false}
               enableZoom={true}
               enablePan={false}
-              minDistance={2}
-              maxDistance={50}
+              minDistance={5}
+              maxDistance={70}
               zoomSpeed={0.8}
               dampingFactor={0.15}
+              target={[0, -2, 0]} // Target the position of the model
+              initialPosition={initialCameraPosition} // Ensure the starting position is used
               touches={{
                 ONE: THREE.TOUCH.ROTATE,
                 TWO: THREE.TOUCH.DOLLY_PAN,
