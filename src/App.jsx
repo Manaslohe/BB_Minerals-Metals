@@ -13,6 +13,7 @@ import HistoryPage from './components/Company/History'
 import DirectorMessage from './components/Company/Directorm'
 import Manufacturing from './components/Company/Manufacturing'
 import EcoFriendly from './components/Company/eco'
+import Blog from './components/Company/Blog'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/company/promoter-message" element={<DirectorMessage />} />
         <Route path="/company/manufacturing-unit" element={<Manufacturing />} />
         <Route path="/eco-friendly-sustainability" element={<EcoFriendly />} />
+        <Route path="/blog" element={<Blog />} />
       </Routes>
     </Router>
   )

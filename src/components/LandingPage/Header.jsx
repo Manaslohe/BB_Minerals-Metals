@@ -362,7 +362,7 @@ function Header() {
               onClick={() => {
                 if (item === "INQUIRY") navigate("/inquiry");
                 else if (item === "CONTACT US") navigate("/contact");
-                else if (item === "BLOG") handleUnderConstructionClick(item);
+                else if (item === "BLOG") navigate("/blog");
                 setIsMobileMenuOpen(false);
               }}
             >
@@ -396,7 +396,12 @@ function Header() {
             onClick={() => navigate("/inquiry")}
             index={2}
           />
-          <MenuItem label="BLOG" isActive={isActive("/blog")} index={3} />
+          <MenuItem
+            label="BLOG"
+            isActive={isActive("/blog")}
+            onClick={() => navigate("/blog")}
+            index={3}
+          />
           <MenuItem
             label="CONTACT US"
             isActive={isActive("/contact")}
@@ -418,7 +423,7 @@ function Header() {
       whileHover={{ scale: 1.02 }}
       onClick={
         label === "BLOG"
-          ? () => handleUnderConstructionClick(label)
+          ? () => navigate("/blog")
           : onClick
       }
     >
@@ -502,7 +507,12 @@ function Header() {
                   onClick={() => navigate("/inquiry")}
                   index={2}
                 />
-                <MenuItem label="BLOG" isActive={isActive("/blog")} index={3} />
+                <MenuItem
+                  label="BLOG"
+                  isActive={isActive("/blog")}
+                  onClick={() => navigate("/blog")}
+                  index={3}
+                />
                 <MenuItem
                   label="CONTACT US"
                   isActive={isActive("/contact")}
