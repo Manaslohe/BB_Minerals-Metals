@@ -136,7 +136,7 @@ const WhyChooseUs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white relative">
+    <div className="min-h-screen bg-gray-900 text-white relative">
       {/* Back button - desktop */}
       <motion.div 
         className="p-4 sm:p-6 hidden sm:block relative z-30"
@@ -199,7 +199,7 @@ const WhyChooseUs = () => {
               key={index}
               variants={itemVariants}
               whileHover={{ y: -5, transition: { duration: 0.3 } }}
-              className="bg-slate-800 p-6 rounded-xl shadow-lg border border-amber-500/10 hover:border-amber-500/30 transition-all duration-300 flex flex-col items-center text-center"
+              className="bg-gray-800 p-6 rounded-xl shadow-lg border border-amber-500/10 hover:border-amber-500/30 transition-all duration-300 flex flex-col items-center text-center"
             >
               <motion.div 
                 variants={iconVariants}
@@ -232,7 +232,7 @@ const WhyChooseUs = () => {
               key={index + 6}
               variants={itemVariants}
               whileHover={{ y: -5, transition: { duration: 0.3 } }}
-              className="bg-slate-800 p-6 rounded-xl shadow-lg border border-amber-500/10 hover:border-amber-500/30 transition-all duration-300 flex flex-col items-center text-center"
+              className="bg-gray-800 p-6 rounded-xl shadow-lg border border-amber-500/10 hover:border-amber-500/30 transition-all duration-300 flex flex-col items-center text-center"
             >
               <motion.div 
                 variants={iconVariants}
