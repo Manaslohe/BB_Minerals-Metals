@@ -94,18 +94,18 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f1319] to-[#1a2433] text-white relative overflow-hidden">
+    <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
       </div>
 
       {/* Toast Notification */}
       <AnimatePresence>
         {toastInfo.visible && (
           <motion.div
-            className="fixed top-6 right-6 z-50 bg-amber-500 text-[#0f1319] px-6 py-3 rounded-lg shadow-lg flex items-center gap-2"
+            className="fixed top-6 right-6 z-50 bg-amber-500 text-gray-900 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2"
             variants={toastVariants}
             initial="hidden"
             animate="visible"
@@ -165,20 +165,20 @@ const Contact = () => {
             variants={containerVariants}
           >
             <motion.div 
-              className="bg-white/5 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/10 h-full"
+              className="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-gray-700/30 hover:border-amber-600/30 transition-all duration-300 h-full"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
             >
               <motion.h1 
-                className="text-3xl md:text-4xl font-bold mb-2"
+                className="text-4xl md:text-4xl font-bold mb-2"
                 variants={itemVariants}
               >
                 Let's Connect
               </motion.h1>
               
               <motion.p 
-                className="text-amber-300/80 mb-8 text-lg"
+                className="text-amber-500 mb-8 text-lg"
                 variants={itemVariants}
               >
                 Reach out to us through any of these channels
@@ -191,18 +191,18 @@ const Contact = () => {
                 {contactInfo.map((info, index) => (
                   <motion.div
                     key={index}
-                    className="group bg-white/5 hover:bg-white/10 rounded-xl p-5 transition-all duration-300 border border-white/5 hover:border-amber-500/30"
+                    className="group bg-gray-800/50 hover:bg-gray-800/70 rounded-xl p-5 transition-all duration-300 border border-gray-700/30 hover:border-amber-500/30"
                     variants={itemVariants}
                     whileHover={{ y: -3 }}
                   >
                     <div className="flex items-start justify-between">
                       <div className={`flex items-start gap-3 sm:gap-4 ${info.href ? 'cursor-pointer' : ''}`} onClick={() => info.href ? window.location.href = info.href : null}>
-                        <div className="bg-amber-500/10 text-amber-400 p-2 sm:p-3 rounded-lg flex-shrink-0">
+                        <div className="bg-amber-500/10 text-amber-500 p-2 sm:p-3 rounded-lg flex-shrink-0">
                           {info.icon}
                         </div>
                         <div className="min-w-0">
                           <h3 className="text-xs sm:text-sm uppercase tracking-wider text-gray-400 mb-1">{info.type}</h3>
-                          <p className="text-base sm:text-lg font-medium whitespace-nowrap overflow-hidden text-ellipsis">{info.value}</p>
+                          <p className="text-base sm:text-lg font-medium whitespace-nowrap overflow-hidden text-ellipsis text-white">{info.value}</p>
                           {info.subtitle && <p className="text-xs sm:text-sm text-gray-400 mt-1">{info.subtitle}</p>}
                         </div>
                       </div>
@@ -210,7 +210,7 @@ const Contact = () => {
                       {/* Copy to clipboard button (for email and phone numbers) */}
                       <button 
                         onClick={() => copyToClipboard(info.value.replace(/\s+/g, ''), info.type)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 bg-white/10 rounded-lg hover:bg-amber-500/20 text-white flex-shrink-0 ml-1"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 bg-gray-800 rounded-lg hover:bg-amber-500/20 text-white flex-shrink-0 ml-1"
                         title={`Copy ${info.type}`}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -232,7 +232,7 @@ const Contact = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <motion.div 
-              className="bg-[#1e252f] backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/10 h-full flex items-center justify-center"
+              className="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-gray-700/30 hover:border-amber-600/30 transition-all duration-300 h-full flex items-center justify-center"
               whileHover={{ scale: 1.01 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
             >
@@ -257,13 +257,13 @@ const Contact = () => {
                     />
                   </div>
                   <motion.h2 
-                    className="text-5xl md:text-6xl lg:text-7xl font-bold"
+                    className="text-5xl md:text-6xl lg:text-7xl font-bold text-white"
                     variants={textReveal}
                   >
                     YOUR <span className="text-amber-500">JOURNEY</span>
                   </motion.h2>
                   <motion.h2 
-                    className="text-5xl md:text-6xl lg:text-7xl font-bold"
+                    className="text-5xl md:text-6xl lg:text-7xl font-bold text-white"
                     variants={textReveal}
                   >
                     OUR <span className="text-amber-500 text-6xl md:text-7xl lg:text-8xl">PRIORITY</span>

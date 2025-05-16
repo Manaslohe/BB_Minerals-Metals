@@ -115,15 +115,15 @@ const Manufacturing = () => {
         exit="exit"
         variants={pageVariants}
       >
-        {/* Back Button with enhanced animation */}
+        {/* Back button - desktop */}
         <motion.div 
-          className="p-4 sm:p-6"
+          className="p-4 sm:p-6 hidden sm:block relative z-30"
           variants={sectionVariants}
         >
           <motion.button 
             className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
                     shadow-lg hover:shadow-amber-500/20 transition-all duration-300
-                    hover:scale-105 active:scale-95"
+                    hover:scale-105 active:scale-95 cursor-pointer"
             onClick={() => navigate(-1)}
             whileHover={{ x: -3 }}
             whileTap={{ scale: 0.95 }}
@@ -133,13 +133,30 @@ const Manufacturing = () => {
           </motion.button>
         </motion.div>
 
+        {/* Back button - mobile only */}
+        <motion.div 
+          className="fixed bottom-6 left-6 z-50 sm:hidden"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.3 }}
+        >
+          <motion.button 
+            className="group flex items-center justify-center p-3 rounded-full bg-gray-800 text-white
+                     shadow-lg border border-amber-500/30 hover:bg-gray-700 transition-all duration-300 cursor-pointer"
+            onClick={() => navigate(-1)}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ArrowLeft size={20} className="text-amber-500" />
+          </motion.button>
+        </motion.div>
+
         {/* Simple Header - Matching the image exactly but with improved animation */}
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-16 pt-8 sm:pt-0" // Added top padding for mobile only
           variants={headerVariants}
         >
           <motion.h1 
-            className="text-3xl md:text-5xl font-bold text-white mb-2"
+            className="text-4xl md:text-6xl font-bold text-white mb-1" // Reduced bottom margin
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.6 }}
@@ -147,7 +164,7 @@ const Manufacturing = () => {
             Manufacturing Unit
           </motion.h1>
           <motion.div 
-            className="w-48 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto rounded-full"
+            className="w-48 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto rounded-full mt-0.5 sm:mt-2" // Added custom margin-top
             initial={{ width: 0, opacity: 0 }}
             animate={{ width: "12rem", opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
@@ -223,9 +240,9 @@ const Manufacturing = () => {
               >
                 <div className="flex items-start mb-3">
                   <div className="w-1.5 h-10 bg-gradient-to-b from-amber-400 to-amber-600 rounded-full mr-3"></div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-semibold text-amber-400 leading-tight">{section.title}</h3>
+                  <h3 className="text-xl sm:text-xl md:text-2xl font-semibold text-amber-400 leading-tight">{section.title}</h3>
                 </div>
-                <p className="text-sm sm:text-base text-gray-300 leading-relaxed pl-4 sm:pl-5">{section.content}</p>
+                <p className="text-[16px] sm:text-lg text-gray-300 leading-relaxed pl-4 sm:pl-5">{section.content}</p>
               </motion.div>
             ))}
           </motion.div>

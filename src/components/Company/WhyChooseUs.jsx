@@ -181,7 +181,7 @@ const WhyChooseUs = () => {
           animate={{ opacity: 1, y: 0, transition: { duration: 0.7 } }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
             WHY CHOOSE US
           </h1>
           <div className="w-32 h-1 bg-amber-500 mx-auto rounded-full"></div>

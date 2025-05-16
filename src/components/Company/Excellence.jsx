@@ -1,9 +1,12 @@
 "use client";
 import React from "react";
 import { ArrowLeft } from "lucide-react";
-import { motion } from "framer-motion"; // Import framer-motion
+import { motion } from "framer-motion";
+import { useNavigate } from 'react-router-dom';
 
 function Excellence() {
+  const navigate = useNavigate();
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -42,30 +45,16 @@ function Excellence() {
       className="mb-12 transform transition-all duration-300 hover:scale-[1.01]"
       variants={itemVariants}
     >
-      <h2 className="mb-4 text-4xl md:text-5xl font-bold text-white tracking-tight">
+      <h2 className="mb-4 text-4xl md:text-6xl font-bold text-white tracking-tight text-center sm:text-left">
         {title}
       </h2>
       <motion.div 
-        className="bg-gradient-to-r from-amber-500 to-amber-400 rounded-full h-2 w-48 md:w-64 transition-all duration-300"
+        className="bg-gradient-to-r from-amber-500 to-amber-400 rounded-full h-2 w-48 md:w-64 transition-all duration-300 mx-auto sm:mx-0"
         initial={{ width: 0 }}
         animate={{ width: "100%" }}
         transition={{ duration: 0.8, delay: 0.3 }}
       />
     </motion.header>
-  );
-
-  // Back button component
-  const BackButton = () => (
-    <motion.button 
-      onClick={() => window.history.back()} 
-      className="group flex items-center gap-3 text-white font-semibold mb-10 hover:text-amber-500 transition-all duration-200 px-4 py-2 rounded-lg hover:bg-gray-800"
-      variants={itemVariants}
-      whileHover={{ x: -3 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <ArrowLeft className="group-hover:-translate-x-1 transition-transform duration-200" size={20} />
-      <span>BACK</span>
-    </motion.button>
   );
 
   // Enhanced icon component
@@ -115,9 +104,28 @@ function Excellence() {
       
       <div className="h-screen bg-gray-900 text-white font-['Inter']">
         <div className="h-full grid grid-cols-1 lg:grid-cols-2">
-          <div className="p-4 sm:p-6 lg:p-8 bg-[#151D28]">
-            <div className="max-w-4xl mx-auto">
-              <BackButton />
+          {/* Left Section with Back button and content */}
+          <div className="p-4 sm:p-6 lg:p-8 bg-[#151D28] relative">
+            {/* Back button - desktop */}
+            <motion.div 
+              className="p-0 sm:p-0 hidden sm:block relative z-30"
+              variants={itemVariants}
+            >
+              <motion.button 
+                className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
+                          shadow-lg hover:shadow-amber-500/20 transition-all duration-300
+                          hover:scale-105 active:scale-95 cursor-pointer mb-8"
+                onClick={() => navigate(-1)}
+                whileHover={{ x: -3 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ArrowLeft size={18} className="text-amber-500 group-hover:animate-pulse" />
+                <span className="font-medium text-sm">Back</span>
+              </motion.button>
+            </motion.div>
+
+            {/* Added className with pt-8 for mobile only */}
+            <div className="max-w-4xl mx-auto pt-8 sm:pt-0">
               <SectionHeader title="Our Excellence" />
               
               <motion.div 
@@ -138,7 +146,6 @@ function Excellence() {
                     </li>
                   </ul>
                 </InfoCard>
-
                 <InfoCard title="Production Capacity & Workforce" icon={icons.production}>
                   <ul className="space-y-3 text-white text-sm lg:text-base">
                     <li className="flex flex-col lg:flex-row gap-2 lg:items-center">
@@ -162,6 +169,8 @@ function Excellence() {
               </motion.div>
             </div>
           </div>
+
+          {/* Right Section with Image - now starts from the top */}
           <motion.div 
             className="relative h-[40vh] lg:h-full hidden md:block"
             initial={{ opacity: 0 }}
@@ -175,6 +184,23 @@ function Excellence() {
             />
           </motion.div>
         </div>
+
+        {/* Back button - mobile only */}
+        <motion.div 
+          className="fixed bottom-6 left-6 z-50 sm:hidden"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.3 }}
+        >
+          <motion.button 
+            className="group flex items-center justify-center p-3 rounded-full bg-gray-800 text-white
+                     shadow-lg border border-amber-500/30 hover:bg-gray-700 transition-all duration-300 cursor-pointer"
+            onClick={() => navigate(-1)}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ArrowLeft size={20} className="text-amber-500" />
+          </motion.button>
+        </motion.div>
       </div>
     </>
   );

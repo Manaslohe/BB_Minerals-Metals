@@ -111,21 +111,38 @@ const DirectorMessage = () => {
           </svg>
         </motion.div>
         
-        {/* Back Button with enhanced animation */}
+        {/* Back button - desktop */}
         <motion.div 
-          className="p-4 sm:p-6"
+          className="p-4 sm:p-6 hidden sm:block relative z-30"
           variants={childVariants}
         >
           <motion.button 
             className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
-                     shadow-lg hover:shadow-amber-500/20 transition-all duration-300
-                     hover:scale-105 active:scale-95"
+                    shadow-lg hover:shadow-amber-500/20 transition-all duration-300
+                    hover:scale-105 active:scale-95 cursor-pointer"
             onClick={() => navigate(-1)}
             whileHover={{ x: -3 }}
             whileTap={{ scale: 0.95 }}
           >
             <ArrowLeft size={18} className="text-amber-500 group-hover:animate-pulse" />
             <span className="font-medium text-sm">Back</span>
+          </motion.button>
+        </motion.div>
+
+        {/* Back button - mobile only */}
+        <motion.div 
+          className="fixed bottom-6 left-6 z-50 sm:hidden"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.3 }}
+        >
+          <motion.button 
+            className="group flex items-center justify-center p-3 rounded-full bg-gray-800 text-white
+                     shadow-lg border border-amber-500/30 hover:bg-gray-700 transition-all duration-300 cursor-pointer"
+            onClick={() => navigate(-1)}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ArrowLeft size={20} className="text-amber-500" />
           </motion.button>
         </motion.div>
 
@@ -137,7 +154,7 @@ const DirectorMessage = () => {
             variants={headerVariants}
           >
             <motion.h1 
-              className="text-3xl sm:text-5xl font-bold text-center bg-gradient-to-r from-white to-white/80 bg-clip-text"
+              className="text-4xl sm:text-6xl font-bold text-center bg-gradient-to-r from-white to-white/80 bg-clip-text"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -155,7 +172,7 @@ const DirectorMessage = () => {
 
           {/* Message Content with paragraph-by-paragraph reveal */}
           <motion.div 
-            className="space-y-6 text-gray-300"
+            className="space-y-6 text-gray-300 text-xl"
             variants={childVariants}
           >
             {[

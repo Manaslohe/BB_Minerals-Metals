@@ -67,7 +67,7 @@ const EcoFriendly = () => {
       {/* Header Section */}
       <div className="container mx-auto py-8">
         <motion.h1 
-          className="text-3xl font-bold text-center mb-12"
+          className="text-4xl sm:text-6xl font-bold text-center mb-12"
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}

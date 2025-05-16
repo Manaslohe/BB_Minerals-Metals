@@ -247,9 +247,9 @@ export default function HistoryPage() {
       animate={isVisible ? "visible" : "hidden"}
       variants={containerVariants}
     >
-      {/* Back Button - Modern & Professional */}
+      {/* Back button - desktop */}
       <motion.div 
-        className="p-4 sm:p-6 relative z-30"
+        className="p-4 sm:p-6 hidden sm:block relative z-30"
         variants={itemVariants}
       >
         <motion.button 
@@ -264,13 +264,30 @@ export default function HistoryPage() {
           <span className="font-medium text-sm">Back</span>
         </motion.button>
       </motion.div>
+
+      {/* Back button - mobile only */}
+      <motion.div 
+        className="fixed bottom-6 left-6 z-50 sm:hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.3 }}
+      >
+        <motion.button 
+          className="group flex items-center justify-center p-3 rounded-full bg-gray-800 text-white
+                   shadow-lg border border-amber-500/30 hover:bg-gray-700 transition-all duration-300 cursor-pointer"
+          onClick={() => navigate(-1)}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowLeft size={20} className="text-amber-500" />
+        </motion.button>
+      </motion.div>
       
       {/* Header with animation */}
       <motion.div 
         className="text-center mb-12 mt-4"
         variants={itemVariants}
       >
-        <h1 className="text-3xl md:text-5xl font-bold bg-clip-text text-white">
+        <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-white">
           OUR HISTORY
         </h1>
         <div className="mt-2 w-32 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto rounded-full" />

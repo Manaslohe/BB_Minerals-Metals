@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Send, User, Mail, MessageCircle, ArrowLeft } from 'lucide-react';
+import { Send, User, Mail, MessageCircle, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Inquiry = () => {
+  const navigate = useNavigate(); // Added for navigation
+
   // Updated animation variants to match other components
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -72,17 +75,40 @@ const Inquiry = () => {
       animate="visible"
       className="min-h-screen relative bg-gray-100 overflow-hidden"
     >
-      {/* Back Button */}
-      <motion.button
-        onClick={() => window.history.back()}
+      {/* Back button - desktop */}
+      <motion.div 
+        className="p-4 sm:p-6 hidden sm:block relative z-30"
         variants={itemVariants}
-        whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
-        whileTap={{ scale: 0.97 }}
-        className="fixed top-6 left-6 z-50 flex items-center gap-2 px-4 py-2.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white transition-all duration-300 hover:shadow-lg group"
       >
-        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform duration-300" />
-        <span className="text-sm font-medium hidden sm:inline">Back</span>
-      </motion.button>
+        <motion.button 
+          className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
+                    shadow-lg hover:shadow-amber-500/20 transition-all duration-300
+                    hover:scale-105 active:scale-95 cursor-pointer"
+          onClick={() => navigate(-1)}
+          whileHover={{ x: -3 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <ArrowLeft size={18} className="text-amber-500 group-hover:animate-pulse" />
+          <span className="font-medium text-sm">Back</span>
+        </motion.button>
+      </motion.div>
+
+      {/* Back button - mobile only */}
+      <motion.div 
+        className="fixed bottom-6 left-6 z-50 sm:hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.3 }}
+      >
+        <motion.button 
+          className="group flex items-center justify-center p-3 rounded-full bg-gray-800 text-white
+                   shadow-lg border border-amber-500/30 hover:bg-gray-700 transition-all duration-300 cursor-pointer"
+          onClick={() => navigate(-1)}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowLeft size={20} className="text-amber-500" />
+        </motion.button>
+      </motion.div>
 
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
@@ -104,15 +130,15 @@ const Inquiry = () => {
           >
             <motion.div
               variants={titleVariants}
-              className="relative z-10"
+              className="relative z-10 text-center sm:text-left"
             >
               <div className="absolute -left-4 -top-6 w-24 h-24 bg-white/10 rounded-full blur-2xl"></div>
               <motion.h2 
                 whileHover="hover"
                 variants={hoverTextVariants}
-                className="text-6xl lg:text-8xl font-extrabold mb-4 tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent cursor-default"
+                className="text-5xl lg:text-8xl font-extrabold mb-4 tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent cursor-default"
               >
-                Have <br/> Questions?
+                Have Questions?
               </motion.h2>
               <div className="text-5xl lg:text-7xl font-bold">
                 We Have
@@ -120,9 +146,9 @@ const Inquiry = () => {
                   variants={answerVariants}
                   animate="visible"
                   whileHover={{ scale: 1.05 }}
-                  className="relative inline-block ml-3 text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] cursor-default"
+                  className="relative inline-block ml-3 text-white drop-shadow-[0_2px_10px_rgba(255,255,255,0.3)] cursor-default text-7xl lg:text-7xl"
                 >
-                  Answers
+                  Answers!
                   <motion.div 
                     className="absolute -bottom-2 left-0 h-2 bg-white shadow-[0_0_10px_rgba(255,255,255,0.7)] rounded-full"
                     initial={{ width: 0 }}
@@ -135,24 +161,11 @@ const Inquiry = () => {
             
             <motion.p 
               variants={itemVariants}
-              className="text-xl lg:text-2xl mt-12 text-white/90 max-w-xl leading-relaxed font-light"
+              className="text-xl lg:text-2xl mt-8 text-white/90 max-w-xl leading-relaxed font-light mx-auto sm:mx-0 text-center sm:text-left"
             >
               Reach out to us with any questions or inquiries. 
               Our team is ready to provide the information you need.
             </motion.p>
-            
-            <motion.div
-              variants={itemVariants} 
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.15)" }}
-              className="mt-8 inline-flex items-center px-6 py-3 space-x-4 bg-white/10 rounded-full backdrop-blur-sm cursor-pointer transition-all duration-300 group hover:shadow-lg"
-            >
-              <motion.div 
-                variants={pulseVariants}
-                animate="visible"
-                className="w-3 h-3 bg-green-400 rounded-full group-hover:bg-green-300"
-              />
-              <span className="text-white/90 font-medium tracking-wide group-hover:text-white">24hr Response Time</span>
-            </motion.div>
           </motion.div>
           
           {/* Right Section - Form */}

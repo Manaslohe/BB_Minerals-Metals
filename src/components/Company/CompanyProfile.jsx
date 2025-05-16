@@ -29,17 +29,25 @@ const CompanyProfile = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-[100vh] bg-gray-900 text-white">
+    <div className="min-h-[100vh] bg-gray-900 text-white relative">
+      {/* Background image with low opacity */}
+      <div className="absolute inset-0 z-0">
+        <div 
+          className="absolute inset-0 bg-[url('/profile.jpg')] bg-cover bg-center opacity-45 mix-blend-overlay"
+          style={{ backgroundPosition: "center 30%" }}
+        ></div>
+        <div className="absolute inset-0 bg-gray-900/80"></div>
+      </div>
+      
+      {/* Back button - desktop */}
       <motion.div 
-        className="container mx-auto px-6 py-16 h-full"
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
+        className="p-4 sm:p-6 hidden sm:block relative z-30"
+        variants={itemVariants}
       >
-        {/* Back button with enhanced hover effect */}
-        <motion.button
-          variants={itemVariants}
-          className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white shadow-lg hover:shadow-amber-500/20 transition-all duration-300 hover:scale-105 active:scale-95 mb-12 z-30 relative cursor-pointer"
+        <motion.button 
+          className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
+                    shadow-lg hover:shadow-amber-500/20 transition-all duration-300
+                    hover:scale-105 active:scale-95 cursor-pointer"
           onClick={() => navigate(-1)}
           whileHover={{ x: -3 }}
           whileTap={{ scale: 0.95 }}
@@ -47,7 +55,31 @@ const CompanyProfile = () => {
           <ArrowLeft size={18} className="text-amber-500 group-hover:animate-pulse" />
           <span className="font-medium text-sm">Back</span>
         </motion.button>
+      </motion.div>
 
+      {/* Back button - mobile only */}
+      <motion.div 
+        className="fixed bottom-6 left-6 z-50 sm:hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.3 }}
+      >
+        <motion.button 
+          className="group flex items-center justify-center p-3 rounded-full bg-gray-800 text-white
+                   shadow-lg border border-amber-500/30 hover:bg-gray-700 transition-all duration-300 cursor-pointer"
+          onClick={() => navigate(-1)}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ArrowLeft size={20} className="text-amber-500" />
+        </motion.button>
+      </motion.div>
+      
+      <motion.div 
+        className="container mx-auto px-6 py-6 sm:py-16 h-full relative z-10"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+      >
         {/* Main content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 min-h-[60vh]">
           {/* Left column - Company information with interactive elements */}
@@ -71,7 +103,7 @@ const CompanyProfile = () => {
               variants={itemVariants}
             >
               <motion.p 
-                className="bg-gradient-to-b from-gray-800 to-gray-800/80 p-5 rounded-lg shadow-xl hover:shadow-2xl hover:shadow-amber-900/10 transition-all border border-gray-700/50 hover:border-amber-600/30 cursor-default"
+                className="bg-gradient-to-br from-gray-800/40 to-gray-900/60 backdrop-blur-md p-5 rounded-lg shadow-xl hover:shadow-2xl hover:shadow-amber-900/10 transition-all border border-gray-700/30 hover:border-amber-600/40 cursor-default"
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
@@ -80,7 +112,7 @@ const CompanyProfile = () => {
               </motion.p>
               
               <motion.p 
-                className="bg-gradient-to-b from-gray-800 to-gray-800/80 p-5 rounded-lg shadow-xl hover:shadow-2xl hover:shadow-amber-900/10 transition-all border border-gray-700/50 hover:border-amber-600/30 cursor-default"
+                className="bg-gradient-to-br from-gray-800/40 to-gray-900/60 backdrop-blur-md p-5 rounded-lg shadow-xl hover:shadow-2xl hover:shadow-amber-900/10 transition-all border border-gray-700/30 hover:border-amber-600/40 cursor-default"
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
@@ -90,7 +122,7 @@ const CompanyProfile = () => {
               </motion.p>
               
               <motion.p 
-                className="bg-gradient-to-b from-gray-800 to-gray-800/80 p-5 rounded-lg shadow-xl hover:shadow-2xl hover:shadow-amber-900/10 transition-all border border-gray-700/50 hover:border-amber-600/30 cursor-default"
+                className="bg-gradient-to-br from-gray-800/40 to-gray-900/60 backdrop-blur-md p-5 rounded-lg shadow-xl hover:shadow-2xl hover:shadow-amber-900/10 transition-all border border-gray-700/30 hover:border-amber-600/40 cursor-default"
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
@@ -107,12 +139,13 @@ const CompanyProfile = () => {
             variants={itemVariants}
           >
             <motion.div 
-              className="bg-gradient-to-b from-gray-800 to-gray-800/80 rounded-2xl md:p-14 p-8 w-full h-full flex items-center justify-center shadow-xl border border-gray-700/50 hover:border-amber-600/30 transition-all duration-500"
+              className="bg-gray-800/60 backdrop-blur-md rounded-2xl md:p-14 p-8 w-full h-full flex items-center justify-center shadow-xl border border-gray-700/30 hover:border-amber-600/40 transition-all duration-500"
               initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
               animate={{ opacity: 1, scale: 1, rotateY: 0 }}
               transition={{ delay: 0.4, duration: 0.8, type: "spring" }}
               whileHover={{ 
                 scale: 1.03,
+                boxShadow: "0 20px 30px -10px rgba(0, 0, 0, 0.3), 0 0 10px rgba(245, 158, 11, 0.1)",
                 transition: { duration: 0.4, type: "spring", stiffness: 200 }
               }}
             >
@@ -127,9 +160,10 @@ const CompanyProfile = () => {
                   className="text-3xl sm:text-4xl md:text-7xl font-bold text-white leading-tight text-center md:text-left"
                   whileHover={{ scale: 1.02 }}
                 >
-                  MINERALS <br/> THAT MOVE <br/> THE{" "}
+                  MINERALS THAT <br/>  
+                  <span className="text-5xl sm:text-4xl md:text-7xl">MOVE THE</span> <br/>{" "}
                   <motion.span 
-                    className="text-amber-500 inline-block"
+                    className="text-amber-500 inline-block text-7xl sm:text-5xl md:text-8xl"
                     animate={{ 
                       textShadow: ["0px 0px 0px rgba(255,255,255,0)", "0px 0px 10px rgba(255,255,255,0.3)", "0px 0px 0px rgba(255,255,255,0)"]
                     }}
