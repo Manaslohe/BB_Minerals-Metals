@@ -7,72 +7,41 @@ import * as THREE from "three";
 
 // Loading Animation Component
 const Loader = () => {
-  const { progress } = useProgress();
+  const { progress, active } = useProgress();
+  
   return (
     <motion.div
-      className="absolute inset-0 flex items-center justify-center bg-gray-900/90"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      className="absolute inset-0 flex items-center justify-center bg-gray-900/90 z-30"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: active ? 1 : 0 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.6, ease: "easeInOut" }}
+      style={{ pointerEvents: active ? "auto" : "none" }}
     >
       <div className="text-center">
-        <div className="relative w-48 h-3 bg-gray-800 rounded-full overflow-hidden">
+        <h3 className="text-xl font-bold text-white mb-4">Loading 3D Model</h3>
+        <div className="relative w-64 h-4 bg-gray-800 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-amber-500"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            initial={{ width: '0%' }}
+            animate={{ width: `${Math.max(5, progress)}%` }}
+            transition={{ duration: 0.3 }}
           />
         </div>
         <p className="mt-3 text-white text-sm font-medium">
-          Loading Model: {Math.round(progress)}%
+          {Math.round(progress)}% Complete
+        </p>
+        <p className="mt-2 text-gray-300 text-xs">
+          Please wait while we prepare your 3D view
         </p>
       </div>
     </motion.div>
   );
 };
 
-// Floor Component
-const Floor = () => {
-  // Create a simple grid texture programmatically
-  const texture = new THREE.CanvasTexture(
-    (() => {
-      const canvas = document.createElement("canvas");
-      canvas.width = 512;
-      canvas.height = 512;
-      const context = canvas.getContext("2d");
-      context.fillStyle = "#ffffff"; // White background
-      context.fillRect(0, 0, 512, 512);
-      context.strokeStyle = "#f0f0f0"; // Light gray grid lines
-      context.lineWidth = 1;
-      for (let i = 0; i <= 512; i += 32) {
-        context.beginPath();
-        context.moveTo(i, 0);
-        context.lineTo(i, 512);
-        context.stroke();
-        context.beginPath();
-        context.moveTo(0, i);
-        context.lineTo(512, i);
-        context.stroke();
-      }
-      return canvas;
-    })()
-  );
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(10, 10);
-
-  return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
-      <planeGeometry args={[50, 50]} />
-      <meshStandardMaterial map={texture} />
-    </mesh>
-  );
-};
-
 // 3D Model Component
 const Model = ({ modelPath }) => {
-  const { scene } = useGLTF(modelPath);
+  const { scene } = useGLTF(modelPath, true); // Priority loading
 
   // Define scales for different models
   const getModelScale = (path) => {
@@ -87,6 +56,9 @@ const Model = ({ modelPath }) => {
 
   useEffect(() => {
     if (scene) {
+      // Ensure model is visible
+      scene.visible = true;
+      
       scene.traverse((child) => {
         if (child.isMesh && child.material) {
           child.material.metalness = 0.9;
@@ -97,20 +69,42 @@ const Model = ({ modelPath }) => {
           child.material.needsUpdate = true;
           child.castShadow = true;
           child.receiveShadow = true;
+          child.frustumCulled = false; // Prevent disappearing due to frustum culling
           if (child.material.color) {
             child.material.color.convertSRGBToLinear();
           }
         }
       });
     }
+    
+    // Return cleanup function
+    return () => {
+      // Proper cleanup to prevent memory leaks
+      if (scene) {
+        scene.traverse((child) => {
+          if (child.isMesh) {
+            if (child.material) {
+              child.material.dispose();
+            }
+            if (child.geometry) {
+              child.geometry.dispose();
+            }
+          }
+        });
+      }
+    };
   }, [scene]);
 
-  // Subtle auto-rotation
+  // Subtle auto-rotation - keep rendering by returning something
   useFrame((state) => {
-    if (scene) scene.rotation.y += 0.0008;
+    if (scene) {
+      scene.rotation.y += 0.0008;
+      // Force continuous rendering
+      state.invalidate();
+    }
   });
 
-  return <primitive object={scene} scale={modelScale} position={[0, -2, 0]} />;
+  return <primitive object={scene} scale={modelScale} position={[0, -2, 0]} visible frustumCulled={false} />;
 };
 
 // 3D Viewer Modal Component
@@ -184,58 +178,65 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
 
         {/* 3D Canvas */}
         <div className="h-full w-full relative">
-          <Canvas
-            shadows
-            camera={{ 
-              position: initialCameraPosition, 
-              fov: 25, // Even smaller FOV for better perspective when maximally zoomed out
-              far: 2000 // Further increased far clipping plane
-            }}
-            gl={{
-              preserveDrawingBuffer: true,
-              antialias: true,
-              outputEncoding: THREE.sRGBEncoding,
-              powerPreference: "high-performance",
-            }}
-            performance={{ min: 0.5 }}
-          >
-            <color attach="background" args={["#d1d5db"]} />
-            {/* Advanced lighting */}
-            <ambientLight intensity={0.4} />
-            <directionalLight
-              position={[12, 15, 12]}
-              intensity={1.5}
-              castShadow
-              shadow-mapSize-width={1024}
-              shadow-mapSize-height={1024}
-              shadow-bias={-0.0001}
-            />
-            <directionalLight position={[-8, 10, -8]} intensity={0.9} />
-            <Environment preset="studio" environmentIntensity={1.8} />
-
-            <Suspense fallback={null}>
-              <Model modelPath={modelPath} />
-              <Floor />
-            </Suspense>
-            <OrbitControls
-              autoRotate={false}
-              enableZoom={true}
-              enablePan={false}
-              minDistance={5}
-              maxDistance={70}
-              zoomSpeed={0.8}
-              dampingFactor={0.15}
-              target={[0, -2, 0]} // Target the position of the model
-              initialPosition={initialCameraPosition} // Ensure the starting position is used
-              touches={{
-                ONE: THREE.TOUCH.ROTATE,
-                TWO: THREE.TOUCH.DOLLY_PAN,
-              }}
-            />
-          </Canvas>
-          {/* Loader as DOM overlay */}
           <Suspense fallback={<Loader />}>
-            <div />
+            <Canvas
+              shadows
+              gl={{
+                preserveDrawingBuffer: true,
+                antialias: true,
+                outputEncoding: THREE.sRGBEncoding,
+                powerPreference: "high-performance",
+              }}
+              dpr={[1, 1.5]}
+              camera={{ 
+                position: initialCameraPosition, 
+                fov: 25,
+                far: 2000
+              }}
+              performance={{ min: 0.5 }}
+              frameloop="always" // Changed from demand to always
+              onCreated={({ gl, scene }) => {
+                // Optimize renderer
+                gl.setClearColor(new THREE.Color("#ffffff"), 1);
+                gl.physicallyCorrectLights = true;
+                // Use tone mapping for better color rendering
+                gl.toneMapping = THREE.ACESFilmicToneMapping;
+                gl.toneMappingExposure = 1;
+                
+                // Make sure the scene is set to be rendered continuously
+                scene.matrixWorldAutoUpdate = true;
+              }}
+            >
+              <color attach="background" args={["#ffffff"]} />
+              {/* Advanced lighting with optimization */}
+              <ambientLight intensity={0.4} />
+              <directionalLight
+                position={[12, 15, 12]}
+                intensity={1.5}
+                castShadow
+                shadow-mapSize={[1024, 1024]}
+                shadow-bias={-0.0001}
+              />
+              <directionalLight position={[-8, 10, -8]} intensity={0.9} />
+              <Environment preset="studio" environmentIntensity={1.8} />
+
+              <Model modelPath={modelPath} />
+              <OrbitControls
+                autoRotate={false}
+                enableZoom={true}
+                enablePan={false}
+                minDistance={2}
+                maxDistance={70}
+                zoomSpeed={0.8}
+                dampingFactor={0.15}
+                target={[0, -2, 0]}
+                makeDefault
+                touches={{
+                  ONE: THREE.TOUCH.ROTATE,
+                  TWO: THREE.TOUCH.DOLLY_PAN,
+                }}
+              />
+            </Canvas>
           </Suspense>
         </div>
       </div>
