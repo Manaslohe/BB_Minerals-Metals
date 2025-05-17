@@ -13,6 +13,7 @@ import DirectorMessage from './components/Company/Directorm'
 import Manufacturing from './components/Company/Manufacturing'
 import EcoFriendly from './components/Company/eco'
 import Blog from './components/Company/Blog'
+import PrivacyPolicy from './components/Legal/PrivacyPolicy'
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/company/manufacturing-unit" element={<Manufacturing />} />
         <Route path="/eco-friendly-sustainability" element={<EcoFriendly />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       </Routes>
     </Router>
   )

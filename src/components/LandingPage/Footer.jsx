@@ -406,7 +406,10 @@ const Footer = () => {
             variants={itemVariants}
             className="relative text-center text-gray-400 text-xs sm:text-sm pt-10 sm:pt-12 md:pt-14 font-light tracking-wide"
           >
-            © {new Date().getFullYear()} BB Minerals & Metals. All rights reserved.
+            © {new Date().getFullYear()} Website by FrameX | 
+            <Link to="/privacy-policy" className="ml-2 text-amber-500 hover:text-amber-400 transition-colors hover:underline">
+              Privacy Policy
+            </Link>
           </motion.p>
         </div>
       </div>
