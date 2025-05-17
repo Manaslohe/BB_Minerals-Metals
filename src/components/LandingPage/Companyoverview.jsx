@@ -10,6 +10,9 @@ const CompanyOverview = () => {
   const [isVisible, setIsVisible] = useState(false); // Add local isVisible state
   const [hasAnimated, setHasAnimated] = useState(false); // Add local hasAnimated state
   const sectionRef = useRef(null);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const slidesContainerRef = useRef(null);
 
   const slides = [
     {
@@ -129,6 +132,37 @@ const CompanyOverview = () => {
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
+  // Handle touch events for swipe functionality
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isSignificantSwipe = Math.abs(distance) > 50; // Min distance for swipe
+
+    if (isSignificantSwipe) {
+      if (distance > 0) {
+        // Swipe left, go to next slide
+        handleSlideChange('next');
+      } else {
+        // Swipe right, go to previous slide
+        handleSlideChange('prev');
+      }
+    }
+    
+    // Reset values
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
+
   return (
     <section 
       ref={sectionRef}
@@ -161,7 +195,13 @@ const CompanyOverview = () => {
         <div className={`grid grid-cols-1 lg:grid-cols-10 gap-4 sm:gap-6 lg:gap-12 transform transition-all duration-500 ease-out ${
           isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
         }`} style={{ transitionDelay: hasAnimated ? '150ms' : '200ms' }}>
-          <div className="lg:col-span-4 relative w-full h-44 sm:h-56 md:h-72 lg:h-[450px] flex items-center justify-center overflow-hidden rounded-xl">
+          <div 
+            ref={slidesContainerRef}
+            className="lg:col-span-4 relative w-full h-44 sm:h-56 md:h-72 lg:h-[450px] flex items-center justify-center overflow-hidden rounded-xl"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             {slides.map((slide, index) => (
               <div
                 key={index}
