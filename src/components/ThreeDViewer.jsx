@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, Suspense, useState, useRef } from "react";
+import React, { useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Environment, useProgress } from "@react-three/drei";
@@ -8,107 +8,6 @@ import * as THREE from "three";
 // Loading Animation Component
 const Loader = () => {
   const { progress, active } = useProgress();
-  const [smoothProgress, setSmoothProgress] = useState(0);
-  const lastProgressRef = useRef(0);
-  const timerRef = useRef(null);
-  const progressStepsRef = useRef([5, 15, 30, 45, 60, 75, 90]);
-  
-  // Handle smooth progress animation
-  useEffect(() => {
-    // Start fresh when loading begins
-    if (active && smoothProgress === 0) {
-      setSmoothProgress(3);
-    }
-    
-    // If loading is complete but our animation isn't, gradually complete it
-    if (!active && smoothProgress < 100) {
-      const finalizeInterval = setInterval(() => {
-        setSmoothProgress(prev => {
-          const nextVal = prev + 1;
-          if (nextVal >= 100) {
-            clearInterval(finalizeInterval);
-            return 100;
-          }
-          return nextVal;
-        });
-      }, 20);
-      
-      return () => clearInterval(finalizeInterval);
-    }
-    
-    if (!active) return;
-    
-    // Clear previous timer
-    if (timerRef.current) clearInterval(timerRef.current);
-    
-    // Detect real progress and adapt
-    if (progress > lastProgressRef.current) {
-      // Keep track of actual loading progress
-      lastProgressRef.current = progress;
-      
-      // Determine next target based on real progress
-      let targetProgress;
-      
-      if (progress >= 100) {
-        targetProgress = 99; // We'll go to 100% after active becomes false
-      } else {
-        // Find appropriate intermediate target based on progress
-        targetProgress = progressStepsRef.current.find(step => step > smoothProgress && step <= progress) || 
-                         Math.min(progress, 99);
-      }
-      
-      // Make sure we don't go backwards
-      targetProgress = Math.max(targetProgress, smoothProgress);
-      
-      // Animate smoothly to the target
-      let startValue = smoothProgress;
-      const totalChange = targetProgress - startValue;
-      const duration = 1000; // 1 second for this transition
-      const startTime = Date.now();
-      
-      timerRef.current = setInterval(() => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // Easing function for smoother animation
-        const easedProgress = 1 - Math.pow(1 - progress, 2);
-        const newValue = startValue + totalChange * easedProgress;
-        
-        if (progress >= 1) {
-          clearInterval(timerRef.current);
-          setSmoothProgress(targetProgress);
-          
-          // If no progress for a while, add small increments
-          if (targetProgress < 99) {
-            const trickleInterval = setInterval(() => {
-              setSmoothProgress(prev => {
-                const increment = (99 - prev) / 10; // Smaller increments as we approach 99
-                return Math.min(prev + Math.max(0.2, increment), 99);
-              });
-            }, 800);
-            
-            timerRef.current = trickleInterval;
-          }
-        } else {
-          setSmoothProgress(newValue);
-        }
-      }, 16); // ~60fps update
-    }
-    
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [progress, active, smoothProgress]);
-
-  // Visual elements to enhance loading feedback
-  const loadingPulse = {
-    scale: [1, 1.02, 1],
-    opacity: [0.7, 1, 0.7],
-    transition: {
-      repeat: Infinity,
-      duration: 1.5
-    }
-  };
   
   return (
     <motion.div
@@ -120,32 +19,21 @@ const Loader = () => {
       style={{ pointerEvents: active ? "auto" : "none" }}
     >
       <div className="text-center">
-        <motion.h3 
-          className="text-xl font-bold text-white mb-4"
-          animate={loadingPulse}
-        >
-          Loading 3D Model
-        </motion.h3>
+        <h3 className="text-xl font-bold text-white mb-4">Loading 3D Model</h3>
         <div className="relative w-64 h-4 bg-gray-800 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-amber-500"
             initial={{ width: '0%' }}
-            animate={{ width: `${Math.max(3, smoothProgress)}%` }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            animate={{ width: `${Math.max(5, progress)}%` }}
+            transition={{ duration: 0.3 }}
           />
         </div>
         <p className="mt-3 text-white text-sm font-medium">
-          {Math.round(smoothProgress)}% Complete
+          {Math.round(progress)}% Complete
         </p>
-        <div className="mt-2 text-gray-300 text-xs flex justify-center items-center gap-2">
-          <span>Please wait while we prepare your 3D view</span>
-          <motion.span 
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            ⋯
-          </motion.span>
-        </div>
+        <p className="mt-2 text-gray-300 text-xs">
+          Please wait while we prepare your 3D view
+        </p>
       </div>
     </motion.div>
   );
