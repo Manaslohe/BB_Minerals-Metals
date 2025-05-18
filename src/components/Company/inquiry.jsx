@@ -11,11 +11,14 @@ const Inquiry = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const url = "https://script.google.com/macros/s/AKfycbwCFKCTqyzmvwu_67tPJCdaQd7e4zMtUm2E1UbO0JV3QmmDuKqUhjf2yYCH9Ab9pqrU/exec";
+    const url = "https://script.google.com/macros/s/AKfycbzs4UUCPpoRF_LhKvj791I3fPDP_2PF2P1LuQmjQH0zw_0Ux6HEG3Qr4dpUm34pSsrE/exec";
 
     const userData = {
       Name: e.target.name.value,
       Email: e.target.email.value,
+      Product: e.target.product.value,
+      Quantity: e.target.quantity.value,
+      DeliveryTimeline: e.target.deliveryTimeline.value,
       Message: e.target.message.value,
       Timestamp: new Date().toISOString()
     };
@@ -183,12 +186,12 @@ const Inquiry = () => {
         </div>
 
         {/* Content Container */}
-        <div className="relative z-10 container mx-auto px-4 py-16 lg:py-24">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
+        <div className="relative z-10 container mx-auto px-4 pt-4">
+          <div className="flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-16">
             {/* Left Section - Text */}
             <motion.div
               variants={itemVariants}
-              className="lg:w-1/2 text-white"
+              className="lg:w-1/2 text-white pt-12"
             >
               <motion.div
                 variants={titleVariants}
@@ -230,63 +233,121 @@ const Inquiry = () => {
               </motion.p>
             </motion.div>
 
-            {/* Right Section - Form */}
+            {/* Right Section - Form - Starting from same line as back button */}
             <motion.div
               variants={itemVariants}
-              className="lg:w-1/2 w-full"
+              className="lg:w-1/2 w-full lg:mt-0 mt-8"
             >
               <motion.div
                 variants={itemVariants}
-                className="relative backdrop-blur-xl bg-gradient-to-br from-white/20 to-white/5 rounded-3xl p-8 lg:p-10 border border-white/20 shadow-[0_0_60px_-15px_rgba(0,0,0,0.3)]"
+                className="relative backdrop-blur-xl bg-gradient-to-br from-white/20 to-white/5 rounded-3xl p-6 lg:p-8 border border-white/20 shadow-[0_0_60px_-15px_rgba(0,0,0,0.3)]"
                 whileHover={{ boxShadow: "0 0 80px -15px rgba(0,0,0,0.4)" }}
                 transition={{ duration: 0.3 }}
               >
                 <div className="absolute -top-10 -right-10 w-40 h-40 bg-amber-500/30 rounded-full blur-3xl"></div>
                 <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl"></div>
 
-                <h3 className="text-3xl font-bold text-white mb-8 text-center">
+                <h3 className="text-3xl font-bold text-white mb-6 text-center">
                   Send Us a Message
                 </h3>
 
-                <form onSubmit={handleSubmit} className="space-y-6 relative">
+                <form onSubmit={handleSubmit} className="space-y-5 relative">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <motion.div
+                      variants={itemVariants}
+                      className="relative group"
+                    >
+                      <User size={20} className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white transition-colors duration-300 group-hover:text-amber-200" />
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Your Name"
+                        className="w-full px-6 py-4 pl-14 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-transparent transition-all duration-300 text-lg shadow-inner shadow-black/5"
+                        required
+                      />
+                    </motion.div>
+
+                    <motion.div
+                      variants={itemVariants}
+                      className="relative group"
+                    >
+                      <Mail size={20} className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white transition-colors duration-300 group-hover:text-amber-200" />
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Email Address"
+                        className="w-full px-6 py-4 pl-14 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-transparent transition-all duration-300 text-lg shadow-inner shadow-black/5"
+                        required
+                      />
+                    </motion.div>
+                  </div>
+
                   <motion.div
                     variants={itemVariants}
                     className="relative group"
                   >
-                    <User size={20} className="absolute left-6 top-1/2 transform -translate-y-1/2 text-white transition-colors duration-300 group-hover:text-amber-200" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white transition-colors duration-300 group-hover:text-amber-200">
+                      <path d="M21 8H10a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a2 2 0 0 0-2-2Z"></path>
+                      <path d="M8 2h8"></path>
+                      <path d="M9 15v1a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-1"></path>
+                    </svg>
                     <input
                       type="text"
-                      name="name"
-                      placeholder="Your Name"
-                      className="w-full px-6 py-4 pl-14 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-transparent transition-all duration-300 text-lg"
+                      name="product"
+                      placeholder="Product Required"
+                      className="w-full px-6 py-4 pl-14 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-transparent transition-all duration-300 text-lg shadow-inner shadow-black/5"
                       required
                     />
                   </motion.div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <motion.div
+                      variants={itemVariants}
+                      className="relative group"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white transition-colors duration-300 group-hover:text-amber-200">
+                        <rect width="16" height="16" x="4" y="4"></rect>
+                        <path d="M4 8h16"></path>
+                        <path d="M12 4v16"></path>
+                      </svg>
+                      <input
+                        type="number"
+                        name="quantity"
+                        placeholder="Quantity"
+                        min="1"
+                        className="w-full px-6 py-4 pl-14 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-transparent transition-all duration-300 text-lg shadow-inner shadow-black/5"
+                        required
+                      />
+                    </motion.div>
+
+                    <motion.div
+                      variants={itemVariants}
+                      className="relative group"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-5 top-1/2 transform -translate-y-1/2 text-white transition-colors duration-300 group-hover:text-amber-200">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                      <input
+                        type="text"
+                        name="deliveryTimeline"
+                        placeholder="Delivery Timeline"
+                        className="w-full px-6 py-4 pl-14 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-transparent transition-all duration-300 text-lg shadow-inner shadow-black/5"
+                        required
+                      />
+                    </motion.div>
+                  </div>
 
                   <motion.div
                     variants={itemVariants}
                     className="relative group"
                   >
-                    <Mail size={20} className="absolute left-6 top-1/2 transform -translate-y-1/2 text-white transition-colors duration-300 group-hover:text-amber-200" />
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="Email Address"
-                      className="w-full px-6 py-4 pl-14 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-transparent transition-all duration-300 text-lg"
-                      required
-                    />
-                  </motion.div>
-
-                  <motion.div
-                    variants={itemVariants}
-                    className="relative group"
-                  >
-                    <MessageCircle size={20} className="absolute left-6 top-6 text-white transition-colors duration-300 group-hover:text-amber-200" />
+                    <MessageCircle size={20} className="absolute left-5 top-5 text-white transition-colors duration-300 group-hover:text-amber-200" />
                     <textarea
                       name="message"
                       placeholder="Your Message"
-                      rows="4"
-                      className="w-full px-6 py-4 pl-14 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-transparent transition-all duration-300 resize-none text-lg"
+                      rows="3"
+                      className="w-full px-6 py-4 pl-14 rounded-xl bg-white/10 border border-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-amber-400/60 focus:border-transparent transition-all duration-300 resize-none text-lg shadow-inner shadow-black/5"
                       required
                     ></textarea>
                   </motion.div>
@@ -294,12 +355,12 @@ const Inquiry = () => {
                   <motion.button
                     type="submit"
                     disabled={isSubmitting}
-                    whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                    whileHover={{ scale: isSubmitting ? 1 : 1.02, boxShadow: "0 0 20px rgba(245, 158, 11, 0.3)" }}
                     whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                    className={`w-full font-bold py-5 px-6 rounded-xl flex items-center justify-center space-x-3 transition-all duration-300 shadow-lg ${
+                    className={`w-full font-bold py-4 px-6 rounded-xl flex items-center justify-center space-x-3 transition-all duration-300 shadow-lg ${
                       isSubmitting
                         ? 'bg-white/70 text-amber-500/70 cursor-not-allowed'
-                        : 'bg-white text-amber-500 hover:bg-white/90'
+                        : 'bg-gradient-to-r from-amber-400 to-amber-500 text-white hover:from-amber-500 hover:to-amber-600'
                     }`}
                   >
                     {isSubmitting ? (
@@ -314,7 +375,7 @@ const Inquiry = () => {
                       </>
                     ) : (
                       <>
-                        <span>Send Message</span>
+                        <span className="text-lg">Send Message</span>
                         <Send size={20} />
                       </>
                     )}
