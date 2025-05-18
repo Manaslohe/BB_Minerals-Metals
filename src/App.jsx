@@ -27,7 +27,7 @@ function App() {
         <Route path="/company/vision-mission" element={<VisionMissionPage />} />
         <Route path="/company/why-choose-us" element={<WhyChooseUs />} />
         <Route path="/company/profile" element={<CompanyProfilePage />} />
-        <Route path="/our-history" element={<HistoryPage />} />
+        <Route path="/company/history" element={<HistoryPage />} />
         <Route path="/company/promoter-message" element={<DirectorMessage />} />
         <Route path="/company/manufacturing-unit" element={<Manufacturing />} />
         <Route path="/eco-friendly-sustainability" element={<EcoFriendly />} />

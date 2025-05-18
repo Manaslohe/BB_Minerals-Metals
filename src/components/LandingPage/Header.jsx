@@ -250,6 +250,7 @@ function Header() {
 
   const companySubmenu = [
     { name: "Company Profile", path: "/company/profile" },
+    { name: "Our History", path: "/company/history" },
     { name: "Excellence", path: "/company/excellence" },
     { name: "Promoter Message", path: "/company/promoter-message" },
     { name: "Manufacturing Unit", path: "/company/manufacturing-unit" },
