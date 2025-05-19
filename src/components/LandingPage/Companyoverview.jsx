@@ -28,13 +28,13 @@ const CompanyOverview = () => {
       image: "/e1.png",
       title: "OUR SPECIALIZATION",
       description: "We manufacture and supply high-quality:\n• Ferro Molybdenum\n• Low Carbon Ferro Chrome\nWith advanced metallurgical expertise, we ensure superior product quality that meets the stringent demands of the global market.",
-      icon: <img src="/icons/our_speciali.png" alt="Our Specialization" className="w-12 h-12 object-contain" />
+      icon: <img src="/icons/our_speciali.png" alt="Our Specialization" className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain" />
     },
     {
       image: "/e3.png",
       title: "PRODUCTION CAPACITY",
       description: "Our state-of-the-art manufacturing facility has a production capacity of 5,000 tonnes annually, enabling us to ensure consistent supply and meet bulk industrial demands efficiently.",
-      icon: <img src="/icons/manufacturing_facility.png" alt="Manufacturing Facility" className="w-12 h-12 object-contain" />
+      icon: <img src="/icons/manufacturing_facility.png" alt="Manufacturing Facility" className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain" />
     }
   ];
 
@@ -100,17 +100,15 @@ const CompanyOverview = () => {
     setIsChanging(true);
     setSlideDirection(direction);
 
-    setTimeout(() => {
-      if (direction === 'next') {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
-      } else {
-        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-      }
+    if (direction === 'next') {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    } else {
+      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    }
 
-      setTimeout(() => {
-        setIsChanging(false);
-      }, 500);
-    }, 50);
+    setTimeout(() => {
+      setIsChanging(false);
+    }, 300);
   };
 
   const handleSlideChange = (direction) => {
@@ -188,35 +186,38 @@ const CompanyOverview = () => {
 
   const getSlideStyle = (index) => {
     const baseStyles = {
-      transition: isDragging ? 'none' : 'all 400ms cubic-bezier(0.2, 0.0, 0.2, 1)',
+      transition: isDragging ? 'none' : 'all 300ms ease-out',
+      opacity: currentSlide === index ? 1 : 0
     };
 
     if (!isDragging || touchDelta === 0) {
       if (currentSlide === index) {
         return { ...baseStyles, transform: 'translateX(0)' };
       } else if (index === (currentSlide + 1) % slides.length) {
-        return { ...baseStyles, transform: 'translateX(100%)' };
+        return { ...baseStyles, transform: 'translateX(100%)', opacity: 0 };
       } else if (index === (currentSlide - 1 + slides.length) % slides.length) {
-        return { ...baseStyles, transform: 'translateX(-100%)' };
+        return { ...baseStyles, transform: 'translateX(-100%)', opacity: 0 };
       } else {
-        return { ...baseStyles, transform: 'translateX(100%)' };
+        return { ...baseStyles, transform: 'translateX(100%)', opacity: 0 };
       }
     }
     
     if (isDragging) {
+      const dragStyles = { transition: 'none', opacity: currentSlide === index ? 1 : 0 };
+      
       const containerWidth = slidesContainerRef.current?.offsetWidth || 300;
       const swipePercentage = (touchDelta / containerWidth) * 100;
       const maxSwipePercent = 100;
       const clampedSwipe = Math.max(Math.min(swipePercentage, maxSwipePercent), -maxSwipePercent);
       
       if (currentSlide === index) {
-        return { ...baseStyles, transform: `translateX(${-clampedSwipe}%)` };
+        return { ...dragStyles, transform: `translateX(${-clampedSwipe}%)`, opacity: 1 };
       } else if (index === (currentSlide + 1) % slides.length && touchDelta > 0) {
-        return { ...baseStyles, transform: `translateX(${100 - clampedSwipe}%)` };
+        return { ...dragStyles, transform: `translateX(${100 - clampedSwipe}%)`, opacity: Math.min(Math.abs(clampedSwipe) / 100, 1) };
       } else if (index === (currentSlide - 1 + slides.length) % slides.length && touchDelta < 0) {
-        return { ...baseStyles, transform: `translateX(${-100 - clampedSwipe}%)` };
+        return { ...dragStyles, transform: `translateX(${-100 - clampedSwipe}%)`, opacity: Math.min(Math.abs(clampedSwipe) / 100, 1) };
       } else {
-        return { ...baseStyles, transform: 'translateX(100%)' };
+        return { ...dragStyles, transform: 'translateX(100%)', opacity: 0 };
       }
     }
 
@@ -267,19 +268,16 @@ const CompanyOverview = () => {
               <div
                 key={index}
                 className={`absolute inset-0 ${
-                  currentSlide === index || 
-                  index === (currentSlide + 1) % slides.length || 
-                  index === (currentSlide - 1 + slides.length) % slides.length
-                    ? 'z-10' : 'z-0'
-                }`}
+                  currentSlide === index ? 'z-10' : 'z-0'
+                } transition-opacity duration-300 ease-out`}
                 style={getSlideStyle(index)}
               >
                 <div className="h-full w-full flex items-center justify-center">
-                  <div className={`relative transition-transform duration-400`}>
+                  <div className={`relative`}>
                     <img
                       src={slide.image}
                       alt={slide.title}
-                      className={`object-contain w-3/4 sm:w-4/5 lg:w-full h-full mx-auto relative z-10 transition-all duration-500 ${
+                      className={`object-contain w-3/4 sm:w-4/5 lg:w-full h-full mx-auto relative z-10 transition-all duration-300 ease-out ${
                         currentSlide === index ? 'brightness-100' : 'brightness-90'
                       }`}
                       style={{
@@ -334,10 +332,10 @@ const CompanyOverview = () => {
                   }`}
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
-                    <div className={`text-amber-500 bg-amber-500/10 p-1.5 sm:p-2 rounded-full transition-all duration-300 ${
+                    <div className={`transition-all duration-300 ${
                       currentSlide === index ? 'scale-100 rotate-0' : 'scale-90 rotate-12'
                     }`}>
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12">
+                      <div className={`${index === 0 ? 'w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12' : 'w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16'}`}>
                         {slide.icon}
                       </div>
                     </div>
