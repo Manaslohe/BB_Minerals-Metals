@@ -39,7 +39,7 @@ function PartnersSection() {
   const [ribbonWidth, setRibbonWidth] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const animationRef = useRef({
-    speed: 20, // Reduced from 40 to make animation faster
+    speed: isMobile ? 15 : 20, // Faster for mobile
     lastPosition: 0,
   });
 
@@ -67,8 +67,9 @@ function PartnersSection() {
   useEffect(() => {
     const updateWidths = () => {
       if (ribbonRef.current) {
-        // Use consistent divisor regardless of device
-        setRibbonWidth(ribbonRef.current.scrollWidth / (isMobile ? 6 : 4));
+        // Adjust width calculation for better mobile handling
+        const fullWidth = ribbonRef.current.scrollWidth;
+        setRibbonWidth(fullWidth / (isMobile ? 3 : 4));
       }
     };
     updateWidths();
@@ -204,8 +205,8 @@ function PartnersSection() {
   };
 
   const dragConstraints = {
-    left: -ribbonWidth * 2,
-    right: ribbonWidth, // Allow dragging in both directions
+    left: isMobile ? -ribbonWidth * 4 : -ribbonWidth * 2, // Extended constraints for mobile
+    right: ribbonWidth * 2,
   };
 
   const containerVariants = {
@@ -272,15 +273,12 @@ function PartnersSection() {
             drag="x"
             dragDirectionLock
             dragConstraints={dragConstraints}
-            dragElastic={0.05} // Reduced for more predictable dragging
-            dragMomentum={isMobile ? false : true} // Momentum only on desktop
+            dragElastic={0.1}
+            dragMomentum={true} // Enable momentum for both
             dragTransition={{ 
-              power: 0.2, 
-              timeConstant: 400, // Increased for smoother motion
-              modifyTarget: (target) => {
-                // Less aggressive rounding for smoother transitions
-                return Math.round(target / 20) * 20;
-              }
+              power: 0.3,
+              timeConstant: 300,
+              modifyTarget: null // Remove target modification for smoother dragging
             }}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
