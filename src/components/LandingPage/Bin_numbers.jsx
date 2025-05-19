@@ -91,17 +91,17 @@ const BinNumbers = () => {
               aria-label={`${stat.label}: ${stat.number}+`}
             >
               <div 
-                className={`flex shrink-0 bg-yellow-500 rounded-sm h-40 w-8 mr-4 transition-all duration-300 ${hoveredItem === stat.key ? 'bg-yellow-400 h-44' : ''}`}
+                className={`flex shrink-0 bg-amber-500 rounded-sm h-40 w-8 mr-4 transition-all duration-300 ${hoveredItem === stat.key ? 'bg-amber-500 h-44' : ''}`}
               />
               
               <article className="flex flex-col max-w-xs">
                 <h3 
-                  className={`text-6xl font-bold text-white max-md:text-4xl transition-all duration-500 ${hoveredItem === stat.key ? 'text-yellow-400 scale-110' : ''}`}
+                  className={`text-6xl font-bold text-white max-md:text-4xl transition-all duration-500 ${hoveredItem === stat.key ? 'text-amber-500 scale-110' : ''}`}
                   style={{ transformOrigin: 'left' }}
                 >
                   {stat.key === 'sqft' ? counts[stat.key].toLocaleString() : counts[stat.key]}+
                 </h3>
-                <p className={`text-base font-medium mt-1 transition-colors duration-300 ${hoveredItem === stat.key ? 'text-yellow-400' : 'text-white'}`}>
+                <p className={`text-base font-medium mt-1 transition-colors duration-300 ${hoveredItem === stat.key ? 'text-amber-500' : 'text-white'}`}>
                   {stat.label}
                 </p>
                 <p className="text-sm mt-2 text-gray-300 leading-relaxed">

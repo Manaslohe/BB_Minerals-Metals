@@ -155,7 +155,6 @@ const CompanyProfile = () => {
                 transition={{ delay: 0.6, duration: 0.8 }}
                 className="relative w-full flex flex-col items-center md:items-start"
               >
-                <span className="absolute md:-top-10 md:-left-10 -top-6 left-0 md:left-auto md:text-8xl text-5xl sm:text-6xl opacity-10 font-bold">"</span>
                 <motion.h2 
                   className="text-3xl sm:text-4xl md:text-7xl font-bold text-white leading-tight text-center md:text-left"
                   whileHover={{ scale: 1.02 }}

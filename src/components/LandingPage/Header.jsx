@@ -204,9 +204,6 @@ function Header() {
   };
 
   const isActive = (path) => {
-    if (path === "/company" && location.pathname === "/") {
-      return true;
-    }
     return location.pathname.includes(path);
   };
 
@@ -310,8 +307,8 @@ function Header() {
                     >
                       <ChevronDown className="h-5 w-5 text-white" />
                     </motion.div>
-                    {/* Orange underline for COMPANY by default */}
-                    <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-amber-500 rounded-full"></div>
+                    {/* Orange underline only on hover */}
+                    <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-amber-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                   {expandedItem === item && (
                     <motion.div

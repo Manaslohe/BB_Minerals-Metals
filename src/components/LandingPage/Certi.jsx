@@ -128,27 +128,18 @@ const CertificationsCompliance = () => {
                 <article 
                   className={`
                     flex flex-col items-center text-center p-8 h-full w-full text-white 
-                    rounded-2xl backdrop-blur-sm border border-transparent
+                    rounded-2xl backdrop-blur-sm border border-white/50
                     transition-all duration-300 ease-in-out
                     ${hoveredIndex === index ? 
-                      'bg-black/40 border-amber-500/30 shadow-lg shadow-amber-500/10 transform -translate-y-1' : 
-                      'bg-black/30'}
+                      'bg-gradient-to-r from-black/90 to-black/40 border-white shadow-lg shadow-white/5 transform -translate-y-1' : 
+                      'bg-gradient-to-r from-black/90 to-black/40'}
                   `}
                 >
-                  <div className={`
-                    flex items-center justify-center w-16 h-16 rounded-full mb-6
-                    transition-all duration-300
-                    ${hoveredIndex === index ? 
-                      'bg-amber-500 shadow-md shadow-amber-600/20' : 
-                      'bg-amber-800/70'}
-                  `}>
-                    <img
-                      src={cert.iconSrc}
-                      alt={`${cert.title} icon`}
-                      className={`${cert.imgClass} transition-transform duration-300 
-                        ${hoveredIndex === index ? 'scale-110' : 'scale-100'}`}
-                    />
-                  </div>
+                  <img
+                    src={cert.iconSrc}
+                    alt={`${cert.title} icon`}
+                    className={`${cert.imgClass} mb-6`}
+                  />
                   
                   <h3 className={`
                     text-2xl font-semibold mb-3 transition-colors duration-300

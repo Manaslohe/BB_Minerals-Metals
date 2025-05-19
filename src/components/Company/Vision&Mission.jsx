@@ -87,7 +87,7 @@ const VisionMissionPage = () => {
             {/* Vision Section */}
             <motion.div className="mb-8 relative group" variants={itemVariants}>
               <div className="flex items-center gap-3 mb-4">
-                <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl p-3 shadow-lg rotate-3 transform group-hover:rotate-6 transition-all duration-300">
+                <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl p-3 shadow-lg transition-all duration-300">
                   <img 
                     src="/icons/vision.png" 
                     alt="Vision Icon"

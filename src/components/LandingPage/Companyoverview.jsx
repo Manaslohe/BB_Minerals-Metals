@@ -7,11 +7,14 @@ const CompanyOverview = () => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [slideDirection, setSlideDirection] = useState('next');
   const [isChanging, setIsChanging] = useState(false);
-  const [isVisible, setIsVisible] = useState(false); // Add local isVisible state
-  const [hasAnimated, setHasAnimated] = useState(false); // Add local hasAnimated state
+  const [isVisible, setIsVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
   const sectionRef = useRef(null);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+  const [touchDelta, setTouchDelta] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [initialTouchPos, setInitialTouchPos] = useState(null);
   const slidesContainerRef = useRef(null);
 
   const slides = [
@@ -38,7 +41,6 @@ const CompanyOverview = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Now we have setIsVisible available
         setIsVisible(entry.isIntersecting);
         
         if (entry.isIntersecting && !hasAnimated) {
@@ -132,35 +134,93 @@ const CompanyOverview = () => {
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
-  // Handle touch events for swipe functionality
   const handleTouchStart = (e) => {
+    setIsAutoPlaying(false);
+    setInitialTouchPos(e.targetTouches[0].clientX);
     setTouchStart(e.targetTouches[0].clientX);
     setTouchEnd(e.targetTouches[0].clientX);
+    setIsDragging(true);
+    setTouchDelta(0);
   };
 
   const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    if (!isDragging) return;
+    
+    const currentX = e.targetTouches[0].clientX;
+    setTouchEnd(currentX);
+    
+    const delta = touchStart - currentX;
+    setTouchDelta(delta);
+    
+    e.preventDefault();
   };
 
   const handleTouchEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    
     if (!touchStart || !touchEnd) return;
     
     const distance = touchStart - touchEnd;
-    const isSignificantSwipe = Math.abs(distance) > 50; // Min distance for swipe
-
-    if (isSignificantSwipe) {
+    const containerWidth = slidesContainerRef.current?.offsetWidth || 300;
+    const threshold = containerWidth * 0.15;
+    
+    if (Math.abs(distance) > threshold) {
       if (distance > 0) {
-        // Swipe left, go to next slide
         handleSlideChange('next');
       } else {
-        // Swipe right, go to previous slide
         handleSlideChange('prev');
+      }
+    } else {
+      setTouchDelta(0);
+    }
+    
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+    setInitialTouchPos(null);
+  };
+
+  const handleTouchCancel = () => {
+    setIsDragging(false);
+    setTouchDelta(0);
+    setInitialTouchPos(null);
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  const getSlideStyle = (index) => {
+    const baseStyles = {
+      transition: isDragging ? 'none' : 'all 400ms cubic-bezier(0.2, 0.0, 0.2, 1)',
+    };
+
+    if (!isDragging || touchDelta === 0) {
+      if (currentSlide === index) {
+        return { ...baseStyles, transform: 'translateX(0)' };
+      } else if (index === (currentSlide + 1) % slides.length) {
+        return { ...baseStyles, transform: 'translateX(100%)' };
+      } else if (index === (currentSlide - 1 + slides.length) % slides.length) {
+        return { ...baseStyles, transform: 'translateX(-100%)' };
+      } else {
+        return { ...baseStyles, transform: 'translateX(100%)' };
       }
     }
     
-    // Reset values
-    setTouchStart(0);
-    setTouchEnd(0);
+    if (isDragging) {
+      const containerWidth = slidesContainerRef.current?.offsetWidth || 300;
+      const swipePercentage = (touchDelta / containerWidth) * 100;
+      const maxSwipePercent = 100;
+      const clampedSwipe = Math.max(Math.min(swipePercentage, maxSwipePercent), -maxSwipePercent);
+      
+      if (currentSlide === index) {
+        return { ...baseStyles, transform: `translateX(${-clampedSwipe}%)` };
+      } else if (index === (currentSlide + 1) % slides.length && touchDelta > 0) {
+        return { ...baseStyles, transform: `translateX(${100 - clampedSwipe}%)` };
+      } else if (index === (currentSlide - 1 + slides.length) % slides.length && touchDelta < 0) {
+        return { ...baseStyles, transform: `translateX(${-100 - clampedSwipe}%)` };
+      } else {
+        return { ...baseStyles, transform: 'translateX(100%)' };
+      }
+    }
+
+    return baseStyles;
   };
 
   return (
@@ -197,31 +257,30 @@ const CompanyOverview = () => {
         }`} style={{ transitionDelay: hasAnimated ? '150ms' : '200ms' }}>
           <div 
             ref={slidesContainerRef}
-            className="lg:col-span-4 relative w-full h-44 sm:h-56 md:h-72 lg:h-[450px] flex items-center justify-center overflow-hidden rounded-xl"
+            className="lg:col-span-4 relative w-full h-44 sm:h-56 md:h-72 lg:h-[450px] flex items-center justify-center overflow-hidden rounded-xl touch-pan-y"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchCancel}
           >
             {slides.map((slide, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 transition-all duration-500 ease-in-out transform ${
-                  currentSlide === index
-                    ? 'opacity-100 z-10 scale-100'
-                    : slideDirection === 'next'
-                      ? 'opacity-0 z-0 scale-110 translate-x-full'
-                      : 'opacity-0 z-0 scale-110 -translate-x-full'
+                className={`absolute inset-0 ${
+                  currentSlide === index || 
+                  index === (currentSlide + 1) % slides.length || 
+                  index === (currentSlide - 1 + slides.length) % slides.length
+                    ? 'z-10' : 'z-0'
                 }`}
+                style={getSlideStyle(index)}
               >
                 <div className="h-full w-full flex items-center justify-center">
-                  <div className={`relative transition-all duration-400 ${
-                    currentSlide === index ? 'scale-100' : 'scale-90'
-                  }`}>
+                  <div className={`relative transition-transform duration-400`}>
                     <img
                       src={slide.image}
                       alt={slide.title}
                       className={`object-contain w-3/4 sm:w-4/5 lg:w-full h-full mx-auto relative z-10 transition-all duration-500 ${
-                        currentSlide === index ? 'brightness-100' : 'brightness-50'
+                        currentSlide === index ? 'brightness-100' : 'brightness-90'
                       }`}
                       style={{
                         maxHeight: '100%',
@@ -233,6 +292,19 @@ const CompanyOverview = () => {
                 </div>
               </div>
             ))}
+            
+            {isDragging && Math.abs(touchDelta) > 20 && (
+              <div className={`absolute inset-y-0 ${touchDelta > 0 ? 'right-2' : 'left-2'} 
+                top-1/2 transform -translate-y-1/2 z-20 flex items-center justify-center
+                opacity-70 transition-opacity`}>
+                <div className="bg-white/20 backdrop-blur-md rounded-full p-2">
+                  {touchDelta > 0 ? 
+                    <ChevronRight className="w-6 h-6 text-white" /> : 
+                    <ChevronLeft className="w-6 h-6 text-white" />
+                  }
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="lg:col-span-6 space-y-5 sm:space-y-6 lg:space-y-8 mt-4 lg:mt-0">

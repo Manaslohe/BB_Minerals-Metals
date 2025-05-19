@@ -111,89 +111,80 @@ const ProductsSection = () => {
       </div>
 
       <div className="container mx-auto px-4 py-6 sm:py-10">
-        {/* Optimized grid layout with persistent visibility once triggered */}
+        {/* Container with white border for all product cards - with synchronized animation */}
         <div 
-          id="product-grid"
-          className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8 lg:gap-10"
+          className={`bg-[#2C333B] border-2 border-white/50 rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8
+                    transform transition-all duration-700 ease-out
+                    ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+          style={{ transitionDelay: '100ms' }}
         >
-          {products.map((product, index) => (
-            <div
-              key={product.id}
-              onMouseEnter={() => setHoveredId(product.id)}
-              onMouseLeave={() => setHoveredId(null)}
-              onClick={() => handleViewProduct(product.id)} // Add click handler for mobile view
-              className={`group relative aspect-square bg-gradient-to-b from-white to-gray-50 rounded-lg sm:rounded-xl overflow-hidden 
-                     cursor-pointer shadow-md hover:shadow-xl hover:shadow-amber-500/20 
-                     transition-all duration-400 ease-out hover:-translate-y-2
-                     transform transition-all duration-700 ease-out
-                     ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
-              style={{ transitionDelay: `${150 + index * 50}ms` }}
-            >
-              {/* Mobile-optimized content container */}
-              <div className="relative w-full h-full flex flex-col p-3 sm:p-4 overflow-hidden">
-                {/* Product Image - optimized for mobile */}
-                <div className="flex-1 flex items-center justify-center py-1 sm:py-2">
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-4/5 h-4/5 object-contain transition-transform duration-300 ease-out group-hover:scale-110"
-                    loading="lazy"
-                  />
+          {/* Optimized grid layout with persistent visibility once triggered */}
+          <div 
+            id="product-grid"
+            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8 lg:gap-10"
+          >
+            {products.map((product, index) => (
+              <div
+                key={product.id}
+                className={`transform transition-all duration-700 ease-out
+                       ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}`}
+                style={{ transitionDelay: `${150 + index * 50}ms` }}
+                onMouseEnter={() => setHoveredId(product.id)}
+                onMouseLeave={() => setHoveredId(null)}
+              >
+                {/* Product Card */}
+                <div
+                  onClick={() => handleViewProduct(product.id)} 
+                  className="group relative aspect-square bg-gradient-to-b from-white to-gray-50 rounded-lg sm:rounded-xl overflow-hidden 
+                         cursor-pointer shadow-md hover:shadow-lg
+                         transition-all duration-400 ease-out hover:-translate-y-2 mb-2 sm:mb-3"
+                >
+                  {/* Product Image - optimized for mobile */}
+                  <div className="relative w-full h-full flex flex-col p-3 sm:p-4 overflow-hidden">
+                    <div className="flex-1 flex items-center justify-center py-1 sm:py-2">
+                      <img 
+                        src={product.image} 
+                        alt={product.name}
+                        className="w-4/5 h-4/5 object-contain transition-transform duration-300 ease-out group-hover:scale-110"
+                        loading="lazy"
+                      />
+                    </div>
+
+                    {/* View button - faster transition */}
+                    <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center px-3 sm:px-4 py-2 sm:py-3
+                                  transform translate-y-full group-hover:translate-y-0
+                                  transition-all duration-300 ease-out z-30">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewProduct(product.id);
+                        }}
+                        className="bg-amber-500 text-white py-1.5 sm:py-2.5 px-3 sm:px-5 rounded-md sm:rounded-lg 
+                                  flex items-center gap-1 sm:gap-2 
+                                  w-full justify-center text-sm sm:text-base
+                                  hover:bg-amber-600 active:scale-95 transition-all duration-200 
+                                  shadow-md relative"
+                        type="button"
+                      >
+                        <Eye className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+                        <span className="font-medium">View Details</span>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Border effect with faster transition */}
+                  <div className="absolute inset-0 rounded-lg sm:rounded-xl border border-gray-200/50 
+                                group-hover:border-gray-300 transition-all duration-300" />
                 </div>
                 
-                {/* Product name - mobile optimized with faster transitions */}
-                <div className="absolute bottom-0 left-0 right-0 py-2 sm:py-3 px-3 sm:px-4 bg-white border-t border-gray-100
-                              transition-all duration-300 ease-out group-hover:translate-y-full">
-                  <h3 className="text-gray-800 font-medium truncate text-center text-sm sm:text-base">
-                    {product.name}
-                  </h3>
-                </div>
-
-                {/* Product name - slides in from top on hover (faster) */}
-                <div className="absolute top-0 left-0 right-0 py-2 sm:py-3 px-3 sm:px-4 bg-amber-500 text-white
-                              transform -translate-y-full group-hover:translate-y-0
-                              transition-all duration-300 ease-out">
-                  <h3 className="font-medium truncate text-center text-sm sm:text-base">
-                    {product.name}
-                  </h3>
-                </div>
-
-                {/* View button - faster transition */}
-                <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center px-3 sm:px-4 py-2 sm:py-3
-                              transform translate-y-full group-hover:translate-y-0
-                              transition-all duration-300 ease-out z-30">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleViewProduct(product.id);
-                    }}
-                    className="bg-amber-500 text-white py-1.5 sm:py-2.5 px-3 sm:px-5 rounded-md sm:rounded-lg 
-                              flex items-center gap-1 sm:gap-2 
-                              w-full justify-center text-sm sm:text-base
-                              hover:bg-amber-600 active:scale-95 transition-all duration-200 
-                              shadow-md relative"
-                    type="button"
-                  >
-                    <Eye className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                    <span className="font-medium">View Details</span>
-                  </button>
-                </div>
+                {/* Product name below card - changes to amber-500 on hover */}
+                <h3 className={`text-center font-medium text-sm sm:text-base transition-colors duration-300
+                              ${hoveredId === product.id ? 'text-amber-500' : 'text-white'}`}>
+                  {product.name}
+                </h3>
               </div>
-              
-              {/* Hover overlay - Subtle gradient with faster transition */}
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-amber-500/20 
-                           opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out pointer-events-none" />
-
-              {/* Border effect with faster transition */}
-              <div className="absolute inset-0 rounded-lg sm:rounded-xl border border-gray-200/50 
-                            group-hover:border-amber-500/30 transition-all duration-300" />
-              
-              {/* Subtle glow effect with faster transition */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-amber-400 to-amber-500 
-                           rounded-lg sm:rounded-xl blur-lg opacity-0 group-hover:opacity-20 -z-10
-                           transition-all duration-300 ease-in-out pointer-events-none" />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 

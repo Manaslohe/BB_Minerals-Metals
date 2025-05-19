@@ -19,7 +19,7 @@ const BBMAN = () => {
         <div className={`sm:mt-12 lg:mt-24 transform transition-all duration-700 ease-out ${
           isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
         }`} style={{ transitionDelay: hasAnimated ? '0ms' : '200ms' }}>
-          <div className="w-[90%] sm:w-[90%] md:w-[85%] mx-auto">
+          <div className="w-[90%] sm:w-[90%] md:w-[100%] mx-auto">
             <div 
               className={`relative overflow-hidden rounded-lg border-2 transition-all duration-300 
                         ${hovered ? 'border-amber-500 shadow-xl shadow-amber-500/20' : 'border-amber-500/30'}`}
