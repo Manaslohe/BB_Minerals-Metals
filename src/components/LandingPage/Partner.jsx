@@ -258,7 +258,7 @@ function PartnersSection() {
         >
           <motion.div
             ref={ribbonRef}
-            className="flex items-center justify-start gap-16 md:gap-24"
+            className="flex items-center justify-start gap-8 md:gap-24"
             style={{ x }}
             animate={controls}
             drag="x"
@@ -292,7 +292,7 @@ function PartnersSection() {
                     alt={partner.name}
                     className={`w-auto object-contain transition-all duration-300 ${
                       isMobile 
-                        ? "h-20 sm:h-24" // Increased height for mobile
+                        ? "h-24 sm:h-28" // Further increased height for mobile
                         : "h-16 sm:h-24 md:h-32" // Keep desktop size the same
                     }`}
                     loading="lazy"
