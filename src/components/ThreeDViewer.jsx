@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Environment, useProgress } from "@react-three/drei";
 import * as THREE from "three";
+import { SRGBColorSpace } from "three"; // Import SRGBColorSpace
 
 // Loading Animation Component
 const Loader = () => {
@@ -184,7 +185,7 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
               gl={{
                 preserveDrawingBuffer: true,
                 antialias: true,
-                outputEncoding: THREE.sRGBEncoding,
+                outputColorSpace: SRGBColorSpace, // Updated from sRGBEncoding to SRGBColorSpace
                 powerPreference: "high-performance",
               }}
               dpr={[1, 1.5]}
