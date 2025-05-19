@@ -1,253 +1,226 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { motion, useAnimationControls, useMotionValue, animate } from "framer-motion";
-import { useScrollAnimation } from "../../hooks/useScrollAnimation.js";
+import { motion, useAnimationControls, useMotionValue } from "framer-motion";
+
+// Create a simple scroll animation hook since the import is missing
+const useScrollAnimation = (elementId) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    
+    const element = document.getElementById(elementId);
+    if (element) {
+      observer.observe(element);
+    }
+    
+    return () => {
+      if (element) {
+        observer.unobserve(element);
+      }
+    };
+  }, [elementId]);
+
+  return { isVisible };
+};
 
 function PartnersSection() {
   const { isVisible } = useScrollAnimation("partners-section");
   const [isPaused, setIsPaused] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [isHolding, setIsHolding] = useState(false);
   const controls = useAnimationControls();
   const x = useMotionValue(0);
   const ribbonRef = useRef(null);
   const [ribbonWidth, setRibbonWidth] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const holdTimerRef = useRef(null);
-
+  const [isMobile, setIsMobile] = useState(false);
   const animationRef = useRef({
-    position: 0,
-    speed: 40,
-    lastTimestamp: 0,
-    pausedPosition: 0,
-    touchStartX: 0,
-    touchStartTime: 0
+    speed: 20, // Reduced from 40 to make animation faster
+    lastPosition: 0,
   });
 
   const partners = [
-    {
-      id: 1,
-      url: "https://cdn.builder.io/api/v1/image/assets/TEMP/a31e7e6809c7b988d1652bc165a6075b0098b8f4",
-      name: "SLR Metaliks",
-    },
-    {
-      id: 2,
-      url: "https://cdn.builder.io/api/v1/image/assets/TEMP/cc3ebf42cc92de675d7f09f4f78beb814827dea5",
-      name: "Kalyani",
-    },
-    {
-      id: 3,
-      url: "https://cdn.builder.io/api/v1/image/assets/TEMP/76312ce5ec4a5044bb666fb05d7c2ebe91cc56a7",
-      name: "Saarloha",
-    },
-    {
-      id: 4,
-      url: "https://cdn.builder.io/api/v1/image/assets/TEMP/ebcdc8343e1cded83cbcdfe92ae3e97f87fc06a3",
-      name: "Tata Steel",
-    },
-    {
-      id: 5,
-      url: "https://cdn.builder.io/api/v1/image/assets/TEMP/0047830f2b4b5f5680422597dbd158bcb8d6fbc6",
-      name: "Mukand",
-    },
-    {
-      id: 6,
-      url: "./p6.png",
-      name: "Sunflag Steel",
-    },
+    { id: 1, url: "https://cdn.builder.io/api/v1/image/assets/TEMP/a31e7e6809c7b988d1652bc165a6075b0098b8f4", name: "SLR Metaliks" },
+    { id: 2, url: "https://cdn.builder.io/api/v1/image/assets/TEMP/cc3ebf42cc92de675d7f09f4f78beb814827dea5", name: "Kalyani" },
+    { id: 3, url: "https://cdn.builder.io/api/v1/image/assets/TEMP/76312ce5ec4a5044bb666fb05d7c2ebe91cc56a7", name: "Saarloha" },
+    { id: 4, url: "https://cdn.builder.io/api/v1/image/assets/TEMP/ebcdc8343e1cded83cbcdfe92ae3e97f87fc06a3", name: "Tata Steel" },
+    { id: 5, url: "https://cdn.builder.io/api/v1/image/assets/TEMP/0047830f2b4b5f5680422597dbd158bcb8d6fbc6", name: "Mukand" },
+    { id: 6, url: "./p6.png", name: "Sunflag Steel" },
   ];
 
-  const ribbonPartners = [...partners, ...partners, ...partners, ...partners];
-
-  const [isMobile, setIsMobile] = useState(false);
+  // Duplicate partners more times to create a longer ribbon
+  const ribbonPartners = [...partners, ...partners, ...partners, ...partners,...partners,...partners];
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || 
-        ('ontouchstart' in window) || 
-        (navigator.maxTouchPoints > 0));
+      setIsMobile(window.innerWidth < 768 || "ontouchstart" in window || navigator.maxTouchPoints > 0);
     };
-    
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
-    if (ribbonRef.current) {
-      const updateWidths = () => {
-        const ribbon = ribbonRef.current;
-        if (ribbon) {
-          setRibbonWidth(ribbon.scrollWidth / 2);
-          setContainerWidth(ribbon.parentElement.offsetWidth);
-        }
-      };
+    const updateWidths = () => {
+      if (ribbonRef.current) {
+        // Use full width for more accurate calculations
+        setRibbonWidth(ribbonRef.current.scrollWidth / 4);
+      }
+    };
+    updateWidths();
+    window.addEventListener("resize", updateWidths);
+    return () => window.removeEventListener("resize", updateWidths);
+  }, []);
+
+  useEffect(() => {
+    if (ribbonWidth <= 0 || !isVisible) return;
+
+    const animateRibbon = () => {
+      if (isPaused || isDragging) {
+        controls.stop();
+        animationRef.current.lastPosition = x.get();
+        return;
+      }
+
+      // Use a fixed animation speed regardless of position
+      const animationDuration = animationRef.current.speed;
       
-      updateWidths();
-      window.addEventListener('resize', updateWidths);
-      return () => window.removeEventListener('resize', updateWidths);
-    }
-  }, []);
-
-  useEffect(() => {
-    let frameId;
-    
-    const trackPosition = () => {
-      animationRef.current.position = x.get();
-      frameId = requestAnimationFrame(trackPosition);
-    };
-    
-    if (!isPaused && !isDragging && !isHolding && isVisible) {
-      frameId = requestAnimationFrame(trackPosition);
-    }
-    
-    return () => {
-      if (frameId) cancelAnimationFrame(frameId);
-    };
-  }, [isPaused, isDragging, isHolding, isVisible, x]);
-
-  useEffect(() => {
-    if (ribbonWidth <= 0) return;
-    
-    if (isPaused || isDragging || isHolding) {
-      controls.stop();
-      animationRef.current.pausedPosition = x.get();
-    } else if (isVisible) {
+      // Start animation from current position
       const currentPos = x.get();
       
-      controls.start({
-        x: [currentPos, currentPos - ribbonWidth],
-        transition: {
-          x: {
-            duration: animationRef.current.speed,
-            ease: "linear",
-            repeat: Infinity,
-            repeatType: "loop",
-          }
-        }
-      });
-    }
-  }, [isPaused, isDragging, isHolding, isVisible, ribbonWidth, controls, x]);
-
-  const handleAnimationComplete = () => {
-    if (!isPaused && isVisible) {
-      x.set(0);
+      // Determine end position based on current position
+      let endPos = currentPos - ribbonWidth;
       
       controls.start({
-        x: [0, -ribbonWidth],
+        x: endPos,
         transition: {
           x: {
-            duration: animationRef.current.speed,
+            duration: animationDuration,
             ease: "linear",
-            repeat: Infinity,
-            repeatType: "loop",
+            repeat: 0,
+          },
+        },
+        onComplete: () => {
+          // Seamless loop by resetting position
+          if (x.get() <= -ribbonWidth) {
+            x.set(0);
+          }
+          
+          // Continue animation if still visible and not paused
+          if (isVisible && !isPaused && !isDragging) {
+            animateRibbon();
           }
         }
       });
-    }
-  };
+    };
+
+    animateRibbon();
+    return () => controls.stop();
+  }, [isPaused, isDragging, isVisible, ribbonWidth, controls, x]);
 
   const handleMouseEnter = () => {
     if (!isMobile) {
-      animationRef.current.pausedPosition = x.get();
       setIsPaused(true);
+      controls.stop();
+      animationRef.current.lastPosition = x.get();
     }
-  };
-  
-  const handleMouseLeave = () => {
-    if (!isMobile && !isHolding) {
-      setIsPaused(false);
-    }
-  };
-  
-  const handleClick = (e) => {
-    if (isDragging) return;
-    
-    if (!isHolding) {
-      animationRef.current.pausedPosition = x.get();
-      setIsPaused(!isPaused);
-    }
-  };
-  
-  const handleTouchStart = (e) => {
-    animationRef.current.touchStartX = e.touches[0].clientX;
-    animationRef.current.touchStartTime = Date.now();
-    animationRef.current.pausedPosition = x.get();
-    
-    clearTimeout(holdTimerRef.current);
-    holdTimerRef.current = setTimeout(() => {
-      setIsHolding(true);
-      setIsPaused(true);
-    }, 200);
-  };
-  
-  const handleTouchEnd = (e) => {
-    clearTimeout(holdTimerRef.current);
-    
-    const touchDuration = Date.now() - animationRef.current.touchStartTime;
-    const touchDistance = Math.abs(e.changedTouches[0]?.clientX - animationRef.current.touchStartX);
-    
-    if (touchDuration < 200 && touchDistance < 10 && !isHolding && !isDragging) {
-      setIsPaused(!isPaused);
-    }
-    
-    setIsHolding(false);
   };
 
-  const handleTouchMove = (e) => {
-    clearTimeout(holdTimerRef.current);
-    const touchDistance = Math.abs(e.touches[0].clientX - animationRef.current.touchStartX);
+  const handleMouseLeave = () => {
+    if (!isMobile && !isDragging) {
+      setIsPaused(false);
+      resumeAnimation();
+    }
+  };
+
+  const handleClick = () => {
+    if (isDragging) return;
     
-    if (touchDistance > 10) {
-      setIsHolding(false);
+    // On desktop, clicking doesn't pause the animation
+    // Only pause on mobile devices
+    if (isMobile) {
+      setIsPaused((prev) => {
+        if (!prev) {
+          controls.stop();
+          animationRef.current.lastPosition = x.get();
+        } else {
+          resumeAnimation();
+        }
+        return !prev;
+      });
+    }
+  };
+
+  const handleTouchStart = (e) => {
+    controls.stop();
+    setIsDragging(true);
+    animationRef.current.lastPosition = x.get();
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    if (!isPaused) {
+      resumeAnimation();
     }
   };
 
   const handleDragStart = () => {
     controls.stop();
     setIsDragging(true);
-    animationRef.current.pausedPosition = x.get();
+    animationRef.current.lastPosition = x.get();
   };
 
   const handleDragEnd = () => {
+    // Add a small delay to ensure drag motion is complete
     setTimeout(() => {
       setIsDragging(false);
-      
-      animationRef.current.position = x.get();
-      
-      if (!isPaused && !isHolding) {
-        const currentX = x.get();
-        
-        controls.start({
-          x: [currentX, currentX - ribbonWidth],
-          transition: {
-            x: {
-              duration: animationRef.current.speed,
-              ease: "linear",
-              repeat: Infinity,
-              repeatType: "loop",
-            }
-          }
-        });
+      if (!isPaused) {
+        resumeAnimation();
       }
-    }, 50);
+    }, 100);
+  };
+
+  const resumeAnimation = () => {
+    // Get current position
+    const currentPos = x.get();
+    
+    // Calculate fixed animation duration
+    const animationDuration = animationRef.current.speed;
+    
+    // Apply smooth transition with fixed speed
+    controls.start({
+      x: currentPos - ribbonWidth,
+      transition: {
+        x: {
+          duration: animationDuration,
+          ease: "linear",
+          repeat: 0,
+        },
+      },
+      onComplete: () => {
+        if (x.get() <= -ribbonWidth) {
+          x.set(0);
+        }
+        
+        if (!isPaused && !isDragging) {
+          resumeAnimation();
+        }
+      }
+    });
   };
 
   const dragConstraints = {
     left: -ribbonWidth * 2,
-    right: containerWidth
+    right: ribbonWidth, // Allow dragging in both directions
   };
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.4,
-        staggerChildren: 0.1
-      }
-    }
+    visible: { opacity: 1, transition: { duration: 0.4 } },
   };
 
   const itemVariants = {
@@ -255,12 +228,8 @@ function PartnersSection() {
     visible: {
       y: 0,
       opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 20
-      }
-    }
+      transition: { type: "spring", stiffness: 200, damping: 20 },
+    },
   };
 
   const logoVariants = {
@@ -268,21 +237,13 @@ function PartnersSection() {
     visible: {
       opacity: 1,
       scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15
-      }
+      transition: { type: "spring", stiffness: 100, damping: 15 },
     },
     hover: {
       scale: 1.1,
       y: -5,
-      transition: { 
-        type: "spring",
-        stiffness: 400,
-        damping: 25
-      }
-    }
+      transition: { type: "spring", stiffness: 400, damping: 25 },
+    },
   };
 
   return (
@@ -293,11 +254,7 @@ function PartnersSection() {
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}
     >
-      {/* Title section */}
-      <motion.div 
-        className="container mx-auto px-4 pt-10 pb-8"
-        variants={itemVariants}
-      >
+      <motion.div className="container mx-auto px-4 pt-10 pb-8" variants={itemVariants}>
         <div className="mb-10 text-center sm:text-left">
           <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 tracking-tight">
             OUR PARTNERS
@@ -308,19 +265,14 @@ function PartnersSection() {
         </div>
       </motion.div>
 
-      {/* Partners Ribbon */}
-      <motion.div 
-        className="relative bg-gradient-to-b from-gray-50 to-white py-12 md:py-16"
-        variants={itemVariants}
-      >
-        <div 
+      <motion.div className="relative bg-gradient-to-b from-gray-50 to-white py-12 md:py-16" variants={itemVariants}>
+        <div
           className="relative overflow-hidden touch-pan-x cursor-grab active:cursor-grabbing"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onClick={handleClick}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          onTouchMove={handleTouchMove}
           style={{ touchAction: "pan-x" }}
         >
           <motion.div
@@ -331,20 +283,19 @@ function PartnersSection() {
             drag="x"
             dragDirectionLock
             dragConstraints={dragConstraints}
-            dragElastic={0.05}
-            dragMomentum={true}
+            dragElastic={0.05} // Reduced for more predictable dragging
+            dragMomentum={isMobile ? false : true} // Momentum only on desktop
             dragTransition={{ 
               power: 0.2, 
-              timeConstant: 300,
-              modifyTarget: t => Math.round(t / 5) * 5
+              timeConstant: 400, // Increased for smoother motion
+              modifyTarget: (target) => {
+                // Less aggressive rounding for smoother transitions
+                return Math.round(target / 20) * 20;
+              }
             }}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
-            onAnimationComplete={handleAnimationComplete}
-            whileDrag={{ 
-              cursor: "grabbing",
-              scale: isMobile ? 1 : 0.99
-            }}
+            whileDrag={{ cursor: "grabbing", scale: isMobile ? 1 : 0.995 }} // Subtle scale feedback
           >
             {ribbonPartners.map((partner, index) => (
               <motion.div
