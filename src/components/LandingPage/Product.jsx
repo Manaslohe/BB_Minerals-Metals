@@ -143,7 +143,6 @@ const ProductsSection = () => {
                 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
       <Helmet>
-        <title>Ferro Alloy Products | BB Minerals and Metals</title>
         <meta name="description" content="Explore our range of high-grade ferro alloys including Ferro Manganese, Silico Manganese, and more. Quality guaranteed." />
       </Helmet>
       
