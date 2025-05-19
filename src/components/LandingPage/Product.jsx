@@ -1,7 +1,59 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Eye, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Helmet } from "react-helmet";
 import ProductDetail from "../ProductDetail";
+
+// JSON-LD structured data for products - SEO optimization
+const ProductJsonLd = () => {
+  const jsonLd = {
+    "@context": "https://schema.org/",
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Low Carbon Ferro Chrome",
+        "url": "https://bbmam.in/products#low-carbon-ferro-chrome",
+        "image": "https://bbmam.in/product1.png"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "High Carbon Ferro Chrome",
+        "url": "https://bbmam.in/products#high-carbon-ferro-chrome",
+        "image": "https://bbmam.in/product2.png"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Ferro Molybdenum",
+        "url": "https://bbmam.in/products#ferro-molybdenum",
+        "image": "https://bbmam.in/product3.png"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Silicon Metal",
+        "url": "https://bbmam.in/products#silicon-metal",
+        "image": "https://bbmam.in/product4.png"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "name": "Manganese Flake",
+        "url": "https://bbmam.in/products#manganese-flake",
+        "image": "https://bbmam.in/product5.png"
+      }
+    ]
+  };
+
+  return (
+    <script type="application/ld+json">
+      {JSON.stringify(jsonLd)}
+    </script>
+  );
+};
 
 const ProductsSection = () => {
   // State management
@@ -55,29 +107,31 @@ const ProductsSection = () => {
       id: 1,
       image: "/product1.png",
       name: "Low Carbon Ferro Chrome",
+      alt: "Low Carbon Ferro Chrome – High quality alloy for steel production"
     },
     {
       id: 2,
       image: "/product2.png",
       name: "High Carbon Ferro Chrome",
+      alt: "High Carbon Ferro Chrome – Premium grade for steel industry"
     },
     {
       id: 3,
       image: "/product3.png",
       name: "Ferro Molybdenum",
-      price: "$499"
+      alt: "Ferro Molybdenum – Critical alloy for high-strength steel"
     },
     {
       id: 4,
       image: "/product4.png",
       name: "Silicon Metal",
-      price: "$599"
+      alt: "Silicon Metal – Essential element for steel deoxidation"
     },
     {
       id: 5,
       image: "/product5.png",
       name: "Manganese Flake",
-      price: "$699"
+      alt: "Manganese Flake – Used in deoxidizing steel production"
     }
   ];
 
@@ -88,17 +142,26 @@ const ProductsSection = () => {
       className={`w-full bg-gray-900 py-10 sm:py-16 md:py-20 overflow-hidden transition-opacity duration-700
                 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
+      <Helmet>
+        <title>Ferro Alloy Products | BB Minerals and Metals</title>
+        <meta name="description" content="Explore our range of high-grade ferro alloys including Ferro Manganese, Silico Manganese, and more. Quality guaranteed." />
+      </Helmet>
+      
+      {/* Inject structured data for SEO */}
+      <ProductJsonLd />
+      
       <div className="container mx-auto px-4 pt-6 sm:pt-10 pb-4 sm:pb-8">
         {/* Heading with persistent visibility once triggered */}
         <div className="mb-6 sm:mb-10 text-center sm:text-left overflow-hidden">
-          <h2 
+          {/* Updated to h1 for proper heading structure as per SEO best practices */}
+          <h1 
             className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-2 sm:mb-3 tracking-tight
                       transform transition-all duration-700 ease-out
                       ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
             style={{ transitionDelay: '100ms', transformOrigin: 'center sm:left' }}
           >
             OUR PRODUCTS
-          </h2>
+          </h1>
           <p 
             className={`text-lg sm:text-xl md:text-2xl text-white/60 font-light
                       transform transition-all duration-700 ease-out
@@ -146,12 +209,12 @@ const ProductsSection = () => {
                          cursor-pointer shadow-md hover:shadow-lg
                          transition-all duration-400 ease-out hover:-translate-y-2 mb-2 sm:mb-3"
                   >
-                    {/* Product Image - optimized for mobile */}
+                    {/* Product Image - optimized for mobile with updated alt text */}
                     <div className="relative w-full h-full flex flex-col p-3 sm:p-4 overflow-hidden">
                       <div className="flex-1 flex items-center justify-center py-1 sm:py-2">
                         <img 
                           src={product.image} 
-                          alt={product.name}
+                          alt={product.alt} // SEO-optimized alt text
                           className="w-4/5 h-4/5 object-contain transition-transform duration-300 ease-out group-hover:scale-110"
                           loading="lazy"
                         />
@@ -172,6 +235,7 @@ const ProductsSection = () => {
                                     hover:bg-amber-600 active:scale-95 transition-all duration-200 
                                     shadow-md relative"
                           type="button"
+                          aria-label={`View details of ${product.name}`}
                         >
                           <Eye className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
                           <span className="font-medium">View Details</span>

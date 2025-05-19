@@ -101,7 +101,6 @@ const Footer = () => {
               {[
                 { name: "Company Profile", path: "/company/profile" },
                 { name: "Our History", path: "/company/history" },
-                { name: "Brochure", path: "/brochure" },
                 { name: "Eco-Friendly & Sustainability", path: "/eco-friendly-sustainability" }
               ].map((item, index) => (
                 <motion.li 
@@ -116,6 +115,21 @@ const Footer = () => {
                   </Link>
                 </motion.li>
               ))}
+              <motion.li
+                whileHover={{ x: 8 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <a 
+                  href="/src/assets/BBMAM BROCHURE.pdf" 
+                  className={linkHoverStyle}
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  download="BBMAM_BROCHURE.pdf"
+                >
+                  Brochure
+                  <ArrowUpRight size={16} className={arrowStyle} />
+                </a>
+              </motion.li>
             </ul>
           </motion.div>
 
@@ -233,7 +247,6 @@ const Footer = () => {
                 {[
                   { name: "Company Profile", path: "/company/profile" },
                   { name: "Our History", path: "/company/history" },
-                  { name: "Brochure", path: "/brochure" },
                   { name: "Eco-Friendly & Sustainability", path: "/eco-friendly-sustainability" }
                 ].map((item, index) => (
                   <li key={index}>
@@ -244,6 +257,18 @@ const Footer = () => {
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <a 
+                    href="/src/assets/BBMAM BROCHURE.pdf" 
+                    className={linkHoverStyle}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    download="BBMAM_BROCHURE.pdf"
+                  >
+                    Brochure
+                    <ArrowUpRight size={16} className={arrowStyle} />
+                  </a>
+                </li>
               </motion.ul>
             )}
           </motion.div>

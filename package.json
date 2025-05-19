@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "optimize-images": "node scripts/optimize-images.js"
   },
   "dependencies": {
     "@react-three/drei": "^10.0.7",
@@ -21,11 +22,13 @@
     "react-country-flag": "^3.1.0",
     "react-dom": "^19.0.0",
     "react-globe.gl": "^2.33.2",
+    "react-helmet": "^6.1.0",
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^7.4.1",
     "tailwind-merge": "^3.2.0",
     "tailwindcss": "^4.0.17",
-    "three": "^0.175.0"
+    "three": "^0.175.0",
+    "sharp": "^0.32.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

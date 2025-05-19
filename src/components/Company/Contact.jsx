@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
+import { Helmet } from "react-helmet";
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -94,187 +95,198 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
-      </div>
+    <>
+      <Helmet>
+        <title>Contact BB Minerals and Metals</title>
+        <meta name="description" content="Get in touch with BB Minerals and Metals. Reach out for inquiries, orders, or business collaborations." />
+        <meta name="keywords" content="Contact BBMAM, Ferro Alloys Contact, BB Minerals and Metals Contact, Metal Manufacturer Contact" />
+        <meta property="og:title" content="Contact BB Minerals and Metals" />
+        <meta property="og:description" content="Get in touch with BB Minerals and Metals for inquiries, orders, or business collaborations." />
+        <meta property="og:url" content="https://bbmam.in/contact" />
+        <link rel="canonical" href="https://bbmam.in/contact" />
+      </Helmet>
+      <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+        </div>
 
-      {/* Toast Notification */}
-      <AnimatePresence>
-        {toastInfo.visible && (
-          <motion.div
-            className="fixed top-6 right-6 z-50 bg-amber-500 text-gray-900 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2"
-            variants={toastVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            <span className="font-medium">{toastInfo.message}</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Back button - desktop */}
-      <motion.div 
-        className="p-4 sm:p-6 hidden sm:block relative z-30"
-        variants={itemVariants}
-      >
-        <motion.button 
-          className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
-                    shadow-lg hover:shadow-amber-500/20 transition-all duration-300
-                    hover:scale-105 active:scale-95 cursor-pointer"
-          onClick={() => navigate(-1)}
-          whileHover={{ x: -3 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <ArrowLeft size={18} className="text-amber-500 group-hover:animate-pulse" />
-          <span className="font-medium text-sm">Back</span>
-        </motion.button>
-      </motion.div>
-
-      {/* Back button - mobile only */}
-      <motion.div 
-        className="fixed bottom-6 left-6 z-50 sm:hidden"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.3 }}
-      >
-        <motion.button 
-          className="group flex items-center justify-center p-3 rounded-full bg-gray-800 text-white
-                   shadow-lg border border-amber-500/30 hover:bg-gray-700 transition-all duration-300 cursor-pointer"
-          onClick={() => navigate(-1)}
-          whileTap={{ scale: 0.9 }}
-        >
-          <ArrowLeft size={20} className="text-amber-500" />
-        </motion.button>
-      </motion.div>
-
-      <div className="container mx-auto max-w-7xl relative z-10 px-4 py-16">
-        {/* Restructured flex container */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch justify-center min-h-[70vh]">
-          {/* Left Column - Contact Info (4 columns) */}
-          <motion.div 
-            className="lg:col-span-5"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-          >
-            <motion.div 
-              className="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-gray-700/30 hover:border-amber-600/30 transition-all duration-300 h-full"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.6 }}
+        {/* Toast Notification */}
+        <AnimatePresence>
+          {toastInfo.visible && (
+            <motion.div
+              className="fixed top-6 right-6 z-50 bg-amber-500 text-gray-900 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2"
+              variants={toastVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
             >
-              <motion.h1 
-                className="text-4xl md:text-4xl font-bold mb-2"
-                variants={itemVariants}
-              >
-                Let's Connect
-              </motion.h1>
-              
-              <motion.p 
-                className="text-amber-500 mb-8 text-lg"
-                variants={itemVariants}
-              >
-                Reach out to us through any of these channels
-              </motion.p>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span className="font-medium">{toastInfo.message}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
+        {/* Back button - desktop */}
+        <motion.div 
+          className="p-4 sm:p-6 hidden sm:block relative z-30"
+          variants={itemVariants}
+        >
+          <motion.button 
+            className="group flex items-center gap-2 py-2 px-4 rounded-full bg-gradient-to-r from-gray-800 to-gray-700 text-white
+                      shadow-lg hover:shadow-amber-500/20 transition-all duration-300
+                      hover:scale-105 active:scale-95 cursor-pointer"
+            onClick={() => navigate(-1)}
+            whileHover={{ x: -3 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ArrowLeft size={18} className="text-amber-500 group-hover:animate-pulse" />
+            <span className="font-medium text-sm">Back</span>
+          </motion.button>
+        </motion.div>
+
+        {/* Back button - mobile only */}
+        <motion.div 
+          className="fixed bottom-6 left-6 z-50 sm:hidden"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.3 }}
+        >
+          <motion.button 
+            className="group flex items-center justify-center p-3 rounded-full bg-gray-800 text-white
+                     shadow-lg border border-amber-500/30 hover:bg-gray-700 transition-all duration-300 cursor-pointer"
+            onClick={() => navigate(-1)}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ArrowLeft size={20} className="text-amber-500" />
+          </motion.button>
+        </motion.div>
+
+        <div className="container mx-auto max-w-7xl relative z-10 px-4 py-16">
+          {/* Restructured flex container */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch justify-center min-h-[70vh]">
+            {/* Left Column - Contact Info (4 columns) */}
+            <motion.div 
+              className="lg:col-span-5"
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+            >
               <motion.div 
-                className="space-y-5"
-                variants={containerVariants}
+                className="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-gray-700/30 hover:border-amber-600/30 transition-all duration-300 h-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.6 }}
               >
-                {contactInfo.map((info, index) => (
-                  <motion.div
-                    key={index}
-                    className="group bg-gray-800/50 hover:bg-gray-800/70 rounded-xl p-5 transition-all duration-300 border border-gray-700/30 hover:border-amber-500/30"
-                    variants={itemVariants}
-                    whileHover={{ y: -3 }}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className={`flex items-start gap-3 sm:gap-4 ${info.href ? 'cursor-pointer' : ''}`} onClick={() => info.href ? window.location.href = info.href : null}>
-                        <div className="bg-amber-500/10 text-amber-500 p-2 sm:p-3 rounded-lg flex-shrink-0">
-                          {info.icon}
+                <motion.h1 
+                  className="text-4xl md:text-4xl font-bold mb-2"
+                  variants={itemVariants}
+                >
+                 Let's Connect
+                </motion.h1>
+                
+                <motion.p 
+                  className="text-amber-500 mb-8 text-lg"
+                  variants={itemVariants}
+                >
+                  Reach out to us through any of these channels
+                </motion.p>
+
+                <motion.div 
+                  className="space-y-5"
+                  variants={containerVariants}
+                >
+                  {contactInfo.map((info, index) => (
+                    <motion.div
+                      key={index}
+                      className="group bg-gray-800/50 hover:bg-gray-800/70 rounded-xl p-5 transition-all duration-300 border border-gray-700/30 hover:border-amber-500/30"
+                      variants={itemVariants}
+                      whileHover={{ y: -3 }}
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className={`flex items-start gap-3 sm:gap-4 ${info.href ? 'cursor-pointer' : ''}`} onClick={() => info.href ? window.location.href = info.href : null}>
+                          <div className="bg-amber-500/10 text-amber-500 p-2 sm:p-3 rounded-lg flex-shrink-0">
+                            {info.icon}
+                          </div>
+                          <div className="min-w-0">
+                            <h3 className="text-xs sm:text-sm uppercase tracking-wider text-gray-400 mb-1">{info.type}</h3>
+                            <p className="text-base sm:text-lg font-medium whitespace-nowrap overflow-hidden text-ellipsis text-white">{info.value}</p>
+                            {info.subtitle && <p className="text-xs sm:text-sm text-gray-400 mt-1">{info.subtitle}</p>}
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <h3 className="text-xs sm:text-sm uppercase tracking-wider text-gray-400 mb-1">{info.type}</h3>
-                          <p className="text-base sm:text-lg font-medium whitespace-nowrap overflow-hidden text-ellipsis text-white">{info.value}</p>
-                          {info.subtitle && <p className="text-xs sm:text-sm text-gray-400 mt-1">{info.subtitle}</p>}
-                        </div>
+                        
+                        {/* Copy to clipboard button (for email and phone numbers) */}
+                        <button 
+                          onClick={() => copyToClipboard(info.value.replace(/\s+/g, ''), info.type)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 bg-gray-800 rounded-lg hover:bg-amber-500/20 text-white flex-shrink-0 ml-1"
+                          title={`Copy ${info.type}`}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                        </button>
                       </div>
-                      
-                      {/* Copy to clipboard button (for email and phone numbers) */}
-                      <button 
-                        onClick={() => copyToClipboard(info.value.replace(/\s+/g, ''), info.type)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 bg-gray-800 rounded-lg hover:bg-amber-500/20 text-white flex-shrink-0 ml-1"
-                        title={`Copy ${info.type}`}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                        </svg>
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  ))}
+                </motion.div>
               </motion.div>
             </motion.div>
-          </motion.div>
 
-          {/* Right Column - Slogan (8 columns) */}
-          <motion.div 
-            className="lg:col-span-7"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
+            {/* Right Column - Slogan (8 columns) */}
             <motion.div 
-              className="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-gray-700/30 hover:border-amber-600/30 transition-all duration-300 h-full flex items-center justify-center"
-              whileHover={{ scale: 1.01 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="lg:col-span-7"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <div className="w-full">
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  className="space-y-6 text-center"
-                >
-                  <div>
+              <motion.div 
+                className="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-gray-700/30 hover:border-amber-600/30 transition-all duration-300 h-full flex items-center justify-center"
+                whileHover={{ scale: 1.01 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              >
+                <div className="w-full">
+                  <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    className="space-y-6 text-center"
+                  >
+                    <div>
+                      <motion.h2 
+                        className="text-5xl md:text-6xl lg:text-7xl font-bold"
+                        variants={textReveal}
+                      >
+                        LET'S CONNECT
+                      </motion.h2>
+                      <motion.div
+                        className="h-1 w-32 bg-amber-500 mx-auto mt-4 rounded-full"
+                        initial={{ width: 0, opacity: 0 }}
+                        animate={{ width: 128, opacity: 1 }}
+                        transition={{ delay: 1, duration: 0.8 }}
+                      />
+                    </div>
                     <motion.h2 
-                      className="text-5xl md:text-6xl lg:text-7xl font-bold"
+                      className="text-5xl md:text-6xl lg:text-7xl font-bold text-white"
                       variants={textReveal}
                     >
-                      LET'S CONNECT
+                      YOUR <span className="text-amber-500">JOURNEY</span>
                     </motion.h2>
-                    <motion.div
-                      className="h-1 w-32 bg-amber-500 mx-auto mt-4 rounded-full"
-                      initial={{ width: 0, opacity: 0 }}
-                      animate={{ width: 128, opacity: 1 }}
-                      transition={{ delay: 1, duration: 0.8 }}
-                    />
-                  </div>
-                  <motion.h2 
-                    className="text-5xl md:text-6xl lg:text-7xl font-bold text-white"
-                    variants={textReveal}
-                  >
-                    YOUR <span className="text-amber-500">JOURNEY</span>
-                  </motion.h2>
-                  <motion.h2 
-                    className="text-5xl md:text-6xl lg:text-7xl font-bold text-white"
-                    variants={textReveal}
-                  >
-                    OUR <span className="text-amber-500 text-6xl md:text-7xl lg:text-8xl">PRIORITY</span>
-                  </motion.h2>
-                </motion.div>
-              </div>
+                    <motion.h2 
+                      className="text-5xl md:text-6xl lg:text-7xl font-bold text-white"
+                      variants={textReveal}
+                    >
+                      OUR <span className="text-amber-500 text-6xl md:text-7xl lg:text-8xl">PRIORITY</span>
+                    </motion.h2>
+                  </motion.div>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

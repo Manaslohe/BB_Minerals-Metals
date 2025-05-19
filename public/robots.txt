@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://bb-minerals-metals.vercel.app/sitemap.xml

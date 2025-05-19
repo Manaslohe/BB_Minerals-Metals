@@ -90,8 +90,11 @@ const BackToTop = () => {
           className="fixed bottom-8 right-8 bg-amber-500 text-white p-3 rounded-full shadow-lg hover:bg-amber-600 transition-colors duration-300 z-40"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
+          aria-label="Back to top"
+          title="Scroll back to top of the page"
+          role="button"
         >
-          <ChevronUp className="h-6 w-6" />
+          <ChevronUp className="h-6 w-6" aria-hidden="true" />
         </motion.button>
       )}
     </AnimatePresence>
