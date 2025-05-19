@@ -232,7 +232,7 @@ const Footer = () => {
               >
                 {[
                   { name: "Company Profile", path: "/company/profile" },
-                  { name: "Our History", path: "/our-history" },
+                  { name: "Our History", path: "/company/history" },
                   { name: "Brochure", path: "/brochure" },
                   { name: "Eco-Friendly & Sustainability", path: "/eco-friendly-sustainability" }
                 ].map((item, index) => (
