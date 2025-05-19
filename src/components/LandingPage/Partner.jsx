@@ -67,14 +67,14 @@ function PartnersSection() {
   useEffect(() => {
     const updateWidths = () => {
       if (ribbonRef.current) {
-        // Use full width for more accurate calculations
-        setRibbonWidth(ribbonRef.current.scrollWidth / 4);
+        // Use consistent divisor regardless of device
+        setRibbonWidth(ribbonRef.current.scrollWidth / (isMobile ? 6 : 4));
       }
     };
     updateWidths();
     window.addEventListener("resize", updateWidths);
     return () => window.removeEventListener("resize", updateWidths);
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     if (ribbonWidth <= 0 || !isVisible) return;
@@ -134,24 +134,6 @@ function PartnersSection() {
     if (!isMobile && !isDragging) {
       setIsPaused(false);
       resumeAnimation();
-    }
-  };
-
-  const handleClick = () => {
-    if (isDragging) return;
-    
-    // On desktop, clicking doesn't pause the animation
-    // Only pause on mobile devices
-    if (isMobile) {
-      setIsPaused((prev) => {
-        if (!prev) {
-          controls.stop();
-          animationRef.current.lastPosition = x.get();
-        } else {
-          resumeAnimation();
-        }
-        return !prev;
-      });
     }
   };
 
@@ -270,7 +252,6 @@ function PartnersSection() {
           className="relative overflow-hidden touch-pan-x cursor-grab active:cursor-grabbing"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          onClick={handleClick}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           style={{ touchAction: "pan-x" }}
@@ -309,7 +290,11 @@ function PartnersSection() {
                   <motion.img
                     src={partner.url}
                     alt={partner.name}
-                    className="h-16 w-auto sm:h-24 md:h-32 object-contain transition-all duration-300"
+                    className={`w-auto object-contain transition-all duration-300 ${
+                      isMobile 
+                        ? "h-20 sm:h-24" // Increased height for mobile
+                        : "h-16 sm:h-24 md:h-32" // Keep desktop size the same
+                    }`}
                     loading="lazy"
                     draggable={false}
                   />
