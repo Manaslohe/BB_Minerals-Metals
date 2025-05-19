@@ -152,44 +152,52 @@ function PartnersSection() {
 
   const handleDragStart = () => {
     controls.stop();
+    x.stop();
     setIsDragging(true);
-    animationRef.current.lastPosition = x.get();
   };
 
   const handleDragEnd = () => {
-    // Add a small delay to ensure drag motion is complete
-    setTimeout(() => {
-      setIsDragging(false);
-      if (!isPaused) {
-        resumeAnimation();
-      }
-    }, 100);
+    setIsDragging(false);
+    
+    const currentPosition = x.get();
+    // Reset position if needed
+    if (currentPosition <= -ribbonWidth * 2) {
+      x.set(-ribbonWidth);
+    } else if (currentPosition >= ribbonWidth) {
+      x.set(0);
+    }
+
+    if (!isPaused) {
+      resumeAnimation();
+    }
   };
 
   const resumeAnimation = () => {
-    // Get current position
+    if (!isVisible) return;
+    
+    x.stop();
+    controls.stop();
+    
     const currentPos = x.get();
+    const targetPos = currentPos - ribbonWidth;
     
-    // Calculate fixed animation duration
-    const animationDuration = animationRef.current.speed;
-    
-    // Apply smooth transition with fixed speed
     controls.start({
-      x: currentPos - ribbonWidth,
+      x: targetPos,
       transition: {
         x: {
-          duration: animationDuration,
+          duration: animationRef.current.speed,
           ease: "linear",
           repeat: 0,
         },
       },
       onComplete: () => {
-        if (x.get() <= -ribbonWidth) {
+        const newPos = x.get();
+        if (newPos <= -ribbonWidth) {
           x.set(0);
         }
         
-        if (!isPaused && !isDragging) {
-          resumeAnimation();
+        if (isVisible && !isPaused && !isDragging) {
+          requestAnimationFrame(() => resumeAnimation());
         }
       }
     });
