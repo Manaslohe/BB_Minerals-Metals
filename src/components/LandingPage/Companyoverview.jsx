@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { UserCog, CheckCircle2, ChevronLeft, ChevronRight, Info } from 'lucide-react';
+import { Info, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useScrollAnimation } from "../../hooks/useScrollAnimation";
 
 const CompanyOverview = () => {
@@ -28,13 +28,13 @@ const CompanyOverview = () => {
       image: "/e1.png",
       title: "OUR SPECIALIZATION",
       description: "We manufacture and supply high-quality:\n• Ferro Molybdenum\n• Low Carbon Ferro Chrome\nWith advanced metallurgical expertise, we ensure superior product quality that meets the stringent demands of the global market.",
-      icon: <UserCog className="text-amber-500 w-12 h-12" strokeWidth={1.5} />
+      icon: <img src="/icons/our_speciali.png" alt="Our Specialization" className="w-12 h-12 object-contain" />
     },
     {
       image: "/e3.png",
       title: "PRODUCTION CAPACITY",
       description: "Our state-of-the-art manufacturing facility has a production capacity of 5,000 tonnes annually, enabling us to ensure consistent supply and meet bulk industrial demands efficiently.",
-      icon: <CheckCircle2 className="text-amber-500 w-12 h-12" strokeWidth={1.5} />
+      icon: <img src="/icons/manufacturing_facility.png" alt="Manufacturing Facility" className="w-12 h-12 object-contain" />
     }
   ];
 
