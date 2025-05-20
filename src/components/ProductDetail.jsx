@@ -14,12 +14,6 @@ const productDetailsData = {
       { title: "Welding Electrodes", desc: " – Ensures high-quality welds with minimal impurities." },
       { title: "Foundry & Castings", desc: " – Provides hardness and oxidation resistance in metal casting." }
     ],
-    applications: [
-      { title: "Stainless Steel Manufacturing", desc: " – Used to produce stainless steel without excessive carbon content." },
-      { title: "Superalloys", desc: " – Used in aerospace and turbine applications." },
-      { title: "Welding Electrodes", desc: " – Enhances corrosion resistance and mechanical properties." },
-      { title: "Chemical Industry", desc: " – Used in catalysts and high-purity alloys." }
-    ],
     composition: [
       { element: "Chromium (Cr)", value: "60-70%" },
       { element: "Carbon (C)", value: "<0.1-0.2%" },
@@ -41,12 +35,6 @@ const productDetailsData = {
       { title: "Carbon & Alloy Steel Production", desc: " – Enhances durability and wear resistance." },
       { title: "Hardfacing & Welding Electrodes", desc: " – Used in wear-resistant coatings and welding applications." },
       { title: "Refractory Applications", desc: " – Provides stability and heat resistance in high-temperature environments." }
-    ],
-    applications: [
-      { title: "Stainless Steel Production", desc: " – Adds chromium to steel to improve corrosion resistance." },
-      { title: "Casting and Foundry Industry", desc: " – Used in making wear-resistant castings." },
-      { title: "Mining and Earthmoving Equipment", desc: " – Provides hardness for machinery." },
-      { title: "Hardfacing Alloys", desc: " – Used in wear-resistant coatings for tools and industrial components." }
     ],
     composition: [
       { element: "Chromium (Cr)", value: "60-70%" },
@@ -89,12 +77,6 @@ const productDetailsData = {
       "Provides high-temperature resistance",
       "Improves wear resistance and corrosion resistance"
     ],
-    applications: [
-      "High-Speed Steel – Used in drill bits, saw blades, and cutting tools.",
-      "Tool Steel & Stainless Steel – Increases hardness and strength.",
-      "Automobile Industry – Used in engine parts and transmission gears.",
-      "Aerospace & Defense – Essential for aircraft and military-grade alloys."
-    ],
     hasTypes: false
   },
   "Silicon Metal": {
@@ -117,13 +99,11 @@ const productDetailsData = {
       "High purity and low impurity content for consistent alloying",
       "Increases hardness and strength when alloyed with metals"
     ],
-    applications: [
-      "Aluminum Casting Industry – Used in automotive parts like engine blocks and wheels.",
-      "Electronics – Raw material for semiconductors and microchips.",
-      "Solar Panels – Crucial for photovoltaic cell manufacturing.",
-      "Chemical Manufacturing – Used to make industrial-grade silicones and resins."
-    ],
-    hasTypes: false
+    hasTypes: false,
+    gradeSpecifications: [
+      { grade: "553", si: "98.5", fe: "0.5", al: "0.5", ca: "0.3" },
+      { grade: "441", si: "99.0", fe: "0.4", al: "0.4", ca: "0.1" }
+    ]
   },
   "Manganese Flake": {
     overview: "Manganese Flake is a vital industrial element extensively used in steel production, battery manufacturing, and chemical processes. It improves hardness, tensile strength, and corrosion resistance across a wide range of applications.",
@@ -144,12 +124,6 @@ const productDetailsData = {
       "Rapidly dissolves in molten metals, ensuring efficient alloying",
       "Enhances strength, hardness, and wear resistance of steels",
       "Provides excellent deoxidizing capability for cleaner steel production"
-    ],
-    applications: [
-      "Steelmaking – Widely used in stainless steel and special alloy production.",
-      "Battery Manufacturing – Key material in alkaline and lithium-based batteries.",
-      "Foundries – Used to refine molten metal and improve quality.",
-      "Electronics & Chemicals – Involved in producing specialty chemicals and electronic components."
     ],
     hasTypes: false
   }
@@ -350,7 +324,7 @@ function ProductDetail({ product, isClosing = false }) {
                 <motion.h2 
                   className="mb-2 text-2xl font-bold text-white"
                 >
-                  Uses
+                  Applications
                 </motion.h2>
                 <motion.div 
                   className="flex flex-col gap-2"
@@ -423,8 +397,43 @@ function ProductDetail({ product, isClosing = false }) {
           </div>
         </motion.div>
 
-        {/* Three Column Layout below image */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        {/* Two/Three Column Layout below image */}
+        <div className={`grid grid-cols-1 ${productName === "Silicon Metal" ? 'md:grid-cols-3' : 'md:grid-cols-2'} gap-6 mt-8`}>
+          {/* Grade Specifications Column - Only for Silicon Metal */}
+          {productName === "Silicon Metal" && (
+            <motion.article 
+              className="bg-gray-800/90 p-6 rounded-lg order-first"
+              variants={itemVariants}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <img 
+                  src="/icons/grade.png" 
+                  alt="Grade Specifications Icon" 
+                  className="w-7 h-7 object-contain"
+                />
+                <h3 className="text-xl font-bold text-white">Grade Specifications</h3>
+              </div>
+              <div className="space-y-2">
+                <div className="grid grid-cols-5 gap-2 text-neutral-300 text-sm font-semibold mb-2">
+                  <div>Grade</div>
+                  <div>Si(%)</div>
+                  <div>Fe(%)</div>
+                  <div>Al(%)</div>
+                  <div>Ca(%)</div>
+                </div>
+                {productData.gradeSpecifications?.map((spec, index) => (
+                  <div key={index} className="grid grid-cols-5 gap-2 text-neutral-300 text-sm">
+                    <div>{spec.grade}</div>
+                    <div>{spec.si}</div>
+                    <div>{spec.fe}</div>
+                    <div>{spec.al}</div>
+                    <div>{spec.ca}</div>
+                  </div>
+                ))}
+              </div>
+            </motion.article>
+          )}
+
           {/* Composition Column */}
           <motion.article 
             className="bg-gray-800/90 p-6 rounded-lg"
@@ -467,30 +476,6 @@ function ProductDetail({ product, isClosing = false }) {
                   <span className="min-w-[5px] min-h-[5px] bg-gray-400 rounded-full mt-2"></span>
                   <span>{property}</span>
                 </li>
-              ))}
-            </ul>
-          </motion.article>
-
-          {/* Applications Column */}
-          <motion.article 
-            className="bg-gray-800/90 p-6 rounded-lg"
-            variants={itemVariants}
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <img 
-                src="/icons/applications.png" 
-                alt="Applications Icon" 
-                className="w-7 h-7 object-contain"
-              />
-              <h3 className="text-xl font-bold text-white">Applications</h3>
-            </div>
-            <ul className="space-y-2">
-              {productData.applications && Array.isArray(productData.applications) && 
-                productData.applications.map((app, index) => (
-                  <li key={index} className="text-neutral-300 flex items-start gap-2">
-                    <span className="min-w-[5px] min-h-[5px] bg-gray-400 rounded-full mt-2"></span>
-                    <span>{typeof app === 'string' ? app : `${app.title}${app.desc}`}</span>
-                  </li>
               ))}
             </ul>
           </motion.article>
