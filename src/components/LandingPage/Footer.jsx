@@ -120,7 +120,7 @@ const Footer = () => {
                 transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <a 
-                  href="/src/assets/BBMAM BROCHURE.pdf" 
+                  href="/assets/BBMAM BROCHURE.pdf" 
                   className={linkHoverStyle}
                   target="_blank" 
                   rel="noopener noreferrer"
@@ -259,7 +259,7 @@ const Footer = () => {
                 ))}
                 <li>
                   <a 
-                    href="/src/assets/BBMAM BROCHURE.pdf" 
+                    href="/assets/BBMAM BROCHURE.pdf" 
                     className={linkHoverStyle}
                     target="_blank" 
                     rel="noopener noreferrer"
