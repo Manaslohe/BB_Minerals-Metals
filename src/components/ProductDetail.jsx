@@ -7,12 +7,18 @@ import ThreeDViewer from "./ThreeDViewer";
 const productDetailsData = {
   "Low Carbon Ferro Chrome": {
     overview: "Low Carbon Ferro Chrome (LC FeCr) is an essential alloy primarily used in steelmaking and other industrial applications. It is a crucial source of chromium with minimal carbon content, making it ideal for high-quality steel production.",
+    uses: [
+      { title: "Stainless Steel Production", desc: " – Enhances corrosion resistance and strength." },
+      { title: "High-Performance Alloys", desc: " – Used in superalloys for aerospace and industrial applications." },
+      { title: "Tool & Die Steel", desc: " – Improves wear resistance and durability." },
+      { title: "Welding Electrodes", desc: " – Ensures high-quality welds with minimal impurities." },
+      { title: "Foundry & Castings", desc: " – Provides hardness and oxidation resistance in metal casting." }
+    ],
     applications: [
-      { title: "Stainless Steel Production", desc: "– Enhances corrosion resistance and strength." },
-      { title: "High-Performance Alloys", desc: "– Used in superalloys for aerospace and industrial applications." },
-      { title: "Tool & Die Steel", desc: "– Improves wear resistance and durability." },
-      { title: "Welding Electrodes", desc: "– Ensures high-quality welds with minimal impurities." },
-      { title: "Foundry & Castings", desc: "– Provides hardness and oxidation resistance in metal casting." }
+      { title: "Stainless Steel Manufacturing", desc: " – Used to produce stainless steel without excessive carbon content." },
+      { title: "Superalloys", desc: " – Used in aerospace and turbine applications." },
+      { title: "Welding Electrodes", desc: " – Enhances corrosion resistance and mechanical properties." },
+      { title: "Chemical Industry", desc: " – Used in catalysts and high-purity alloys." }
     ],
     composition: [
       { element: "Chromium (Cr)", value: "60-70%" },
@@ -26,21 +32,21 @@ const productDetailsData = {
       "Excellent corrosion resistance",
       "High melting point and heat resistance"
     ],
-    uses: [
-      "Stainless Steel Manufacturing – Used to produce stainless steel without increasing carbon content.",
-      "Superalloys – Used in aerospace and turbine applications.",
-      "Welding Electrodes – Enhances corrosion resistance and mechanical properties.",
-      "Chemical Industry – Used in catalysts and high-purity alloys."
-    ],
     hasTypes: false
   },
   "High Carbon Ferro Chrome": {
     overview: "High Carbon Ferro Chrome (HC FeCr) is a key alloy used in steelmaking, providing essential chromium content along with high carbon levels. It is widely used in industries requiring strong, wear-resistant materials.",
+    uses: [
+      { title: "Stainless Steel Manufacturing", desc: " – Increases strength, hardness, and corrosion resistance." },
+      { title: "Carbon & Alloy Steel Production", desc: " – Enhances durability and wear resistance." },
+      { title: "Hardfacing & Welding Electrodes", desc: " – Used in wear-resistant coatings and welding applications." },
+      { title: "Refractory Applications", desc: " – Provides stability and heat resistance in high-temperature environments." }
+    ],
     applications: [
-      { title: "Stainless Steel Manufacturing", desc: "– Increases strength, hardness, and corrosion resistance." },
-      { title: "Carbon & Alloy Steel Production", desc: "– Enhances durability and wear resistance." },
-      { title: "Hardfacing & Welding Electrodes", desc: "– Used in wear-resistant coatings and welding applications." },
-      { title: "Refractory Applications", desc: "– Provides stability and heat resistance in high-temperature environments." }
+      { title: "Stainless Steel Production", desc: " – Adds chromium to steel to improve corrosion resistance." },
+      { title: "Casting and Foundry Industry", desc: " – Used in making wear-resistant castings." },
+      { title: "Mining and Earthmoving Equipment", desc: " – Provides hardness for machinery." },
+      { title: "Hardfacing Alloys", desc: " – Used in wear-resistant coatings for tools and industrial components." }
     ],
     composition: [
       { element: "Chromium (Cr)", value: "60-70%" },
@@ -53,12 +59,6 @@ const productDetailsData = {
       "High hardness and wear resistance",
       "Excellent corrosion resistance",
       "High melting point, making it suitable for steel manufacturing"
-    ],
-    uses: [
-      "Stainless Steel Production – Adds chromium to steel to improve corrosion resistance.",
-      "Casting and Foundry Industry – Used in making wear-resistant castings.",
-      "Mining and Earthmoving Equipment – Provides hardness for machinery.",
-      "Hardfacing Alloys – Used in wear-resistant coatings for tools and industrial components."
     ],
     hasTypes: true,
     types: [
@@ -430,14 +430,14 @@ function ProductDetail({ product, isClosing = false }) {
             className="bg-gray-800/90 p-6 rounded-lg"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <div className="flex items-center gap-3 mb-4">
               <img 
                 src="/icons/composition.png" 
                 alt="Composition Icon" 
-                className="w-5 h-5 object-contain"
+                className="w-7 h-7 object-contain"
               />
-              Composition
-            </h3>
+              <h3 className="text-xl font-bold text-white">Composition</h3>
+            </div>
             <div className="space-y-2">
               {productData.composition.map((item, index) => (
                 <div key={index} className="flex justify-between text-neutral-300">
@@ -453,14 +453,14 @@ function ProductDetail({ product, isClosing = false }) {
             className="bg-gray-800/90 p-6 rounded-lg"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <div className="flex items-center gap-3 mb-4">
               <img 
                 src="/icons/properties.png" 
                 alt="Properties Icon" 
-                className="w-5 h-5 object-contain"
+                className="w-7 h-7 object-contain"
               />
-              Properties
-            </h3>
+              <h3 className="text-xl font-bold text-white">Properties</h3>
+            </div>
             <ul className="space-y-2">
               {productData.properties.map((property, index) => (
                 <li key={index} className="text-neutral-300 flex items-start gap-2">
@@ -476,14 +476,14 @@ function ProductDetail({ product, isClosing = false }) {
             className="bg-gray-800/90 p-6 rounded-lg"
             variants={itemVariants}
           >
-            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <div className="flex items-center gap-3 mb-4">
               <img 
                 src="/icons/applications.png" 
                 alt="Applications Icon" 
-                className="w-5 h-5 object-contain"
+                className="w-7 h-7 object-contain"
               />
-             Applications
-            </h3>
+              <h3 className="text-xl font-bold text-white">Applications</h3>
+            </div>
             <ul className="space-y-2">
               {productData.applications && Array.isArray(productData.applications) && 
                 productData.applications.map((app, index) => (
