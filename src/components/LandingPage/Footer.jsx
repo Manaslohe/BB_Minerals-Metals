@@ -201,7 +201,7 @@ const Footer = () => {
               <div>
                 <p className="font-semibold mb-2 text-sm text-amber-500/80">FACTORY LOCATION</p>
                 <address className="not-italic text-gray-300 leading-relaxed">
-                  SZ 2-5, MIDC, Butibori,<br />
+                  SZ 3-5, MIDC, Butibori,<br />
                   Nagpur – 441122,<br />
                   Maharashtra, Bharat
                 </address>
@@ -210,10 +210,10 @@ const Footer = () => {
               <div>
                 <p className="font-medium mb-1 text-xs">OFFICE LOCATION</p>
                 <address className="not-italic text-gray-300 leading-relaxed">
-                  C-3 & C-4, Vaishnav<br />
+                  G-3 & G-4, Vaishnav<br />
                   Sagar Bungalow, New<br />
                   Manish Nagar,<br />
-                  Sambhaji Nagar, Nagpur<br />
+                  Somalwada, Nagpur<br />
                   440015, Bharat
                 </address>
               </div>

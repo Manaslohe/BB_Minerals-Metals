@@ -27,7 +27,7 @@ const CompanyOverview = () => {
     {
       image: "/e1.png",
       title: "OUR SPECIALIZATION",
-      description: "We manufacture and supply high-quality:\n• Ferro Molybdenum\n• Low Carbon Ferro Chrome\nWith advanced metallurgical expertise, we ensure superior product quality that meets the stringent demands of the global market.",
+      description: "We manufacture and trade high-quality:\n• Ferro Molybdenum\n• Low Carbon Ferro Chrome\nWith advanced metallurgical expertise, we ensure superior product quality that meets the stringent demands of the global market.",
       icon: <img src="/icons/our_speciali.png" alt="Our Specialization" className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain" />
     },
     {

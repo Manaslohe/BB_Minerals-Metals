@@ -117,7 +117,7 @@ export default function HistoryPage() {
         <div className="space-y-4">
           <h3 className="text-xl text-amber-500 font-semibold">A Strategic Evolution</h3>
           <p className="text-gray-300 leading-relaxed">
-            Around the five-year mark, the company identified a critical opportunity to gain greater control over product 
+            Around the fifteen-year mark, the company identified a critical opportunity to gain greater control over product 
             quality and reduce reliance on third-party suppliers. This led to a strategic expansion into manufacturing.
           </p>
           <p className="text-gray-300 leading-relaxed mt-3">

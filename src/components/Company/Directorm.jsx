@@ -159,7 +159,7 @@ const DirectorMessage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Promoter Message
+              Promoter's Message
             </motion.h1>
             
             <motion.div 
@@ -222,7 +222,7 @@ const DirectorMessage = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.9, duration: 0.5 }}
               >
-                Director
+               Promoter
               </motion.p>
             </motion.div>
           </motion.div>

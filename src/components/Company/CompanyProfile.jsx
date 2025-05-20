@@ -124,7 +124,7 @@ const CompanyProfile = () => {
                   whileHover={{ y: -5, transition: { duration: 0.2 } }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  Classified as an SSI unit under the <span className="font-semibold text-amber-500">MSME Act</span>, the company 
+                  Classified as an medium enterprise under the <span className="font-semibold text-amber-500">MSME Act</span>, the company 
                   holds a registered trademark and <span className="font-semibold text-amber-500">ISO certification</span>, ensuring
                   high-quality standards and regulatory compliance.
                 </motion.p>

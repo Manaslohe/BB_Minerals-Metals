@@ -249,7 +249,7 @@ function Header() {
     { name: "Company Profile", path: "/company/profile" },
     { name: "Our History", path: "/company/history" },
     { name: "Excellence", path: "/company/excellence" },
-    { name: "Promoter Message", path: "/company/promoter-message" },
+    { name: "Promoter's Message", path: "/company/promoter-message" },
     { name: "Manufacturing Unit", path: "/company/manufacturing-unit" },
     { name: "Gallery", path: "/company/gallery", comingSoon: true }
   ];
