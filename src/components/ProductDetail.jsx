@@ -14,6 +14,24 @@ const productDetailsData = {
       { title: "Welding Electrodes", desc: "– Ensures high-quality welds with minimal impurities." },
       { title: "Foundry & Castings", desc: "– Provides hardness and oxidation resistance in metal casting." }
     ],
+    composition: [
+      { element: "Chromium (Cr)", value: "60-70%" },
+      { element: "Carbon (C)", value: "<0.1-0.2%" },
+      { element: "Silicon (Si)", value: "1-3%" },
+      { element: "Sulfur (S)", value: "<0.05%" },
+      { element: "Phosphorus (P)", value: "<0.05%" }
+    ],
+    properties: [
+      "High purity with minimal carbon content",
+      "Excellent corrosion resistance",
+      "High melting point and heat resistance"
+    ],
+    uses: [
+      "Stainless Steel Manufacturing – Used to produce stainless steel without increasing carbon content.",
+      "Superalloys – Used in aerospace and turbine applications.",
+      "Welding Electrodes – Enhances corrosion resistance and mechanical properties.",
+      "Chemical Industry – Used in catalysts and high-purity alloys."
+    ],
     hasTypes: false
   },
   "High Carbon Ferro Chrome": {
@@ -24,6 +42,24 @@ const productDetailsData = {
       { title: "Hardfacing & Welding Electrodes", desc: "– Used in wear-resistant coatings and welding applications." },
       { title: "Refractory Applications", desc: "– Provides stability and heat resistance in high-temperature environments." }
     ],
+    composition: [
+      { element: "Chromium (Cr)", value: "60-70%" },
+      { element: "Carbon (C)", value: "4-10%" },
+      { element: "Silicon (Si)", value: "1-4%" },
+      { element: "Sulfur (S)", value: "<0.05%" },
+      { element: "Phosphorus (P)", value: "<0.050%" }
+    ],
+    properties: [
+      "High hardness and wear resistance",
+      "Excellent corrosion resistance",
+      "High melting point, making it suitable for steel manufacturing"
+    ],
+    uses: [
+      "Stainless Steel Production – Adds chromium to steel to improve corrosion resistance.",
+      "Casting and Foundry Industry – Used in making wear-resistant castings.",
+      "Mining and Earthmoving Equipment – Provides hardness for machinery.",
+      "Hardfacing Alloys – Used in wear-resistant coatings for tools and industrial components."
+    ],
     hasTypes: true,
     types: [
       { title: "Standard Low Phosphorus HC FeCr", desc: "" },
@@ -33,34 +69,87 @@ const productDetailsData = {
   },
   "Ferro Molybdenum": {
     overview: "Ferro Molybdenum (FeMo) is an important alloying element used in steel production to enhance strength, hardness, and corrosion resistance. It is primarily composed of molybdenum and iron, making it essential for high-performance applications.",
-    applications: [
+    uses: [
       { title: "High-Strength Steel Production", desc: "– Improves toughness, wear resistance, and tensile strength." },
       { title: "Stainless Steel & Alloy Steel", desc: "– Enhances corrosion resistance and heat stability." },
       { title: "Automotive & Aerospace Industry", desc: "– Used in high-performance alloys for durability." },
       { title: "Energy & Power Plants", desc: "– Essential in the production of heat-resistant materials." },
       { title: "Castings & Foundry Industry", desc: "– Provides improved strength and oxidation resistance in metal" }
     ],
+    composition: [
+      { element: "Molybdenum (Mo)", value: "60-75%" },
+      { element: "Carbon (C)", value: "<0.1%" },
+      { element: "Silicon (Si)", value: "<1.0%" },
+      { element: "Sulfur (S)", value: "<0.08%" },
+      { element: "Phosphorus (P)", value: "<0.05%" },
+      { element: "Copper(CU)", value: "<0.5%" }
+    ],
+    properties: [
+      "Enhances strength, toughness, and hardness of steel",
+      "Provides high-temperature resistance",
+      "Improves wear resistance and corrosion resistance"
+    ],
+    applications: [
+      "High-Speed Steel – Used in drill bits, saw blades, and cutting tools.",
+      "Tool Steel & Stainless Steel – Increases hardness and strength.",
+      "Automobile Industry – Used in engine parts and transmission gears.",
+      "Aerospace & Defense – Essential for aircraft and military-grade alloys."
+    ],
     hasTypes: false
   },
   "Silicon Metal": {
     overview: "Silicon Metal is an essential industrial material widely used in alloy production, steel manufacturing, and advanced technologies. It enhances strength, durability, and resistance in a variety of applications.",
+    uses: [
+      { title: "Aluminum Industry", desc: "– Enhances strength and castability in aluminum-silicon alloys for automotive and aerospace." },
+      { title: "Chemical Industry", desc: "– Key ingredient in producing silicones for lubricants, sealants, and cosmetics." },
+      { title: "Electronics & Solar Industry", desc: "– Used in semiconductors and photovoltaic cells due to its electrical properties." },
+      { title: "Steelmaking", desc: "– Acts as a deoxidizer and alloying agent in steel and iron production." }
+    ],
+    composition: [
+      { element: "Silicon (Si)", value: "98.5–99.9%" },
+      { element: "Iron (Fe)", value: "≤ 0.5%" },
+      { element: "Aluminum (Al)", value: "≤ 0.3%" },
+      { element: "Calcium (Ca)", value: "≤ 0.1%" },
+      { element: "Carbon (C)", value: "≤ 0.1%" }
+    ],
+    properties: [
+      "Excellent electrical conductivity and thermal stability",
+      "High purity and low impurity content for consistent alloying",
+      "Increases hardness and strength when alloyed with metals"
+    ],
     applications: [
-      { title: "Steel & Alloy Manufacturing", desc: "– Improves strength, hardness, and impact resistance." },
-      { title: "Aluminum Alloys", desc: "– Enhances corrosion resistance, lightweight properties, and durability." },
-      { title: "Electronics & Semiconductors", desc: "– Silicon is a key component in microchips and solar panels." },
-      { title: "Chemical Industry", desc: "– Used in silicones, lubricants, pigments, and industrial chemicals." },
-      { title: "Foundry & Casting", desc: "– Provides heat resistance and improves metal fluidity and finish." }
+      "Aluminum Casting Industry – Used in automotive parts like engine blocks and wheels.",
+      "Electronics – Raw material for semiconductors and microchips.",
+      "Solar Panels – Crucial for photovoltaic cell manufacturing.",
+      "Chemical Manufacturing – Used to make industrial-grade silicones and resins."
     ],
     hasTypes: false
   },
   "Manganese Flake": {
     overview: "Manganese Flake is a vital industrial element extensively used in steel production, battery manufacturing, and chemical processes. It improves hardness, tensile strength, and corrosion resistance across a wide range of applications.",
+    uses: [
+      { title: "Steel & Iron Production", desc: "– Acts as a deoxidizer and improves toughness, strength, and wear resistance." },
+      { title: "Non-Ferrous Alloys", desc: "– Enhances strength and resistance in alloys used in specialized applications." },
+      { title: "Battery Industry", desc: "– Used in manufacturing lithium-ion and dry-cell batteries." },
+      { title: "Chemical Industry", desc: "– Serves as a catalyst or reagent in various chemical processes." }
+    ],
+    composition: [
+      { element: "Manganese (Mn)", value: "≥ 99.7%" },
+      { element: "Carbon (C)", value: "≤ 0.04%" },
+      { element: "Sulfur (S)", value: "≤ 0.02%" },
+      { element: "Phosphorus (P)", value: "≤ 0.005%" },
+      { element: "Iron (Fe)", value: "≤ 0.05%" }
+    ],
+    properties: [
+      "Rapidly dissolves in molten metals, ensuring efficient alloying",
+      "Enhances strength, hardness, and wear resistance of steels",
+      "Provides excellent deoxidizing capability for cleaner steel production"
+    ],
     applications: [
-      { title: "Battery Production", desc: "– Essential in lithium-ion and dry-cell batteries for energy storage." },
-      { title: "Steel Production", desc: "– Improves tensile strength, wear resistance, and deoxidization in steel." },
-      { title: "Welding Electrodes", desc: "– Used as an additive in manufacturing electrodes for stronger welds." },
-      { title: "Chemical Applications", desc: "– Used in fertilizers, ceramics, and pharmaceutical formulations." },
-      { title: "Metal Alloys", desc: "– Adds hardness and resilience to specialty alloys and castings." }
+      "Steelmaking – Widely used in stainless steel and special alloy production.",
+      "Battery Manufacturing – Key material in alkaline and lithium-based batteries.",
+      "Foundries – Used to refine molten metal and improve quality.",
+      "Electronics & Chemicals – Involved in producing specialty chemicals and electronic components."
     ],
     hasTypes: false
   }
@@ -154,7 +243,7 @@ function ProductDetail({ product, isClosing = false }) {
 
   return (
     <motion.div 
-      className="bg-gray-900 rounded-xl p-6 sm:p-8 relative overflow-hidden"
+      className="bg-gray-900 rounded-xl p-6 sm:p-8 relative overflow-hidden max-h-[90vh] overflow-y-auto"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -170,11 +259,8 @@ function ProductDetail({ product, isClosing = false }) {
 
       <motion.section className="relative" variants={itemVariants}>
         <motion.div 
-          className="flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 p-4 md:p-6 pl-6 md:pl-12 bg-gray-800 rounded-lg
-                    hover:bg-gray-800/90 transition-colors duration-300"
+          className="flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 p-4 md:p-6 pl-6 md:pl-12 bg-gray-800/90 rounded-lg"
           variants={itemVariants}
-          whileHover={{ scale: 1.01 }}
-          transition={{ type: "spring", stiffness: 400, damping: 30 }}
         >
           <motion.figure 
             className="flex justify-center items-center w-full md:w-auto perspective-1000 relative"
@@ -229,7 +315,6 @@ function ProductDetail({ product, isClosing = false }) {
             <motion.article 
               className="flex flex-col md:flex-row gap-4 items-start"
               variants={itemVariants}
-              whileHover={{ scale: 1.01 }}
             >
               <motion.img
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/3c7b4a5c47fdf0773dee819f17e985a3eb0a9317"
@@ -241,7 +326,6 @@ function ProductDetail({ product, isClosing = false }) {
               <div>
                 <motion.h2 
                   className="mb-2 text-2xl font-bold text-white"
-                  whileHover={{ color: "#f59e0b", transition: { duration: 0.2 } }}
                 >
                   Overview
                 </motion.h2>
@@ -254,7 +338,6 @@ function ProductDetail({ product, isClosing = false }) {
             <motion.article 
               className="flex flex-col md:flex-row gap-4 items-start"
               variants={itemVariants}
-              whileHover={{ scale: 1.01 }}
             >
               <motion.img
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/2109d836c2fb631d1f6508552cf22a82d41a4441"
@@ -266,15 +349,14 @@ function ProductDetail({ product, isClosing = false }) {
               <div>
                 <motion.h2 
                   className="mb-2 text-2xl font-bold text-white"
-                  whileHover={{ color: "#f59e0b", transition: { duration: 0.2 } }}
                 >
-                  Uses & Applications
+                  Uses
                 </motion.h2>
                 <motion.div 
                   className="flex flex-col gap-2"
                   variants={listVariants}
                 >
-                  {productData.applications.map((item, index) => (
+                  {productData.uses.map((item, index) => (
                     <motion.div 
                       key={index} 
                       className="flex gap-2 items-center"
@@ -299,7 +381,6 @@ function ProductDetail({ product, isClosing = false }) {
               <motion.article 
                 className="flex flex-col md:flex-row gap-4 items-start"
                 variants={itemVariants}
-                whileHover={{ scale: 1.01 }}
               >
                 <motion.img
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/2109d836c2fb631d1f6508552cf22a82d41a4441"
@@ -311,7 +392,6 @@ function ProductDetail({ product, isClosing = false }) {
                 <div>
                   <motion.h2 
                     className="mb-2 text-2xl font-bold text-white"
-                    whileHover={{ color: "#f59e0b", transition: { duration: 0.2 } }}
                   >
                     Under High Carbon Ferro Chrome
                   </motion.h2>
@@ -342,6 +422,79 @@ function ProductDetail({ product, isClosing = false }) {
             )}
           </div>
         </motion.div>
+
+        {/* Three Column Layout below image */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          {/* Composition Column */}
+          <motion.article 
+            className="bg-gray-800/90 p-6 rounded-lg"
+            variants={itemVariants}
+          >
+            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <img 
+                src="/icons/composition.png" 
+                alt="Composition Icon" 
+                className="w-5 h-5 object-contain"
+              />
+              Composition
+            </h3>
+            <div className="space-y-2">
+              {productData.composition.map((item, index) => (
+                <div key={index} className="flex justify-between text-neutral-300">
+                  <span>{item.element}</span>
+                  <span className="font-semibold">{item.value}</span>
+                </div>
+              ))}
+            </div>
+          </motion.article>
+
+          {/* Properties Column */}
+          <motion.article 
+            className="bg-gray-800/90 p-6 rounded-lg"
+            variants={itemVariants}
+          >
+            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <img 
+                src="/icons/properties.png" 
+                alt="Properties Icon" 
+                className="w-5 h-5 object-contain"
+              />
+              Properties
+            </h3>
+            <ul className="space-y-2">
+              {productData.properties.map((property, index) => (
+                <li key={index} className="text-neutral-300 flex items-start gap-2">
+                  <span className="min-w-[5px] min-h-[5px] bg-gray-400 rounded-full mt-2"></span>
+                  <span>{property}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.article>
+
+          {/* Applications Column */}
+          <motion.article 
+            className="bg-gray-800/90 p-6 rounded-lg"
+            variants={itemVariants}
+          >
+            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <img 
+                src="/icons/applications.png" 
+                alt="Applications Icon" 
+                className="w-5 h-5 object-contain"
+              />
+             Applications
+            </h3>
+            <ul className="space-y-2">
+              {productData.applications && Array.isArray(productData.applications) && 
+                productData.applications.map((app, index) => (
+                  <li key={index} className="text-neutral-300 flex items-start gap-2">
+                    <span className="min-w-[5px] min-h-[5px] bg-gray-400 rounded-full mt-2"></span>
+                    <span>{typeof app === 'string' ? app : `${app.title}${app.desc}`}</span>
+                  </li>
+              ))}
+            </ul>
+          </motion.article>
+        </div>
 
         <motion.div 
           className="absolute top-0 left-0 w-2 md:w-3 bg-amber-500 h-full z-10 origin-top"
