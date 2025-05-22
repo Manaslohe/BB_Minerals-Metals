@@ -357,9 +357,9 @@ function ProductDetail({ product, isClosing = false }) {
                 variants={itemVariants}
               >
                 <motion.img
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/2109d836c2fb631d1f6508552cf22a82d41a4441"
+                  src="/icons/grade.png"
                   alt="Types icon"
-                  className="w-12 h-12"
+                  className="w-10 h-10"
                   whileHover={{ rotate: [0, -5, 5, 0], scale: 1.1 }}
                   transition={{ duration: 0.5 }}
                 />
@@ -367,7 +367,7 @@ function ProductDetail({ product, isClosing = false }) {
                   <motion.h2 
                     className="mb-2 text-2xl font-bold text-white"
                   >
-                    Under High Carbon Ferro Chrome
+                   Types
                   </motion.h2>
                   <motion.div 
                     className="flex flex-col gap-2"
