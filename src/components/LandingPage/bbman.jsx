@@ -35,7 +35,7 @@ const BBMAN = () => {
                 <div className="relative w-full aspect-video">
                   <iframe 
                     className="absolute inset-0 w-full h-full"
-                          src="https://www.youtube.com/embed/0K0VVXCSNN8?autoplay=1" 
+                    src="https://www.youtube.com/embed/JUGYmyr--5c?autoplay=1"
                     title="BB Minerals and Metals Video"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowFullScreen
