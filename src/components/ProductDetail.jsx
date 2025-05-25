@@ -114,11 +114,11 @@ const productDetailsData = {
       { title: "Chemical Industry", desc: "– Serves as a catalyst or reagent in various chemical processes." }
     ],
     composition: [
-      { element: "Manganese (Mn)", value: "≥ 99.7%" },
-      { element: "Carbon (C)", value: "≤ 0.04%" },
-      { element: "Sulfur (S)", value: "≤ 0.02%" },
-      { element: "Phosphorus (P)", value: "≤ 0.005%" },
-      { element: "Iron (Fe)", value: "≤ 0.05%" }
+      { element: "Manganese", value: "99.70%" },
+      { element: "Carbon", value: "0.04% Max" },
+      { element: "Fe + Si + Se", value: "0.205% Max" },
+      { element: "Sulphur", value: "0.05% Max" },
+      { element: "Phosphorus", value: "0.005% Max" }
     ],
     properties: [
       "Rapidly dissolves in molten metals, ensuring efficient alloying",
