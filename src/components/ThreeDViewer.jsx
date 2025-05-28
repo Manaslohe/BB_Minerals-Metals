@@ -46,10 +46,10 @@ const Model = ({ modelPath }) => {
 
   // Define scales for different models
   const getModelScale = (path) => {
-    if (path.includes("SILICON METAL")) return 6.5;
-    if (path.includes("Magneese")) return 7.5;
-    if (path.includes("FEROMOLY")) return 2.8;
-    if (path.includes("FERO CHROME")) return 3.2;
+    if (path.includes("SILICON METAL")) return 7.5;
+    if (path.includes("Magneese")) return 11.5;
+    if (path.includes("FEROMOLY")) return 7.8;
+    if (path.includes("FERO CHROME")) return 11.2;
     return 2.5;
   };
 
@@ -105,8 +105,21 @@ const Model = ({ modelPath }) => {
     }
   });
 
-  return <primitive object={scene} scale={modelScale} position={[0, -2, 0]} visible frustumCulled={false} />;
+  return <primitive 
+    object={scene} 
+    scale={modelScale} 
+    position={[
+      0, 
+      modelPath.includes("SILICON METAL") ? -2.7 : 
+      modelPath.includes("FEROMOLY") ? -2.5 :
+      modelPath.includes("FERO CHROME") ? -2.5 :  -2,
+      0
+    ]} 
+    visible 
+    frustumCulled={false} 
+  />;
 };
+
 
 // 3D Viewer Modal Component
 const ThreeDViewer = ({ isOpen, onClose, productName }) => {

@@ -349,7 +349,7 @@ function Header() {
             </motion.div>
           ))}
 
-          {["INQUIRY", "BLOG", "CONTACT US"].map((item, index) => (
+          {["INQUIRY", "BLOG AND FAQS", "CONTACT US"].map((item, index) => (
             <motion.div
               key={item}
               variants={menuItemVariants}
@@ -360,7 +360,7 @@ function Header() {
               onClick={() => {
                 if (item === "INQUIRY") navigate("/inquiry");
                 else if (item === "CONTACT US") navigate("/contact");
-                else if (item === "BLOG") navigate("/blog");
+                else if (item === "BLOG AND FAQS") navigate("/blog");
                 setIsMobileMenuOpen(false);
               }}
             >
@@ -368,7 +368,7 @@ function Header() {
               {/* Orange underline for active components */}
               {((item === "INQUIRY" && isActive("/inquiry")) || 
                 (item === "CONTACT US" && isActive("/contact")) || 
-                (item === "BLOG" && isActive("/blog"))) && (
+                (item === "BLOG AND FAQS" && isActive("/blog"))) && (
                 <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-amber-500 rounded-full"></div>
               )}
             </motion.div>
@@ -395,7 +395,7 @@ function Header() {
             index={2}
           />
           <MenuItem
-            label="BLOG"
+            label="BLOG AND FAQS"
             isActive={isActive("/blog")}
             onClick={() => navigate("/blog")}
             index={3}
@@ -420,7 +420,7 @@ function Header() {
       animate={hasLoaded ? "visible" : "hidden"}
       whileHover={{ scale: 1.02 }}
       onClick={
-        label === "BLOG"
+        label === "BLOG AND FAQS"
           ? () => navigate("/blog")
           : onClick
       }
@@ -506,7 +506,7 @@ function Header() {
                   index={2}
                 />
                 <MenuItem
-                  label="BLOG"
+                  label="BLOG AND FAQS"
                   isActive={isActive("/blog")}
                   onClick={() => navigate("/blog")}
                   index={3}
