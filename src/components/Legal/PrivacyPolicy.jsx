@@ -165,7 +165,7 @@ const PrivacyPolicy = () => {
               </p>
               <p className="font-medium">
                 FrameX<br />
-                Email: <a href="mailto:contact@framex.dev" className="text-amber-400 hover:underline">contact@framex.dev</a>
+                Email: <a href="mailto:framex122@gmail.com" className="text-amber-400 hover:underline">framex122@gmail.com</a>
               </p>
             </section>
           </div>
