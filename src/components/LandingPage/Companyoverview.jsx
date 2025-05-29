@@ -22,7 +22,7 @@ const CompanyOverview = () => {
       image: "/e2.png",
       title: "ABOUT US",
       description: "BB MINERALS AND METALS is a leading name in the Ferroalloys industry, specializing in the manufacturing and trading of high-quality Ferroalloys for over a decade. As a Small Scale Industry (SSI) registered under MSME, we are committed to delivering premium-grade alloys that meet international standards, catering to diverse industrial applications.",
-      icon: <Info className="text-amber-500 w-12 h-12" strokeWidth={1.5} />
+      icon: <img src="/icons/about.png" alt="About Us" className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 object-contain" />
     },
     {
       image: "/e1.png",
@@ -258,7 +258,7 @@ const CompanyOverview = () => {
         }`} style={{ transitionDelay: hasAnimated ? '150ms' : '200ms' }}>
           <div 
             ref={slidesContainerRef}
-            className="lg:col-span-4 relative w-full h-44 sm:h-56 md:h-72 lg:h-[450px] flex items-center justify-center overflow-hidden rounded-xl touch-pan-y"
+            className="lg:col-span-4 relative w-full h-70 sm:h-72 md:h-80 lg:h-[450px] flex items-center justify-center overflow-hidden rounded-xl touch-pan-y"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -332,12 +332,10 @@ const CompanyOverview = () => {
                   }`}
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
-                    <div className={`transition-all duration-300 ${
-                      currentSlide === index ? 'scale-100 rotate-0' : 'scale-90 rotate-12'
+                    <div className={`flex items-center justify-center ${
+                      index === 0 ? 'w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20' : 'w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20'
                     }`}>
-                      <div className={`${index === 0 ? 'w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12' : 'w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16'}`}>
-                        {slide.icon}
-                      </div>
+                      {slide.icon}
                     </div>
                     <h2 className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-amber-500 transition-all duration-300 ${
                       currentSlide === index ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'
