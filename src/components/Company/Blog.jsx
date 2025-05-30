@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 import { ChevronDown, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import Header from '../LandingPage/Header';
+import { blogArticles, renderBlogContent } from './data/BlogContent';
+import { faqs } from './data/FAQContent';
 
 const Blog = () => {
   const navigate = useNavigate();
   const [activeAccordion, setActiveAccordion] = useState(null);
   const [activeBlogItem, setActiveBlogItem] = useState(null);
+  const [searchQueryFAQ, setSearchQueryFAQ] = useState('');
+  const [searchQueryBlog, setSearchQueryBlog] = useState('');
 
   const toggleAccordion = (id) => {
-    setActiveAccordion(id === activeAccordion ? null : id);
+    setActiveAccordion((prevId) => (prevId === id ? null : id));
   };
 
   const toggleBlogItem = (id) => {
@@ -39,51 +42,43 @@ const Blog = () => {
     }
   };
 
-  const faqs = [
-    {
-      id: 'what-are-ferroalloys',
-      question: 'What are ferroalloys?',
-      answer: 'Ferroalloys are alloys of iron with a high proportion of other elements like silicon, manganese, or chromium, used in steelmaking.',
-    },
-    {
-      id: 'products-offered',
-      question: 'What products does BB Minerals & Metals offer?',
-      answer: 'We offer ferroalloys such as Ferro Manganese, Silico Manganese, and other essential metal alloys.',
-    },
-    {
-      id: 'customer-support',
-      question: 'How to contact customer support?',
-      answer: 'You can reach us via our website contact form, email, or support phone number.',
-    },
-  ];
+  // Updated blog filtering with safety checks
+  const filteredBlogs = React.useMemo(() => {
+    if (!searchQueryBlog) return blogArticles;
+    
+    const query = searchQueryBlog.toLowerCase();
+    return blogArticles.filter(blog => {
+      const titleMatch = blog.title?.toLowerCase().includes(query);
+      const keywordMatch = blog.keywords?.some(keyword => 
+        keyword?.toLowerCase().includes(query)
+      );
+      const contentMatch = blog.sections?.some(section => {
+        const sectionContent = section.content?.toLowerCase().includes(query);
+        const itemsMatch = section.items?.some(item => 
+          typeof item === 'string' && item.toLowerCase().includes(query)
+        );
+        return sectionContent || itemsMatch;
+      });
+      
+      return titleMatch || keywordMatch || contentMatch;
+    });
+  }, [searchQueryBlog]);
 
-  const blogArticles = [
-    {
-      id: 'ferroalloys-steelmaking',
-      title: 'The Role of Ferroalloys in Modern Steelmaking',
-      content: 'Ferroalloys are the backbone of the steelmaking industry. They enhance the strength, ductility, and corrosion resistance of steel by infusing it with crucial elements such as manganese, silicon and chromium. In this article, we explore how ferroalloys contribute to creating high-performance steel for various applications.',
-    },
-    {
-      id: 'quality-control',
-      title: 'How BB Minerals Ensures Quality in Every Batch',
-      content: 'Quality is the foundation of trust. At BB Minerals & Metals, we implement strict quality control protocols, certified lab testing, and continuous batch monitoring. Learn how we maintain product consistency, meet industrial standards, and deliver excellence in every product we offer.',
-    },
-    {
-      id: 'sourcing-challenges',
-      title: 'Common Challenges in Sourcing Industrial Alloys',
-      content: 'Sourcing industrial alloys can be complex. From fluctuating market prices to inconsistent product quality and delayed deliveries companies face many hurdles. In this post, we discuss the major challenges buyers face and how to overcome them by partnering with a reliable supplier like BB Minerals.',
-    },
-    {
-      id: 'custom-grade-ferroalloys',
-      title: 'Why Custom-Grade Ferroalloys Matter',
-      content: 'One size doesn\'t fit all in metallurgy. Different industries require specific compositions of alloys to match their production needs. Discover how custom-grade ferroalloys improve process efficiency, reduce waste, and lead to superior end products tailored to your application.',
-    },
-  ];
+  // Updated FAQ filtering with safety checks
+  const filteredFAQs = React.useMemo(() => {
+    if (!searchQueryFAQ) return faqs;
+    
+    const query = searchQueryFAQ.toLowerCase();
+    return faqs.filter(faq => 
+      faq.question?.toLowerCase().includes(query) ||
+      faq.answer?.toLowerCase().includes(query)
+    );
+  }, [searchQueryFAQ]);
 
   return (
     <div className="bg-gray-900 min-h-screen text-white">
-      {/* Back button - now positioned inside container for better alignment */}
       <div className="container mx-auto px-4 sm:px-6">
+        {/* Back button - now positioned inside container for better alignment */}
         <motion.div 
           className="pt-6 sm:pt-8 hidden sm:block"
           variants={itemVariants}
@@ -152,8 +147,10 @@ const Blog = () => {
                   <div className="relative mb-6 sm:mb-8">
                     <input
                       type="text"
-                      placeholder="Search question here"
-                      className="w-full py-2 sm:py-3 px-4 sm:px-5 bg-gray-700/70 rounded-full text-white text-sm sm:text-base transition-all duration-300 focus:ring-2 focus:ring-amber-500/50 focus:outline-none"
+                      placeholder="Search FAQs"
+                      value={searchQueryFAQ}
+                      onChange={(e) => setSearchQueryFAQ(e.target.value)}
+                      className="w-full py-2 sm:py-3 px-4 sm:px-5 bg-gray-700/70 rounded-full text-white text-sm sm:text-base"
                     />
                     <button className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2">
                       <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -174,43 +171,51 @@ const Blog = () => {
                       <p className="text-white font-medium text-xl sm:text-lg md:text-xl">Genereal Questions</p>
                     </div>
 
-                    {faqs.map((faq) => (
-                      <div 
-                        key={faq.id} 
-                        className="mb-3 border-b border-gray-700 pb-3 last:border-b-0 last:pb-0 hover:bg-gray-800/50 rounded-md transition-colors duration-200"
-                      >
-                        <button
-                          className="flex justify-between items-center w-full py-2 sm:py-3 px-2 text-left"
-                          onClick={() => toggleAccordion(faq.id)}
+                    <div className="max-h-[400px] overflow-y-auto 
+                      pr-3 custom-scrollbar"
+                      style={{
+                        scrollbarWidth: "thin",
+                        scrollbarColor: "rgba(251, 191, 36, 0.6) rgba(31, 41, 55, 0.3)"
+                      }}
+                    >
+                      {filteredFAQs.map((faq) => (
+                        <div 
+                          key={faq.id} 
+                          className="mb-3 border-b border-gray-700 pb-3 last:border-b-0 last:pb-0 hover:bg-gray-800/50 rounded-md transition-colors duration-200"
                         >
-                          <span className="font-medium text-base sm:text-lg md:text-xl">{faq.question}</span>
-                          <div
-                            className="transition-transform duration-300 ease-in-out flex-shrink-0 ml-2"
-                            style={{ transform: activeAccordion === faq.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                          <button
+                            className="flex justify-between items-center w-full py-2 sm:py-3 px-2 text-left"
+                            onClick={() => setActiveAccordion(activeAccordion === faq.id ? null : faq.id)}
                           >
-                            <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" />
-                          </div>
-                        </button>
-                        <motion.div 
-                          className="overflow-hidden"
-                          initial={false}
-                          animate={{ 
-                            height: activeAccordion === faq.id ? 'auto' : 0,
-                            opacity: activeAccordion === faq.id ? 1 : 0 
-                          }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 100,
-                            damping: 15,
-                            duration: 0.3
-                          }}
-                        >
-                          <div className="py-2 pl-2">
-                            <p className="text-gray-300 text-sm sm:text-base md:text-xl">{faq.answer}</p>
-                          </div>
-                        </motion.div>
-                      </div>
-                    ))}
+                            <span className="font-medium text-base sm:text-lg md:text-xl">{faq.question}</span>
+                            <div
+                              className="transition-transform duration-300 ease-in-out flex-shrink-0 ml-2"
+                              style={{ transform: activeAccordion === faq.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                            >
+                              <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" />
+                            </div>
+                          </button>
+                          <motion.div 
+                            className="overflow-hidden"
+                            initial={false}
+                            animate={{ 
+                              height: activeAccordion === faq.id ? 'auto' : 0,
+                              opacity: activeAccordion === faq.id ? 1 : 0 
+                            }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 100,
+                              damping: 15,
+                              duration: 0.3
+                            }}
+                          >
+                            <div className="py-2 pl-2">
+                              <p className="text-gray-300 text-sm sm:text-base md:text-xl">{faq.answer}</p>
+                            </div>
+                          </motion.div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               </motion.div>
@@ -218,7 +223,7 @@ const Blog = () => {
           </motion.div>
         </motion.div>
 
-        {/* Blog Section */}
+        {/* Blog Section - remove outer scroll, keep scroll in list only */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -264,8 +269,10 @@ const Blog = () => {
             >
               <input
                 type="text"
-                placeholder="Search question here"
-                className="w-full py-2 sm:py-3 px-4 bg-gray-700/70 rounded-full text-white text-sm sm:text-base transition-all duration-300 focus:ring-2 focus:ring-amber-500/50 focus:outline-none"
+                placeholder="Search blogs"
+                value={searchQueryBlog}
+                onChange={(e) => setSearchQueryBlog(e.target.value)}
+                className="w-full py-2 sm:py-3 px-4 bg-gray-700/70 rounded-full text-white text-sm sm:text-base"
               />
               <button className="absolute right-3 top-1/2 transform -translate-y-1/2">
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -274,50 +281,64 @@ const Blog = () => {
               </button>
             </motion.div>
 
+            {/* Blog list with scroll */}
             <motion.div 
-              className="space-y-3"
+              className="relative"
               variants={containerVariants}
             >
-              {blogArticles.map((article, index) => (
-                <div 
-                  key={article.id} 
-                  className="border-b border-gray-700 last:border-b-0 hover:bg-gray-800/50 rounded-md transition-colors duration-200"
-                >
-                  <button
-                    className="flex justify-between items-center w-full py-3 sm:py-4 px-2 text-left"
-                    onClick={() => toggleBlogItem(article.id)}
+              <div
+                 className="overflow-y-auto pr-3 custom-scrollbar transition-all duration-500 space-y-4"
+                style={{
+                  maxHeight: activeBlogItem
+                    ? '1200px' // allow container to grow when expanded (adjust as needed)
+                    : '560px', // 7 cards * ~80px each
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "rgba(251, 191, 36, 0.6) rgba(31, 41, 55, 0.3)",
+                  transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1)'
+                }}
+              >
+                {filteredBlogs.map((article) => (
+                  <div 
+                    key={article.id} 
+                    className={`border-b border-gray-700 last:border-b-0 hover:bg-gray-800/50 rounded-md transition-all duration-300
+                      ${activeBlogItem === article.id ? 'mb-6' : ''}`}
                   >
-                    <div className="flex items-center">
-                      <span className="h-2 w-2 bg-amber-500 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>
-                      <span className="font-medium text-base sm:text-lg md:text-xl">{article.title}</span>
-                    </div>
-                    <div
-                      className="transition-transform duration-300 ease-in-out flex-shrink-0 ml-2"
-                      style={{ transform: activeBlogItem === article.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                    <button
+                      className="flex justify-between items-center w-full py-3 sm:py-4 px-2 text-left"
+                      onClick={() => toggleBlogItem(article.id)}
                     >
-                      <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" />
-                    </div>
-                  </button>
-                  <motion.div 
-                    className="overflow-hidden"
-                    initial={false}
-                    animate={{ 
-                      height: activeBlogItem === article.id ? 'auto' : 0,
-                      opacity: activeBlogItem === article.id ? 1 : 0 
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 100,
-                      damping: 15,
-                      duration: 0.3
-                    }}
-                  >
-                    <div className="pl-4 sm:pl-5 pb-3 sm:pb-4">
-                      <p className="text-gray-300 text-sm sm:text-base md:text-xl">{article.content}</p>
-                    </div>
-                  </motion.div>
-                </div>
-              ))}
+                      <div className="flex items-center">
+                        <span className="h-2 w-2 bg-amber-500 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>
+                        <span className="font-medium text-base sm:text-lg md:text-xl">{article.title}</span>
+                      </div>
+                      <div
+                        className="transition-transform duration-300 ease-in-out flex-shrink-0 ml-2"
+                        style={{ transform: activeBlogItem === article.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                      >
+                        <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" />
+                      </div>
+                    </button>
+                    <motion.div 
+                      className="overflow-hidden"
+                      initial={false}
+                      animate={{ 
+                        height: activeBlogItem === article.id ? 'auto' : 0,
+                        opacity: activeBlogItem === article.id ? 1 : 0 
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 15,
+                        duration: 0.3
+                      }}
+                    >
+                      <div className="pl-4 sm:pl-5 pb-3 sm:pb-4">
+                        {renderBlogContent(article.sections)}
+                      </div>
+                    </motion.div>
+                  </div>
+                ))}
+              </div>
             </motion.div>
           </motion.div>
         </motion.div>
