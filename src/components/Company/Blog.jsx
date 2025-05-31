@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, ArrowLeft } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { blogArticles, renderBlogContent } from './data/BlogContent';
 import { faqs } from './data/FAQContent';
@@ -42,6 +42,18 @@ const Blog = () => {
     }
   };
 
+  // Animation for search results and cards
+  const searchResultVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: "easeOut" } },
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.3, ease: "easeIn" } }
+  };
+
   // Updated blog filtering with safety checks
   const filteredBlogs = React.useMemo(() => {
     if (!searchQueryBlog) return blogArticles;
@@ -74,6 +86,12 @@ const Blog = () => {
       faq.answer?.toLowerCase().includes(query)
     );
   }, [searchQueryFAQ]);
+
+  // Animation for result count
+  const resultCountVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+  };
 
   return (
     <div className="bg-gray-900 min-h-screen text-white">
@@ -159,29 +177,47 @@ const Blog = () => {
                     </button>
                   </div>
 
-                  <div className="mb-4">
-                    <div className="flex items-center mb-3">
-                      <div className="flex-shrink-0 mr-2 sm:mr-3">
-                        <img 
-                          src="/icons/faq.png" 
-                          alt="FAQ Icon" 
-                          className="w-6 h-6 sm:w-7 sm:h-7 object-contain"
-                        />
-                      </div>
-                      <p className="text-white font-medium text-xl sm:text-lg md:text-xl">Genereal Questions</p>
+                  <div className="flex items-center mb-3">
+                    <div className="flex-shrink-0 mr-2 sm:mr-3">
+                      <img 
+                        src="/icons/faq.png" 
+                        alt="FAQ Icon" 
+                        className="w-6 h-6 sm:w-7 sm:h-7 object-contain"
+                      />
                     </div>
+                    <p className="text-white font-medium text-xl sm:text-lg md:text-xl">General Questions</p>
+                    {searchQueryFAQ && (
+                      <motion.span 
+                        className="ml-3 text-sm sm:text-base text-amber-500 font-medium"
+                        variants={searchResultVariants}
+                        initial="hidden"
+                        animate="visible"
+                      >
+                        {filteredFAQs.length} results found
+                      </motion.span>
+                    )}
+                  </div>
 
-                    <div className="max-h-[400px] overflow-y-auto 
-                      pr-3 custom-scrollbar"
-                      style={{
-                        scrollbarWidth: "thin",
-                        scrollbarColor: "rgba(251, 191, 36, 0.6) rgba(31, 41, 55, 0.3)"
-                      }}
-                    >
+                  <motion.div 
+                    className="max-h-[400px] overflow-y-auto pr-3 custom-scrollbar"
+                    variants={searchResultVariants}
+                    initial="hidden"
+                    animate="visible"
+                    style={{
+                      scrollbarWidth: "thin",
+                      scrollbarColor: "rgba(251, 191, 36, 0.6) rgba(31, 41, 55, 0.3)",
+                    }}
+                  >
+                    <AnimatePresence>
                       {filteredFAQs.map((faq) => (
-                        <div 
+                        <motion.div 
                           key={faq.id} 
                           className="mb-3 border-b border-gray-700 pb-3 last:border-b-0 last:pb-0 hover:bg-gray-800/50 rounded-md transition-colors duration-200"
+                          variants={cardVariants}
+                          initial="hidden"
+                          animate="visible"
+                          exit="exit"
+                          layout
                         >
                           <button
                             className="flex justify-between items-center w-full py-2 sm:py-3 px-2 text-left"
@@ -213,10 +249,10 @@ const Blog = () => {
                               <p className="text-gray-300 text-sm sm:text-base md:text-xl">{faq.answer}</p>
                             </div>
                           </motion.div>
-                        </div>
+                        </motion.div>
                       ))}
-                    </div>
-                  </div>
+                    </AnimatePresence>
+                  </motion.div>
                 </motion.div>
               </motion.div>
             </div>
@@ -267,6 +303,16 @@ const Blog = () => {
               className="relative mb-6 sm:mb-8"
               variants={itemVariants}
             >
+              {searchQueryBlog && (
+                <motion.span 
+                  className="block text-sm sm:text-base text-amber-500 font-medium mb-2"
+                  variants={searchResultVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {filteredBlogs.length} results found
+                </motion.span>
+              )}
               <input
                 type="text"
                 placeholder="Search blogs"
@@ -274,7 +320,7 @@ const Blog = () => {
                 onChange={(e) => setSearchQueryBlog(e.target.value)}
                 className="w-full py-2 sm:py-3 px-4 bg-gray-700/70 rounded-full text-white text-sm sm:text-base"
               />
-              <button className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              <button className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2">
                 <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -297,47 +343,54 @@ const Blog = () => {
                   transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1)'
                 }}
               >
-                {filteredBlogs.map((article) => (
-                  <div 
-                    key={article.id} 
-                    className={`border-b border-gray-700 last:border-b-0 hover:bg-gray-800/50 rounded-md transition-all duration-300
-                      ${activeBlogItem === article.id ? 'mb-6' : ''}`}
-                  >
-                    <button
-                      className="flex justify-between items-center w-full py-3 sm:py-4 px-2 text-left"
-                      onClick={() => toggleBlogItem(article.id)}
-                    >
-                      <div className="flex items-center">
-                        <span className="h-2 w-2 bg-amber-500 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>
-                        <span className="font-medium text-base sm:text-lg md:text-xl">{article.title}</span>
-                      </div>
-                      <div
-                        className="transition-transform duration-300 ease-in-out flex-shrink-0 ml-2"
-                        style={{ transform: activeBlogItem === article.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                      >
-                        <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" />
-                      </div>
-                    </button>
+                <AnimatePresence>
+                  {filteredBlogs.map((article) => (
                     <motion.div 
-                      className="overflow-hidden"
-                      initial={false}
-                      animate={{ 
-                        height: activeBlogItem === article.id ? 'auto' : 0,
-                        opacity: activeBlogItem === article.id ? 1 : 0 
-                      }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 100,
-                        damping: 15,
-                        duration: 0.3
-                      }}
+                      key={article.id} 
+                      className={`border-b border-gray-700 last:border-b-0 hover:bg-gray-800/50 rounded-md transition-all duration-300
+                        ${activeBlogItem === article.id ? 'mb-6' : ''}`}
+                      variants={cardVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      layout
                     >
-                      <div className="pl-4 sm:pl-5 pb-3 sm:pb-4">
-                        {renderBlogContent(article.sections)}
-                      </div>
+                      <button
+                        className="flex justify-between items-center w-full py-3 sm:py-4 px-2 text-left"
+                        onClick={() => toggleBlogItem(article.id)}
+                      >
+                        <div className="flex items-center">
+                          <span className="h-2 w-2 bg-amber-500 rounded-full mr-2 sm:mr-3 flex-shrink-0"></span>
+                          <span className="font-medium text-base sm:text-lg md:text-xl">{article.title}</span>
+                        </div>
+                        <div
+                          className="transition-transform duration-300 ease-in-out flex-shrink-0 ml-2"
+                          style={{ transform: activeBlogItem === article.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                        >
+                          <ChevronDown className="h-5 w-5 sm:h-6 sm:w-6 text-amber-500" />
+                        </div>
+                      </button>
+                      <motion.div 
+                        className="overflow-hidden"
+                        initial={false}
+                        animate={{ 
+                          height: activeBlogItem === article.id ? 'auto' : 0,
+                          opacity: activeBlogItem === article.id ? 1 : 0 
+                        }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 100,
+                          damping: 15,
+                          duration: 0.3
+                        }}
+                      >
+                        <div className="pl-4 sm:pl-5 pb-3 sm:pb-4">
+                          {renderBlogContent(article.sections)}
+                        </div>
+                      </motion.div>
                     </motion.div>
-                  </div>
-                ))}
+                  ))}
+                </AnimatePresence>
               </div>
             </motion.div>
           </motion.div>
