@@ -257,8 +257,12 @@ const Blog = () => {
                     style={{
                       scrollbarWidth: "thin",
                       scrollbarColor: "rgba(251, 191, 36, 0.6) rgba(31, 41, 55, 0.3)",
+                      WebkitOverflowScrolling: "touch",
+                      msOverflowStyle: "auto",
+                      overflowY: "scroll", // Changed from "auto" to "scroll" to always show scrollbar
                     }}
                   >
+              
                     <AnimatePresence>
                       {filteredFAQs.map((faq) => (
                         <motion.div 
@@ -393,9 +397,33 @@ const Blog = () => {
                     : '560px', // 7 cards * ~80px each
                   scrollbarWidth: "thin",
                   scrollbarColor: "rgba(251, 191, 36, 0.6) rgba(31, 41, 55, 0.3)",
-                  transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1)'
+                  transition: 'max-height 0.5s cubic-bezier(0.4,0,0.2,1)',
+                  WebkitOverflowScrolling: "touch",
+                  msOverflowStyle: "auto",
+                  overflowY: "scroll", // Changed from "auto" to "scroll" to always show scrollbar
                 }}
               >
+                {/* Add CSS for scrollbar visibility that persists after scrolling */}
+                <style jsx>{`
+                  .custom-scrollbar::-webkit-scrollbar {
+                    width: 6px;
+                    display: block !important;
+                  }
+                  .custom-scrollbar::-webkit-scrollbar-track {
+                    background: rgba(31, 41, 55, 0.3);
+                    border-radius: 10px;
+                  }
+                  .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(251, 191, 36, 0.6);
+                    border-radius: 10px;
+                  }
+                  .custom-scrollbar:hover::-webkit-scrollbar,
+                  .custom-scrollbar:active::-webkit-scrollbar,
+                  .custom-scrollbar:focus::-webkit-scrollbar {
+                    width: 6px;
+                    display: block !important;
+                  }
+                `}</style>
                 <AnimatePresence>
                   {filteredBlogs.map((article) => (
                     <motion.div 
