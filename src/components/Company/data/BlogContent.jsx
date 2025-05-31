@@ -76,15 +76,6 @@ export const blogArticles = [
           '1-ton jumbo bags',
           'Custom palletized shipping'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Products: Ferro Chrome', url: '/products/ferro-chrome' },
-          { text: 'Industries: Stainless Steel', url: '/industries/stainless-steel' },
-          { text: 'Quality Certification', url: '/quality-certification' }
-        ]
       }
     ]
   },
@@ -129,15 +120,6 @@ export const blogArticles = [
           'Documented Mo consistency',
           'Bulk & containerized shipping'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Products: Ferro Molybdenum', url: '/products/ferro-molybdenum' },
-          { text: 'Industries: Oil and Gas', url: '/industries/oil-and-gas' },
-          { text: 'Contact Us', url: '/contact-us' }
-        ]
       }
     ]
   },
@@ -178,15 +160,6 @@ export const blogArticles = [
           'Electronics factories (Japan, Korea)',
           'Automotive component makers (Germany)',
           'Chemical industries (India, Spain)'
-        ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Products: Silicon Metal', url: '/products/silicon-metal' },
-          { text: 'Industries: Automotive', url: '/industries/automotive' },
-          { text: 'About BBMAM', url: '/about-bbmam' }
         ]
       }
     ]
@@ -230,15 +203,6 @@ export const blogArticles = [
           'High purity raw materials',
           'Consistent bulk supply'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Products: Ferro Chrome', url: '/products/ferro-chrome' },
-          { text: 'Industries: Steel', url: '/industries/steel' },
-          { text: 'Global Network', url: '/global-network' }
-        ]
       }
     ]
   },
@@ -280,15 +244,6 @@ export const blogArticles = [
           'Zero waste slag recovery',
           'Energy-efficient furnaces',
           'ISO-certified quality control'
-        ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'About BBMAM', url: '/about-bbmam' },
-          { text: 'Our Process', url: '/process' },
-          { text: 'Certification', url: '/certification' }
         ]
       }
     ]
@@ -332,15 +287,6 @@ export const blogArticles = [
           'Weldability',
           'Compliance with global standards (RoHS, REACH)'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Products: Ferro Chrome', url: '/products/ferro-chrome' },
-          { text: 'Industries: Steel', url: '/industries/steel' },
-          { text: 'Contact Us', url: '/contact-us' }
-        ]
       }
     ]
   },
@@ -382,15 +328,6 @@ export const blogArticles = [
           'Automotive (Italy, Spain)',
           'Infrastructure projects (Middle East, Europe)'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Global Network', url: '/global-network' },
-          { text: 'Industries: Export', url: '/industries/export' },
-          { text: 'About BBMAM', url: '/about-bbmam' }
-        ]
       }
     ]
   },
@@ -423,15 +360,6 @@ export const blogArticles = [
         type: 'section',
         title: 'Why BBMAM Checks All Boxes',
         content: 'From lab-tested materials to export-grade labeling, we serve with transparency, consistency, and performance.'
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'About BBMAM', url: '/about-bbmam' },
-          { text: 'Quality Certification', url: '/quality-certification' },
-          { text: 'Contact Us', url: '/contact-us' }
-        ]
       }
     ]
   },
@@ -472,15 +400,6 @@ export const blogArticles = [
           'Flake consistency',
           'Anti-caking coating on request',
           'Export packaging (vacuum-sealed)'
-        ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Products: Electrolytic Manganese', url: '/products/electrolytic-manganese' },
-          { text: 'Industries: Battery Tech', url: '/industries/battery-tech' },
-          { text: 'Contact Us', url: '/contact-us' }
         ]
       }
     ]
@@ -523,15 +442,6 @@ export const blogArticles = [
           'Carbon credit documentation (on request)',
           'Eco-packaging with HDPE recycling protocols'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Sustainability', url: '/sustainability' },
-          { text: 'Our Process', url: '/process' },
-          { text: 'About BBMAM', url: '/about-bbmam' }
-        ]
       }
     ]
   },
@@ -564,15 +474,6 @@ export const blogArticles = [
           'Europe prefers LC FeCr for pharma-grade steel',
           'India and Russia use HC FeCr for infrastructure',
           'South Korea imports MC FeCr for automotive components'
-        ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Products: Ferro Chrome', url: '/products/ferro-chrome' },
-          { text: 'Industries: Stainless Steel', url: '/industries/stainless-steel' },
-          { text: 'Contact Us', url: '/contact-us' }
         ]
       }
     ]
@@ -607,15 +508,6 @@ export const blogArticles = [
           'Weldability-optimized LC FeCr',
           'Supply continuity via Indian ports'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Industries: Stainless Steel', url: '/industries/stainless-steel' },
-          { text: 'Products: Ferro Molybdenum', url: '/products/ferro-molybdenum' },
-          { text: 'Products: Silicon Metal', url: '/products/silicon-metal' }
-        ]
       }
     ]
   },
@@ -648,15 +540,6 @@ export const blogArticles = [
           'BIS-certified',
           'EPC contractor support',
           'Custom declarations for GST crediting'
-        ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Industries: Infrastructure', url: '/industries/infrastructure' },
-          { text: 'Products: Ferroalloys', url: '/products/ferroalloys' },
-          { text: 'Quality Certification', url: '/quality-certification' }
         ]
       }
     ]
@@ -699,15 +582,6 @@ export const blogArticles = [
           'Moisture barrier seal',
           'Lab-tested before dispatch'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Packaging Options', url: '/packaging-options' },
-          { text: 'FAQ', url: '/faq' },
-          { text: 'Contact Us', url: '/contact-us' }
-        ]
       }
     ]
   },
@@ -739,15 +613,6 @@ export const blogArticles = [
           'Chemical assay reports',
           'Granulometry control',
           'Anti-contaminant bagging'
-        ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Quality Certification', url: '/quality-certification' },
-          { text: 'FAQ', url: '/faq' },
-          { text: 'Products: Ferro Chrome', url: '/products/ferro-chrome' }
         ]
       }
     ]
@@ -791,15 +656,6 @@ export const blogArticles = [
           'Chemical-assay-certified batches',
           'Custom sizes: lumps, granules, powders'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Products: Silicon Metal', url: '/products/silicon-metal' },
-          { text: 'Industries: Electronics', url: '/industries/electronics' },
-          { text: 'Global Network', url: '/global-network' }
-        ]
       }
     ]
   },
@@ -836,15 +692,6 @@ export const blogArticles = [
           'Spain',
           'Japan'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Global Network', url: '/global-network' },
-          { text: 'Packaging Options', url: '/packaging-options' },
-          { text: 'Contact Us', url: '/contact-us' }
-        ]
       }
     ]
   },
@@ -879,15 +726,6 @@ export const blogArticles = [
           'ISO 9001:2015',
           'CE/REACH compliant declarations'
         ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Quality Certification', url: '/quality-certification' },
-          { text: 'About BBMAM', url: '/about-bbmam' },
-          { text: 'FAQ', url: '/faq' }
-        ]
       }
     ]
   },
@@ -918,15 +756,6 @@ export const blogArticles = [
         type: 'section',
         title: 'What Our Clients Say',
         content: '"BBMAM helped us maintain consistent stainless steel quality at our Italy-based foundry." — Client, Europe'
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'About BBMAM', url: '/about-bbmam' },
-          { text: 'Testimonials', url: '/testimonials' },
-          { text: 'Products: Ferro Chrome', url: '/products/ferro-chrome' }
-        ]
       }
     ]
   },
@@ -959,15 +788,6 @@ export const blogArticles = [
           'Wooden pallet wrapping for EU',
           'Labeling in Italian, Japanese, Korean',
           'MSDS, CoA, and test reports included'
-        ]
-      },
-      {
-        type: 'links',
-        title: 'Related Information',
-        items: [
-          { text: 'Packaging Options', url: '/packaging-options' },
-          { text: 'Contact Us', url: '/contact-us' },
-          { text: 'FAQ', url: '/faq' }
         ]
       }
     ]
@@ -1147,7 +967,46 @@ export const blogArticles = [
   }
 ];
 
-const renderBlogContent = (sections) => {
+// Helper function to map blog links to actual application routes
+const mapLinkToRoute = (link) => {
+  // Product links - redirect to products page
+  if (link.startsWith('/products/')) {
+    return '/products';
+  }
+  // Industry links - redirect to landing page
+  else if (link.startsWith('/industries/')) {
+    return '/';
+  }
+  // About pages - redirect to company profile
+  else if (link.startsWith('/about-bbmam')) {
+    return '/company/profile';
+  }
+  // Contact links
+  else if (link.includes('contact')) {
+    return '/contact';
+  }
+  // Quality/certification links - redirect to Certi component in LandingPage.jsx
+  else if (link.includes('quality') || link.includes('certification')) {
+    return '/#certi';
+  }
+  // Global network links - redirect to ExportCountries.jsx
+  else if (link.includes('global-network')) {
+    return '/#export-countries';
+  }
+  // FAQ links - redirect to blog (assuming FAQs are in blog)
+  else if (link.includes('faq')) {
+    return '/blog';
+  }
+  // Sustainability/eco links - redirect to eco-friendly page
+  else if (link.includes('sustainability') || link.includes('process')) {
+    return '/eco-friendly-sustainability';
+  }
+  // Fallback to home page
+  return '/';
+};
+
+// Modified renderBlogContent function that uses the mapping for links
+export const renderBlogContent = (sections) => {
   return sections.map((section, index) => {
     switch (section.type) {
       case 'introduction':
@@ -1184,7 +1043,7 @@ const renderBlogContent = (sections) => {
             <ul className="list-disc pl-5 text-gray-300">
               {section.items.map((item, i) => (
                 <li key={i} className="mb-1">
-                  <a href={item.url} className="text-blue-400 hover:underline">
+                  <a href={mapLinkToRoute(item.url)} className="text-blue-400 hover:underline">
                     {item.text}
                   </a>
                 </li>
@@ -1228,4 +1087,3 @@ const renderBlogContent = (sections) => {
   });
 };
 
-export { renderBlogContent };
