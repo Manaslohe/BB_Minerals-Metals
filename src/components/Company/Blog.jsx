@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -11,13 +11,63 @@ const Blog = () => {
   const [activeBlogItem, setActiveBlogItem] = useState(null);
   const [searchQueryFAQ, setSearchQueryFAQ] = useState('');
   const [searchQueryBlog, setSearchQueryBlog] = useState('');
+  
+  // References for containers and items
+  const faqContainerRef = useRef(null);
+  const faqItemRefs = useRef({});
+  const blogContainerRef = useRef(null);
+  const blogItemRefs = useRef({});
 
   const toggleAccordion = (id) => {
-    setActiveAccordion((prevId) => (prevId === id ? null : id));
+    const newActiveAccordion = activeAccordion === id ? null : id;
+    setActiveAccordion(newActiveAccordion);
+    
+    // Scroll the item into view if activated
+    if (newActiveAccordion !== null) {
+      setTimeout(() => {
+        if (faqItemRefs.current[id] && faqContainerRef.current) {
+          const container = faqContainerRef.current;
+          const item = faqItemRefs.current[id];
+          const containerRect = container.getBoundingClientRect();
+          const itemRect = item.getBoundingClientRect();
+          
+          // Calculate the scroll position to align the item at the top
+          const scrollTop = container.scrollTop + (itemRect.top - containerRect.top);
+          
+          // Smooth scroll to position
+          container.scrollTo({
+            top: scrollTop,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    }
   };
 
   const toggleBlogItem = (id) => {
-    setActiveBlogItem(id === activeBlogItem ? null : id);
+    const newActiveBlogItem = activeBlogItem === id ? null : id;
+    setActiveBlogItem(newActiveBlogItem);
+    
+    // Scroll the blog item into view if activated
+    if (newActiveBlogItem !== null) {
+      setTimeout(() => {
+        if (blogItemRefs.current[id] && blogContainerRef.current) {
+          const container = blogContainerRef.current;
+          const item = blogItemRefs.current[id];
+          const containerRect = container.getBoundingClientRect();
+          const itemRect = item.getBoundingClientRect();
+          
+          // Calculate the scroll position to align the item at the top
+          const scrollTop = container.scrollTop + (itemRect.top - containerRect.top);
+          
+          // Smooth scroll to position
+          container.scrollTo({
+            top: scrollTop,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    }
   };
 
   // Animation variants
@@ -203,6 +253,7 @@ const Blog = () => {
                     variants={searchResultVariants}
                     initial="hidden"
                     animate="visible"
+                    ref={faqContainerRef}
                     style={{
                       scrollbarWidth: "thin",
                       scrollbarColor: "rgba(251, 191, 36, 0.6) rgba(31, 41, 55, 0.3)",
@@ -218,6 +269,7 @@ const Blog = () => {
                           animate="visible"
                           exit="exit"
                           layout
+                          ref={el => faqItemRefs.current[faq.id] = el}
                         >
                           <button
                             className="flex justify-between items-center w-full py-2 sm:py-3 px-2 text-left"
@@ -333,7 +385,8 @@ const Blog = () => {
               variants={containerVariants}
             >
               <div
-                 className="overflow-y-auto pr-3 custom-scrollbar transition-all duration-500 space-y-4"
+                className="overflow-y-auto pr-3 custom-scrollbar transition-all duration-500 space-y-4"
+                ref={blogContainerRef}
                 style={{
                   maxHeight: activeBlogItem
                     ? '1200px' // allow container to grow when expanded (adjust as needed)
@@ -354,6 +407,7 @@ const Blog = () => {
                       animate="visible"
                       exit="exit"
                       layout
+                      ref={el => blogItemRefs.current[article.id] = el}
                     >
                       <button
                         className="flex justify-between items-center w-full py-3 sm:py-4 px-2 text-left"
