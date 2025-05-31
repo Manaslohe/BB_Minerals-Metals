@@ -105,8 +105,8 @@ const productDetailsData = {
       { grade: "441", si: "99.0", fe: "0.4", al: "0.4", ca: "0.1" }
     ]
   },
-  "Manganese Flake": {
-    overview: "Manganese Flake is a vital industrial element extensively used in steel production, battery manufacturing, and chemical processes. It improves hardness, tensile strength, and corrosion resistance across a wide range of applications.",
+  "Manganese Metal Flake": {
+    overview: "Manganese Metal Flake is a vital industrial element extensively used in steel production, battery manufacturing, and chemical processes. It improves hardness, tensile strength, and corrosion resistance across a wide range of applications.",
     uses: [
       { title: "Steel & Iron Production", desc: "– Acts as a deoxidizer and improves toughness, strength, and wear resistance." },
       { title: "Non-Ferrous Alloys", desc: "– Enhances strength and resistance in alloys used in specialized applications." },

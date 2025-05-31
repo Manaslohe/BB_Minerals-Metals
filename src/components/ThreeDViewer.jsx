@@ -129,7 +129,7 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
     "Ferro Molybdenum": "/blg/FEROMOLY.glb",
     "Low Carbon Ferro Chrome": "/blg/LOW CARBON FERO CHROME.glb",
     "Silicon Metal": "/blg/SILICON METAL.glb",
-    "Manganese Flake": "/blg/Magneese.glb",
+    "Manganese Metal Flake": "/blg/Magneese.glb",
   };
 
   const modelPath = modelMapping[productName] || modelMapping["High Carbon Ferro Chrome"];

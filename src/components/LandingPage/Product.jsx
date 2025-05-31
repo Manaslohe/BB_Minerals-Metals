@@ -41,8 +41,8 @@ const ProductJsonLd = () => {
       {
         "@type": "ListItem",
         "position": 5,
-        "name": "Manganese Flake",
-        "url": "https://bbmam.in/products#manganese-flake",
+        "name": "Manganese Metal Flake",
+        "url": "https://bbmam.in/products#manganese-metal-flake",
         "image": "https://bbmam.in/product5.png"
       }
     ]
@@ -130,8 +130,8 @@ const ProductsSection = () => {
     {
       id: 5,
       image: "/product5.png",
-      name: "Manganese Flake",
-      alt: "Manganese Flake – Used in deoxidizing steel production"
+      name: "Manganese Metal Flake",
+      alt: "Manganese Metal Flake – Used in deoxidizing steel production"
     }
   ];
 
