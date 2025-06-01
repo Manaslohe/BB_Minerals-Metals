@@ -163,7 +163,7 @@ const Gallery = () => {
               whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
               whileTap={{ scale: 0.98 }}
               data-src={src}
-              onClick={() => setSelectedImage(`/gallery/${index + 1}.jpg`)}
+              onClick={() => setSelectedImage(src)}
             >
               {loadedImages.includes(src) ? (
                 <img 
