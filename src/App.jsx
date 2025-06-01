@@ -20,6 +20,7 @@ const Manufacturing = lazy(() => import('./components/Company/Manufacturing'))
 const EcoFriendly = lazy(() => import('./components/Company/eco'))
 const Blog = lazy(() => import('./components/Company/Blog'))
 const PrivacyPolicy = lazy(() => import('./components/Legal/PrivacyPolicy'))
+const Gallery = lazy(() => import('./components/Company/Gallery')) // Lazy-load Gallery component
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -72,6 +73,7 @@ function App() {
             <Route path="/eco-friendly-sustainability" element={<EcoFriendly />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/company/gallery" element={<Gallery />} /> {/* Added Gallery route */}
           </Routes>
         </Suspense>
       </Router>

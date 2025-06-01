@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { Menu, X, ChevronDown, AlertTriangle } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -85,111 +85,12 @@ const navItemVariants = {
   })
 };
 
-function UnderConstructionPopup({ isOpen, onClose, featureName }) {
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Overlay */}
-          <motion.div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[200]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={onClose}
-          />
-          
-          {/* Popup content */}
-          <motion.div 
-            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[201] 
-                      bg-white rounded-xl shadow-2xl p-6 w-[90vw] max-w-md"
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1, 
-              y: 0,
-              transition: { 
-                type: "spring",
-                stiffness: 400,
-                damping: 25
-              }
-            }}
-            exit={{ opacity: 0, scale: 0.8, y: 20, transition: { duration: 0.2 } }}
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="flex flex-col items-center text-center">
-              {/* Icon with pulse animation */}
-              <motion.div 
-                className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mb-4"
-                initial={{ scale: 0.8 }}
-                animate={{ 
-                  scale: [0.8, 1.05, 1],
-                  transition: { duration: 0.5, ease: "easeOut" }
-                }}
-              >
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.05, 1],
-                    transition: { 
-                      repeat: Infinity, 
-                      repeatType: "reverse", 
-                      duration: 2,
-                      ease: "easeInOut"
-                    }
-                  }}
-                >
-                  <AlertTriangle size={32} className="text-amber-500" />
-                </motion.div>
-              </motion.div>
-              
-              {/* Title with stagger animation */}
-              <motion.h3 
-                className="text-xl font-bold text-gray-800 mb-2"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                Coming Soon!
-              </motion.h3>
-              
-              {/* Message */}
-              <motion.p 
-                className="text-gray-600 mb-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                Our <span className="font-semibold text-amber-600">{featureName}</span> section is under construction and will be available soon. Please check back later!
-              </motion.p>
-              
-              {/* Button */}
-              <motion.button
-                className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-full font-semibold shadow-md"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onClose}
-              >
-                Close
-              </motion.button>
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
-  );
-}
-
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [expandedItem, setExpandedItem] = React.useState(null);
   const [hasLoaded, setHasLoaded] = React.useState(false);
-
-  // Add state for popup control
-  const [popupOpen, setPopupOpen] = React.useState(false);
-  const [popupFeature, setPopupFeature] = React.useState("");
 
   React.useEffect(() => {
     setHasLoaded(true);
@@ -207,51 +108,13 @@ function Header() {
     return location.pathname.includes(path);
   };
 
-  const handleUnderConstructionClick = (featureName) => {
-    setPopupFeature(featureName);
-    setPopupOpen(true);
-    // Close mobile menu if open
-    if (isMobileMenuOpen) {
-      setIsMobileMenuOpen(false);
-    }
-  };
-
-  React.useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        isMobileMenuOpen &&
-        event.target.closest(".mobile-sidebar") === null &&
-        event.target.closest(".mobile-menu-button") === null
-      ) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isMobileMenuOpen]);
-
-  React.useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, [isMobileMenuOpen]);
-
   const companySubmenu = [
     { name: "Company Profile", path: "/company/profile" },
     { name: "Our History", path: "/company/history" },
     { name: "Excellence", path: "/company/excellence" },
     { name: "Promoter's Message", path: "/company/promoter-message" },
     { name: "Manufacturing Unit", path: "/company/manufacturing-unit" },
-    { name: "Gallery", path: "/company/gallery", comingSoon: true }
+    { name: "Gallery", path: "/company/gallery" } // Added Gallery option
   ];
 
   const scrollToProducts = () => {
@@ -327,11 +190,7 @@ function Header() {
                               custom={idx}
                               className="text-base py-3 px-6 rounded-lg hover:bg-gray-600 active:bg-gray-700 transition-colors cursor-pointer"
                               onClick={() => {
-                                if (subItem.comingSoon) {
-                                  handleUnderConstructionClick(subItem.name);
-                                } else {
-                                  navigate(subItem.path);
-                                }
+                                navigate(subItem.path);
                                 setIsMobileMenuOpen(false);
                               }}
                             >
@@ -450,11 +309,7 @@ function Header() {
               className="px-4 py-2 text-[#004080] hover:bg-amber-100 cursor-pointer font-semibold"
               onClick={(e) => {
                 e.stopPropagation();
-                if (item.comingSoon) {
-                  handleUnderConstructionClick(item.name);
-                } else {
-                  navigate(item.path);
-                }
+                navigate(item.path);
                 setIsMobileMenuOpen(false);
               }}
             >
@@ -592,13 +447,6 @@ function Header() {
           )}
         </AnimatePresence>
       </motion.header>
-
-      {/* Add the popup component */}
-      <UnderConstructionPopup 
-        isOpen={popupOpen}
-        onClose={() => setPopupOpen(false)}
-        featureName={popupFeature}
-      />
     </>
   );
 }
