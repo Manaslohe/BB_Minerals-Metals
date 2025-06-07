@@ -65,6 +65,16 @@ const Contact = () => {
       href: 'mailto:contact@bbmam.in'
     },
     {
+      type: 'Email',
+      value: 'bbmam.nagpur11@gmail.com',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      ),
+      href: 'mailto:bbmam.nagpur11@gmail.com'
+    },
+    {
       type: 'Mobile',
       value: '+91 93338 84664',
       icon: (
@@ -176,55 +186,55 @@ const Contact = () => {
               variants={containerVariants}
             >
               <motion.div 
-                className="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-gray-700/30 hover:border-amber-600/30 transition-all duration-300 h-full"
+                className="bg-gray-800/50 backdrop-blur-md rounded-3xl p-4 sm:p-6 shadow-xl border border-gray-700/30 hover:border-amber-600/30 transition-all duration-300 h-full"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.6 }}
               >
                 <motion.h1 
-                  className="text-4xl md:text-4xl font-bold mb-2"
+                  className="text-3xl md:text-4xl font-bold mb-1"
                   variants={itemVariants}
                 >
                  Let's Connect
                 </motion.h1>
                 
                 <motion.p 
-                  className="text-amber-500 mb-8 text-lg"
+                  className="text-amber-500 mb-6 text-lg"
                   variants={itemVariants}
                 >
                   Reach out to us through any of these channels
                 </motion.p>
 
                 <motion.div 
-                  className="space-y-5"
+                  className="space-y-3"
                   variants={containerVariants}
                 >
                   {contactInfo.map((info, index) => (
                     <motion.div
                       key={index}
-                      className="group bg-gray-800/50 hover:bg-gray-800/70 rounded-xl p-5 transition-all duration-300 border border-gray-700/30 hover:border-amber-500/30"
+                      className="group bg-gray-800/50 hover:bg-gray-800/70 rounded-xl p-3 transition-all duration-300 border border-gray-700/30 hover:border-amber-500/30"
                       variants={itemVariants}
                       whileHover={{ y: -3 }}
                     >
                       <div className="flex items-start justify-between">
-                        <div className={`flex items-start gap-3 sm:gap-4 ${info.href ? 'cursor-pointer' : ''}`} onClick={() => info.href ? window.location.href = info.href : null}>
-                          <div className="bg-amber-500/10 text-amber-500 p-2 sm:p-3 rounded-lg flex-shrink-0">
+                        <div className={`flex items-start gap-2 sm:gap-3 ${info.href ? 'cursor-pointer' : ''}`} onClick={() => info.href ? window.location.href = info.href : null}>
+                          <div className="bg-amber-500/10 text-amber-500 p-1.5 sm:p-2 rounded-lg flex-shrink-0">
                             {info.icon}
                           </div>
                           <div className="min-w-0">
-                            <h3 className="text-xs sm:text-sm uppercase tracking-wider text-gray-400 mb-1">{info.type}</h3>
-                            <p className="text-base sm:text-lg font-medium whitespace-nowrap overflow-hidden text-ellipsis text-white">{info.value}</p>
-                            {info.subtitle && <p className="text-xs sm:text-sm text-gray-400 mt-1">{info.subtitle}</p>}
+                            <h3 className="text-xs uppercase tracking-wider text-gray-400 mb-0.5">{info.type}</h3>
+                            <p className="text-sm sm:text-base font-medium whitespace-nowrap overflow-hidden text-ellipsis text-white">{info.value}</p>
+                            {info.subtitle && <p className="text-xs text-gray-400 mt-0.5">{info.subtitle}</p>}
                           </div>
                         </div>
                         
-                        {/* Copy to clipboard button (for email and phone numbers) */}
+                        {/* Copy to clipboard button */}
                         <button 
                           onClick={() => copyToClipboard(info.value.replace(/\s+/g, ''), info.type)}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-2 bg-gray-800 rounded-lg hover:bg-amber-500/20 text-white flex-shrink-0 ml-1"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-1.5 bg-gray-800 rounded-lg hover:bg-amber-500/20 text-white flex-shrink-0 ml-1"
                           title={`Copy ${info.type}`}
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                           </svg>
                         </button>

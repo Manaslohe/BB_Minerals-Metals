@@ -173,6 +173,15 @@ const Footer = () => {
                 <span className="text-base">contact@bbmam.in</span>
               </motion.a>
               
+              <motion.a 
+                href="mailto:bbmam.nagpur11@gmail.com" 
+                className="flex items-center space-x-3 text-gray-300 hover:text-amber-400 transition-colors group"
+                whileHover={{ x: 8 }}
+              >
+                <Mail className="text-amber-500 group-hover:text-amber-400" size={18} />
+                <span className="text-base">bbmam.nagpur11@gmail.com</span>
+              </motion.a>
+              
               <div className="flex items-center space-x-2">
                 <Phone color="#F59E0B" size={16} />
                 <a href="tel:+919333884664" className="text-sm hover:text-amber-400 transition-colors">
@@ -210,7 +219,7 @@ const Footer = () => {
               <div>
                 <p className="font-medium mb-1 text-xs">OFFICE LOCATION</p>
                 <address className="not-italic text-gray-300 leading-relaxed">
-                  G-3 & G-4, Vaishnav<br />
+                  G-4, Vaishnav<br />
                   Sagar Bungalow, New<br />
                   Manish Nagar,<br />
                   Somalwada, Nagpur<br />
@@ -338,6 +347,14 @@ const Footer = () => {
                   <Mail className="text-amber-500" size={18} />
                   <span className="text-base">contact@bbmam.in</span>
                 </a>
+
+                <a 
+                  href="mailto:bbmam.nagpur11@gmail.com" 
+                  className="flex items-center space-x-3 text-gray-300 hover:text-amber-400 transition-colors"
+                >
+                  <Mail className="text-amber-500" size={18} />
+                  <span className="text-base">bbmam.nagpur11@gmail.com</span>
+                </a>
                 
                 <div className="flex items-center space-x-2">
                   <Phone color="#F59E0B" size={16} />
@@ -392,7 +409,7 @@ const Footer = () => {
                 <div>
                   <p className="font-medium mb-1 text-xs text-amber-500/80">OFFICE LOCATION</p>
                   <address className="not-italic text-gray-300 leading-relaxed text-sm">
-                    C-3 & C-4, Vaishnav<br />
+                    G-4, Vaishnav<br />
                     Sagar Bungalow, New<br />
                     Manish Nagar,<br />
                     Sambhaji Nagar, Nagpur<br />
