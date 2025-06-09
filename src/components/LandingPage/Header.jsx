@@ -458,6 +458,29 @@ function Header() {
           )}
         </AnimatePresence>
       </motion.header>
+           <style jsx global>{`
+        :root {
+          --menu-gap: 2rem;
+          --menu-font-size: 1rem;
+        }
+        
+        @media screen and (min-width: 1024px) {
+          .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          
+          .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+          }
+        }
+        
+        @media screen and (max-width: 1280px) {
+          .container {
+            max-width: 100%;
+          }
+        }
+      `}</style>
     </>
   );
 }
