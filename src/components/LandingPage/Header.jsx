@@ -3,7 +3,6 @@ import * as React from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 // Animation variants for better performance
 const menuItemVariants = {
@@ -86,47 +85,12 @@ const navItemVariants = {
   })
 };
 
-// Replace useIsMobileDesktopView with this new hook
-const useIsMobileView = () => {
-  const [isMobileView, setIsMobileView] = useState(false);
-
-  useEffect(() => {
-    const checkViewport = () => {
-      // Check if the device is mobile and in desktop view
-      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      
-      if (isMobileDevice && viewportWidth >= 1024) {
-        // Mobile device in desktop view - adjust menu spacing
-        document.documentElement.style.setProperty('--menu-gap', '1.5rem');
-        document.documentElement.style.setProperty('--menu-font-size', '0.85rem');
-        setIsMobileView(false);
-      } else if (viewportWidth < 1024) {
-        // Regular mobile view
-        setIsMobileView(true);
-      } else {
-        // Regular desktop view
-        document.documentElement.style.setProperty('--menu-gap', '2rem');
-        document.documentElement.style.setProperty('--menu-font-size', '1rem');
-        setIsMobileView(false);
-      }
-    };
-
-    checkViewport();
-    window.addEventListener('resize', checkViewport);
-    return () => window.removeEventListener('resize', checkViewport);
-  }, []);
-
-  return isMobileView;
-};
-
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [expandedItem, setExpandedItem] = React.useState(null);
   const [hasLoaded, setHasLoaded] = React.useState(false);
-  const isMobileView = useIsMobileView(); // Replace isMobileDesktopView with this
 
   React.useEffect(() => {
     setHasLoaded(true);
@@ -320,7 +284,7 @@ function Header() {
           : onClick
       }
     >
-      <div className="text-white drop-shadow-md text-[var(--menu-font-size)]">{label}</div>
+      <div className="text-white drop-shadow-md">{label}</div>
 
       <div className="relative h-0.5 w-full">
         {isActive && (
@@ -375,63 +339,71 @@ function Header() {
             <img src="/logo.png" alt="Company logo" className="w-full" />
           </motion.div>
 
-          {!isMobileView ? (
-            // Desktop view
-             <div className="flex-grow ml-4 lg:ml-12">
-              <nav className="flex w-full justify-end items-center pr-2 lg:pr-6">
-               <div className="flex items-center gap-[var(--menu-gap)] overflow-x-auto hide-scrollbar">
-                  <MenuItem
-                    label="COMPANY"
-                    isActive={isActive("/company")}
-                    submenu={companySubmenu}
-                    index={0}
-                  />
-                  <MenuItem
-                    label="PRODUCT"
-                    isActive={isActive("/products")}
-                    onClick={scrollToProducts}
-                    index={1}
-                  />
-                  <MenuItem
-                    label="INQUIRY"
-                    isActive={isActive("/inquiry")}
-                    onClick={() => navigate("/inquiry")}
-                    index={2}
-                  />
-                  <MenuItem
-                    label="BLOG & FAQS"
-                    isActive={isActive("/blog")}
-                    onClick={() => navigate("/blog")}
-                    index={3}
-                  />
-                  <MenuItem
-                    label="CONTACT US"
-                    isActive={isActive("/contact")}
-                    onClick={() => navigate("/contact")}
-                    index={4}
-                  />
-                </div>
-              </nav>
-            </div>
-          ) : (
-            // Mobile view button
-            <motion.button
-              className="flex items-center justify-center 
-                bg-amber-500/90 hover:bg-amber-600 w-10 h-10 rounded-full 
-                shadow-md transition-all duration-200 mobile-menu-button ml-auto"
-              onClick={toggleMobileMenu}
-              variants={buttonVariants}
-              initial="initial"
-              whileHover="hover"
-              whileTap="tap"
+          <div className="hidden md:block flex-grow ml-12">
+            <nav className="flex w-full justify-end items-center pr-6">
+              <div className="flex items-center gap-38">
+                <MenuItem
+                  label="COMPANY"
+                  isActive={isActive("/company")}
+                  submenu={companySubmenu}
+                  index={0}
+                />
+                <MenuItem
+                  label="PRODUCT"
+                  isActive={isActive("/products")}
+                  onClick={scrollToProducts}
+                  index={1}
+                />
+                <MenuItem
+                  label="INQUIRY"
+                  isActive={isActive("/inquiry")}
+                  onClick={() => navigate("/inquiry")}
+                  index={2}
+                />
+                <MenuItem
+                  label="BLOG & FAQS"
+                  isActive={isActive("/blog")}
+                  onClick={() => navigate("/blog")}
+                  index={3}
+                />
+                <MenuItem
+                  label="CONTACT US"
+                  isActive={isActive("/contact")}
+                  onClick={() => navigate("/contact")}
+                  index={4}
+                />
+              </div>
+            </nav>
+          </div>
+
+          <motion.button
+            className="md:hidden flex items-center justify-center 
+              bg-amber-500/90 hover:bg-amber-600 w-10 h-10 rounded-full 
+              shadow-md transition-all duration-200 mobile-menu-button ml-auto"
+            onClick={toggleMobileMenu}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            variants={buttonVariants}
+            initial="initial"
+            whileHover="hover"
+            whileTap="tap"
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <motion.div
+              initial={{ rotate: 0 }}
+              animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
+              transition={{ duration: 0.2 }}
             >
-              <Menu className="h-5 w-5 text-white" />
-            </motion.button>
-          )}
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5 text-white" />
+              ) : (
+                <Menu className="h-5 w-5 text-white" />
+              )}
+            </motion.div>
+          </motion.button>
         </div>
 
         <AnimatePresence>
-          {(isMobileView && isMobileMenuOpen) && (
+          {isMobileMenuOpen && (
             <>
               <motion.div
                 className="fixed top-0 right-0 h-full bg-gray-500 shadow-lg w-[280px] z-50 mobile-sidebar overflow-y-auto"
@@ -475,30 +447,6 @@ function Header() {
           )}
         </AnimatePresence>
       </motion.header>
-      
-      <style jsx global>{`
-        :root {
-          --menu-gap: 2rem;
-          --menu-font-size: 1rem;
-        }
-        
-        @media screen and (min-width: 1024px) {
-          .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-          
-          .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-        }
-        
-        @media screen and (max-width: 1280px) {
-          .container {
-            max-width: 100%;
-          }
-        }
-      `}</style>
     </>
   );
 }
