@@ -92,24 +92,7 @@ const useIsMobileView = () => {
 
   useEffect(() => {
     const checkViewport = () => {
-      // Check if the device is mobile and in desktop view
-      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      
-      if (isMobileDevice && viewportWidth >= 1024) {
-        // Mobile device in desktop view - adjust menu spacing
-        document.documentElement.style.setProperty('--menu-gap', '1.5rem');
-        document.documentElement.style.setProperty('--menu-font-size', '0.85rem');
-        setIsMobileView(false);
-      } else if (viewportWidth < 1024) {
-        // Regular mobile view
-        setIsMobileView(true);
-      } else {
-        // Regular desktop view
-        document.documentElement.style.setProperty('--menu-gap', '2rem');
-        document.documentElement.style.setProperty('--menu-font-size', '1rem');
-        setIsMobileView(false);
-      }
+      setIsMobileView(window.innerWidth < 1024); // Using 1024px as desktop breakpoint
     };
 
     checkViewport();
@@ -320,7 +303,7 @@ function Header() {
           : onClick
       }
     >
-      <div className="text-white drop-shadow-md text-[var(--menu-font-size)]">{label}</div>
+      <div className="text-white drop-shadow-md">{label}</div>
 
       <div className="relative h-0.5 w-full">
         {isActive && (
@@ -377,9 +360,9 @@ function Header() {
 
           {!isMobileView ? (
             // Desktop view
-            <div className="flex-grow ml-4 lg:ml-12">
-              <nav className="flex w-full justify-end items-center pr-2 lg:pr-6">
-                <div className="flex items-center gap-[var(--menu-gap)] overflow-x-auto hide-scrollbar">
+            <div className="flex-grow ml-12">
+              <nav className="flex w-full justify-end items-center pr-6">
+                <div className="flex items-center gap-38">
                   <MenuItem
                     label="COMPANY"
                     isActive={isActive("/company")}
@@ -475,30 +458,6 @@ function Header() {
           )}
         </AnimatePresence>
       </motion.header>
-      
-      <style jsx global>{`
-        :root {
-          --menu-gap: 2rem;
-          --menu-font-size: 1rem;
-        }
-        
-        @media screen and (min-width: 1024px) {
-          .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-          
-          .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-        }
-        
-        @media screen and (max-width: 1280px) {
-          .container {
-            max-width: 100%;
-          }
-        }
-      `}</style>
     </>
   );
 }
