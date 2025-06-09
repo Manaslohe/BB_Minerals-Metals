@@ -377,8 +377,8 @@ function Header() {
 
           {!isMobileView ? (
             // Desktop view
-            <div className="flex-grow ml-12">
-              <nav className="flex w-full justify-end items-center pr-6">
+             <div className="flex-grow ml-4 lg:ml-12">
+              <nav className="flex w-full justify-end items-center pr-2 lg:pr-6">
                 <div className="flex items-center gap-38">
                   <MenuItem
                     label="COMPANY"
