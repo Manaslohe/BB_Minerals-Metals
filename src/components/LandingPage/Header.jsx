@@ -3,6 +3,7 @@ import * as React from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 // Animation variants for better performance
 const menuItemVariants = {
@@ -85,12 +86,32 @@ const navItemVariants = {
   })
 };
 
+// Add this custom hook after the animation variants
+const useIsMobileDesktopView = () => {
+  const [isMobileDesktopView, setIsMobileDesktopView] = useState(false);
+
+  useEffect(() => {
+    const checkMobileDesktopView = () => {
+      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const isDesktopView = window.innerWidth >= 768;
+      setIsMobileDesktopView(isMobileDevice && isDesktopView);
+    };
+
+    checkMobileDesktopView();
+    window.addEventListener('resize', checkMobileDesktopView);
+    return () => window.removeEventListener('resize', checkMobileDesktopView);
+  }, []);
+
+  return isMobileDesktopView;
+};
+
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [expandedItem, setExpandedItem] = React.useState(null);
   const [hasLoaded, setHasLoaded] = React.useState(false);
+  const isMobileDesktopView = useIsMobileDesktopView();
 
   React.useEffect(() => {
     setHasLoaded(true);
@@ -339,71 +360,76 @@ function Header() {
             <img src="/logo.png" alt="Company logo" className="w-full" />
           </motion.div>
 
-          <div className="hidden md:block flex-grow ml-12">
-            <nav className="flex w-full justify-end items-center pr-6">
-              <div className="flex items-center gap-38">
-                <MenuItem
-                  label="COMPANY"
-                  isActive={isActive("/company")}
-                  submenu={companySubmenu}
-                  index={0}
-                />
-                <MenuItem
-                  label="PRODUCT"
-                  isActive={isActive("/products")}
-                  onClick={scrollToProducts}
-                  index={1}
-                />
-                <MenuItem
-                  label="INQUIRY"
-                  isActive={isActive("/inquiry")}
-                  onClick={() => navigate("/inquiry")}
-                  index={2}
-                />
-                <MenuItem
-                  label="BLOG & FAQS"
-                  isActive={isActive("/blog")}
-                  onClick={() => navigate("/blog")}
-                  index={3}
-                />
-                <MenuItem
-                  label="CONTACT US"
-                  isActive={isActive("/contact")}
-                  onClick={() => navigate("/contact")}
-                  index={4}
-                />
-              </div>
-            </nav>
-          </div>
-
-          <motion.button
-            className="md:hidden flex items-center justify-center 
-              bg-amber-500/90 hover:bg-amber-600 w-10 h-10 rounded-full 
-              shadow-md transition-all duration-200 mobile-menu-button ml-auto"
-            onClick={toggleMobileMenu}
-            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-            variants={buttonVariants}
-            initial="initial"
-            whileHover="hover"
-            whileTap="tap"
-            animate={{ opacity: 1, scale: 1 }}
-          >
-            <motion.div
-              initial={{ rotate: 0 }}
-              animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
-              transition={{ duration: 0.2 }}
+          {!isMobileDesktopView ? (
+            <div className="hidden md:block flex-grow ml-12">
+              <nav className="flex w-full justify-end items-center pr-6">
+                <div className="flex items-center gap-38">
+                  <MenuItem
+                    label="COMPANY"
+                    isActive={isActive("/company")}
+                    submenu={companySubmenu}
+                    index={0}
+                  />
+                  <MenuItem
+                    label="PRODUCT"
+                    isActive={isActive("/products")}
+                    onClick={scrollToProducts}
+                    index={1}
+                  />
+                  <MenuItem
+                    label="INQUIRY"
+                    isActive={isActive("/inquiry")}
+                    onClick={() => navigate("/inquiry")}
+                    index={2}
+                  />
+                  <MenuItem
+                    label="BLOG & FAQS"
+                    isActive={isActive("/blog")}
+                    onClick={() => navigate("/blog")}
+                    index={3}
+                  />
+                  <MenuItem
+                    label="CONTACT US"
+                    isActive={isActive("/contact")}
+                    onClick={() => navigate("/contact")}
+                    index={4}
+                  />
+                </div>
+              </nav>
+            </div>
+          ) : (
+            <motion.button
+              className="flex items-center justify-center 
+                bg-amber-500/90 hover:bg-amber-600 w-10 h-10 rounded-full 
+                shadow-md transition-all duration-200 mobile-menu-button ml-auto"
+              onClick={toggleMobileMenu}
+              variants={buttonVariants}
+              initial="initial"
+              whileHover="hover"
+              whileTap="tap"
             >
-              {isMobileMenuOpen ? (
-                <X className="h-5 w-5 text-white" />
-              ) : (
-                <Menu className="h-5 w-5 text-white" />
-              )}
-            </motion.div>
-          </motion.button>
+              <Menu className="h-5 w-5 text-white" />
+            </motion.button>
+          )}
+
+          {!isMobileDesktopView && (
+            <motion.button
+              className="md:hidden flex items-center justify-center 
+                bg-amber-500/90 hover:bg-amber-600 w-10 h-10 rounded-full 
+                shadow-md transition-all duration-200 mobile-menu-button ml-auto"
+              onClick={toggleMobileMenu}
+              variants={buttonVariants}
+              initial="initial"
+              whileHover="hover"
+              whileTap="tap"
+            >
+              <Menu className="h-5 w-5 text-white" />
+            </motion.button>
+          )}
         </div>
 
         <AnimatePresence>
-          {isMobileMenuOpen && (
+          {(isMobileMenuOpen || (isMobileDesktopView && isMobileMenuOpen)) && (
             <>
               <motion.div
                 className="fixed top-0 right-0 h-full bg-gray-500 shadow-lg w-[280px] z-50 mobile-sidebar overflow-y-auto"
