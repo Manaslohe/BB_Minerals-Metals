@@ -379,7 +379,7 @@ function Header() {
             // Desktop view
              <div className="flex-grow ml-4 lg:ml-12">
               <nav className="flex w-full justify-end items-center pr-2 lg:pr-6">
-                <div className="flex items-center gap-38">
+               <div className="flex items-center gap-38 overflow-x-auto hide-scrollbar">
                   <MenuItem
                     label="COMPANY"
                     isActive={isActive("/company")}
