@@ -306,7 +306,7 @@ export const blogArticles = [
         type: 'list',
         title: 'What Makes India a Ferroalloy Hub?',
         items: [
-          'Rich ore reserves (chrome, manganese, molybdenum)',
+          'Rich ore reserves',
           'Skilled labor & efficient manufacturing',
           'Competitive pricing in global markets'
         ]
@@ -316,7 +316,7 @@ export const blogArticles = [
         title: 'BBMAM\'s Export Capabilities',
         items: [
           'Shipments to 15+ countries',
-          'Port handling from Mumbai & Visakhapatnam',
+          'Port handling from all major port of india',
           'Government-approved export licenses'
         ]
       },
@@ -679,7 +679,7 @@ export const blogArticles = [
           'Lab Testing for each batch',
           'Moisture-proof Packing with HDPE lining',
           'Dispatch via Container Freight Stations',
-          'Export via Mumbai, Vizag, or Mundra port'
+          'Export via all major port of india'
         ]
       },
       {
