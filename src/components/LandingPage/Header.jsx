@@ -92,7 +92,24 @@ const useIsMobileView = () => {
 
   useEffect(() => {
     const checkViewport = () => {
-      setIsMobileView(window.innerWidth < 1024); // Using 1024px as desktop breakpoint
+      // Check if the device is mobile and in desktop view
+      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      
+      if (isMobileDevice && viewportWidth >= 1024) {
+        // Mobile device in desktop view - adjust menu spacing
+        document.documentElement.style.setProperty('--menu-gap', '1.5rem');
+        document.documentElement.style.setProperty('--menu-font-size', '0.85rem');
+        setIsMobileView(false);
+      } else if (viewportWidth < 1024) {
+        // Regular mobile view
+        setIsMobileView(true);
+      } else {
+        // Regular desktop view
+        document.documentElement.style.setProperty('--menu-gap', '2rem');
+        document.documentElement.style.setProperty('--menu-font-size', '1rem');
+        setIsMobileView(false);
+      }
     };
 
     checkViewport();
@@ -303,7 +320,7 @@ function Header() {
           : onClick
       }
     >
-      <div className="text-white drop-shadow-md">{label}</div>
+      <div className="text-white drop-shadow-md text-[var(--menu-font-size)]">{label}</div>
 
       <div className="relative h-0.5 w-full">
         {isActive && (
@@ -458,7 +475,8 @@ function Header() {
           )}
         </AnimatePresence>
       </motion.header>
-           <style jsx global>{`
+      
+      <style jsx global>{`
         :root {
           --menu-gap: 2rem;
           --menu-font-size: 1rem;
