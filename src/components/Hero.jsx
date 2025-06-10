@@ -56,11 +56,6 @@ function Hero() {
               e.target.src = "https://via.placeholder.com/1920x1080/111111/333333?text=Factory+Background";
             }}
           />
-          
-          {/* Dark gradient overlay with right side tint */}
-          <div className="absolute inset-0 bg-gradient-to-br from-black/100 via-black/0 to-black/0"></div>
-          {/* Additional overlay for right side */}
-          <div className="absolute inset-0 bg-gradient-to-l from-black/100 to-black/0"></div>
         </div>
         
         {/* Text Container Slider - Adjusted mobile positioning */}
