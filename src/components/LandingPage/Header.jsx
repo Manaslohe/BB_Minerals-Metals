@@ -339,7 +339,7 @@ function Header() {
             <img src="/logo.png" alt="Company logo" className="w-full" />
           </motion.div>
 
-          <div className="hidden md:block flex-grow ml-12">
+          <div className="hidden lg:block flex-grow ml-12">
             <nav className="flex w-full justify-end items-center pr-6">
               <div className="flex items-center gap-38">
                 <MenuItem
@@ -377,7 +377,7 @@ function Header() {
           </div>
 
           <motion.button
-            className="md:hidden flex items-center justify-center 
+            className="lg:hidden flex items-center justify-center 
               bg-amber-500/90 hover:bg-amber-600 w-10 h-10 rounded-full 
               shadow-md transition-all duration-200 mobile-menu-button ml-auto"
             onClick={toggleMobileMenu}
@@ -406,7 +406,7 @@ function Header() {
           {isMobileMenuOpen && (
             <>
               <motion.div
-                className="fixed top-0 right-0 h-full bg-gray-500 shadow-lg w-[280px] z-50 mobile-sidebar overflow-y-auto"
+                className="fixed top-0 right-0 h-full bg-gray-500 shadow-lg w-[320px] sm:w-[380px] z-50 mobile-sidebar overflow-y-auto"
                 variants={mobileMenuVariants}
                 initial="closed"
                 animate="open"
