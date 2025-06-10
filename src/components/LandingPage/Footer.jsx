@@ -46,37 +46,27 @@ const Footer = () => {
 
   return (
     <motion.footer 
-      className="bg-gray-900 text-white py-12 sm:py-16 relative overflow-hidden"
+      className="bg-gray-900 text-white py-12 lg:py-16 relative overflow-hidden"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
       variants={containerVariants}
     >
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <motion.div 
-          className="h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent mb-12"
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
-        />
+      <div className="container mx-auto px-4 lg:px-6 relative z-10">
+        <motion.div className="h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent mb-12" />
         
-        {/* Mobile view: Logo centered at top */}
+        {/* Mobile/Tablet Logo */}
         <motion.div 
           variants={itemVariants} 
-          className="block sm:hidden mb-8 flex justify-center"
+          className="block lg:hidden mb-8 flex justify-center"
         >
-          <div className="relative w-40 h-28 transition-transform duration-300 hover:scale-105">
-            <img 
-              src="/logow.png" 
-              alt="BB Minerals & Metals Logo" 
-              className="w-full h-full object-contain filter brightness-110 drop-shadow-lg"
-              loading="lazy"
-            />
+          <div className="relative w-44 h-32 transition-transform duration-300 hover:scale-105">
+            <img src="/logow.png" alt="BB Minerals & Metals Logo" className="w-full h-full object-contain" />
           </div>
         </motion.div>
         
-        {/* Desktop view: Original grid layout */}
-        <div className="hidden sm:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
+        {/* Desktop Grid Layout - Only visible on lg screens */}
+        <div className="hidden lg:grid grid-cols-5 gap-12 mb-12">
           {/* Logo column with enhanced responsiveness */}
           <motion.div 
             variants={itemVariants} 
@@ -231,7 +221,7 @@ const Footer = () => {
         </div>
         
         {/* Mobile view: Accordion-style layout */}
-        <div className="sm:hidden space-y-4 mb-8">
+        <div className="lg:hidden space-y-4 mb-8">
           {/* About Us Section */}
           <motion.div variants={itemVariants}>
             <button 
@@ -439,14 +429,14 @@ const Footer = () => {
             <img 
               src="/mii.png" 
               alt="Made in India" 
-              className="h-24 sm:h-32 md:h-36 lg:h-40 w-auto opacity-90 transition-opacity duration-300 hover:opacity-100"
+              className="h-24 lg:h-40 w-auto opacity-90 hover:opacity-100"
               loading="lazy"
             />
           </motion.div>
 
           <motion.p 
             variants={itemVariants}
-            className="relative text-center text-gray-400 text-xs sm:text-sm pt-10 sm:pt-12 md:pt-14 font-light tracking-wide"
+            className="relative text-center text-gray-400 text-xs lg:text-sm pt-10 lg:pt-14 font-light tracking-wide"
           >
             © {new Date().getFullYear()} Website by FrameX | 
             <Link to="/privacy-policy" className="ml-2 text-amber-500 hover:text-amber-400 transition-colors hover:underline">
