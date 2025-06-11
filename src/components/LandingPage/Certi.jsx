@@ -34,37 +34,21 @@ const CertificationsCompliance = () => {
     {
       iconSrc: "https://cdn.builder.io/api/v1/image/assets/ef7b5d5447c6479dac0038316f4acf54/54203221adb40be85afdefd1f611ddb3623db9cd?placeholderIfAbsent=true",
       title: "Registered & Certified",
-      description: (
-        <>
-          BB MINERALS AND METALS is a fully <br />
-          registered, certified, and trademarked entity.
-        </>
-      ),
+      description: "BB MINERALS AND METALS is a fully registered, certified, and trademarked entity.",
       className: "px-3.5 pt-4 pb-16",
       imgClass: "w-[46px]"
     },
     {
       iconSrc: "https://cdn.builder.io/api/v1/image/assets/ef7b5d5447c6479dac0038316f4acf54/fe9582d8bfdb84e765a1bd51dc1a573283e34a12?placeholderIfAbsent=true",
       title: "Regulatory Approvals",
-      description: (
-        <>
-          We hold all necessary regulatory approvals
-          <br /> and industry-standard certifications.
-        </>
-      ),
+      description: "We hold all necessary regulatory approvals and industry-standard certifications.",
       className: "px-7 pt-5 pb-16",
       imgClass: "w-[52px]"
     },
     {
       iconSrc: "https://cdn.builder.io/api/v1/image/assets/ef7b5d5447c6479dac0038316f4acf54/e232d522c6271cdd97972f7ebfa02d50d4048658?placeholderIfAbsent=true",
       title: "Quality & Compliance",
-      description: (
-        <>
-          Our stringent quality control ensures every
-          <br /> batch meets international specifications and
-          <br /> compliance requirements.
-        </>
-      ),
+      description: "Our stringent quality control ensures every batch meets international specifications and compliance requirements.",
       className: "pt-3.5 pr-3 pb-11 pl-6",
       imgClass: "w-12"
     },
@@ -154,7 +138,8 @@ const CertificationsCompliance = () => {
                   `}></div>
                   
                   <p className={`
-                    text-base font-light transition-colors duration-300
+                    text-base font-light transition-colors duration-300 px-4 sm:px-6
+                    max-w-[280px] sm:max-w-none mx-auto
                     ${hoveredIndex === index ? 'text-white' : 'text-gray-200'}
                   `}>
                     {cert.description}
