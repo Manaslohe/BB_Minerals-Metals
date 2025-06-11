@@ -142,7 +142,7 @@ function Hero() {
                   {/* Text Content - now with ref for height measurement */}
                   <div ref={contentRef} className="p-2 sm:p-3 md:p-4 flex-1 pr-2 sm:pr-4">
                     <motion.h1 
-                      className="text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-4 md:mb-4 whitespace-pre-line tracking-tight leading-[1.15] sm:leading-[1]"
+                      className="font-inter text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-400 mb-4 md:mb-4 whitespace-pre-line tracking-tight leading-[1.15] sm:leading-[1]"
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ duration: 0.4, delay: 0.2 }}
@@ -150,7 +150,7 @@ function Hero() {
                       {slides[currentSlide].title}
                     </motion.h1>
                     <motion.p
-                      className="text-xs sm:text-sm md:text-base lg:text-lg opacity-90 whitespace-normal md:whitespace-normal max-w-[90%] md:max-w-full leading-[1.2] sm:leading-relaxed"
+                      className="font-inter text-xs sm:text-sm md:text-base lg:text-lg opacity-90 whitespace-normal md:whitespace-normal max-w-[90%] md:max-w-full leading-[1.2] sm:leading-relaxed"
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ duration: 0.4, delay: 0.4 }}
