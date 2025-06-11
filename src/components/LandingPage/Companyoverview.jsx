@@ -228,13 +228,13 @@ const CompanyOverview = () => {
     <section 
       ref={sectionRef}
       id="company-overview"
-      className={`w-full bg-gray-900 py-8 sm:py-12 md:py-20 overflow-hidden transition-opacity duration-500 
+      className={`w-full bg-gray-900 py-10 overflow-hidden transition-opacity duration-500 
         ${isVisible || hasAnimated ? 'opacity-100' : 'opacity-0'}`}
     >
       <div className="container mx-auto px-4 md:px-6 pt-4 sm:pt-6 md:pt-10 pb-2 sm:pb-4 md:pb-8">
         <div className="mb-4 sm:mb-6 md:mb-10 text-center sm:text-left overflow-hidden">
           <h2 
-            className={`text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-transparent bg-clip-text bg-white mb-1 sm:mb-2 tracking-tight
+            className={`text-3xl lg:text-6xl xl:text-7xl font-bold text-white mb-2 tracking-tight max-md:text-4xl
                       transform transition-all duration-500 ease-out
                       ${isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
             style={{ transitionDelay: '50ms' }}

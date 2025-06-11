@@ -10,13 +10,13 @@ const BBMAN = () => {
   return (
     <section 
       id="bbman-section"
-      className={`w-full bg-gray-900 py-0 sm:py-4 transition-opacity duration-700 ${
+      className={`w-full py-5 bg-gray-900 transition-opacity duration-700 ${
         isVisible || hasAnimated ? 'opacity-100' : 'opacity-0'
       }`}
     >
       <div className="container mx-auto">
         {/* Bottom image/video with consistent animation timing */}
-        <div className={`sm:mt-12 lg:mt-24 transform transition-all duration-700 ease-out ${
+        <div className={`transform transition-all duration-700 ease-out ${
           isVisible || hasAnimated ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
         }`} style={{ transitionDelay: hasAnimated ? '0ms' : '200ms' }}>
           <div className="w-[80%] sm:w-[70%] md:w-[80%] max-w-7xl mx-auto">

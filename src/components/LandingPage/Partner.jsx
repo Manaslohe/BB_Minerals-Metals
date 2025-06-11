@@ -240,7 +240,7 @@ function PartnersSection() {
   return (
     <motion.section
       id="partners-section"
-      className="w-full py-12 md:py-20 bg-gray-900 relative overflow-hidden"
+      className="w-full bg-gray-900 relative overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}

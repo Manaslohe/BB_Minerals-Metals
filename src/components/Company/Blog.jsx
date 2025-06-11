@@ -326,7 +326,7 @@ const Blog = () => {
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-2 text-center"
             variants={itemVariants}
           >
-            BLOG
+            BLOGs
           </motion.h2>
           <motion.div 
             className="h-1 w-16 sm:w-24 bg-amber-500 mx-auto mb-6 sm:mb-10"

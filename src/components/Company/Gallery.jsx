@@ -3,7 +3,7 @@ import { ArrowLeft, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
-const ImageModal = ({ image, onClose }) => {
+const ImageModal = ({ image, onClose, onNext, onPrev }) => {
   return (
     <motion.div 
       className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
@@ -13,22 +13,46 @@ const ImageModal = ({ image, onClose }) => {
       onClick={onClose}
     >
       <motion.button 
-        className="absolute top-6 right-6 p-2 rounded-full bg-gray-800/60 text-white"
+        className="absolute top-6 right-6 p-3 sm:p-4 rounded-full bg-gray-800/60 text-white"
         whileTap={{ scale: 0.9 }}
         onClick={onClose}
       >
         <X size={24} className="text-amber-500" />
       </motion.button>
-      
-      <motion.img 
-        src={image} 
-        alt="Gallery Image" 
-        className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl"
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.3 }}
-        onClick={(e) => e.stopPropagation()}
-      />
+
+      <div className="relative">
+        <motion.button 
+          className="absolute left-4 sm:-left-24 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-gray-800/60 text-white"
+          whileTap={{ scale: 0.9 }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onPrev();
+          }}
+        >
+          <ArrowLeft size={24} className="text-amber-500" />
+        </motion.button>
+
+        <motion.button 
+          className="absolute right-4 sm:-right-24 top-1/2 -translate-y-1/2 p-3 sm:p-4 rounded-full bg-gray-800/60 text-white"
+          whileTap={{ scale: 0.9 }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onNext();
+          }}
+        >
+          <ArrowLeft size={24} className="text-amber-500 rotate-180" />
+        </motion.button>
+        
+        <motion.img 
+          src={image} 
+          alt="Gallery Image" 
+          className="max-h-[90vh] max-w-[90vw] sm:max-w-[80vw] object-contain rounded-lg shadow-2xl"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          onClick={(e) => e.stopPropagation()}
+        />
+      </div>
     </motion.div>
   );
 };
@@ -37,6 +61,7 @@ const Gallery = () => {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
   const [loadedImages, setLoadedImages] = useState([]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
   // Generate array of image paths, excluding specific images
   const galleryImages = Array.from({ length: 20 }, (_, i) => {
@@ -92,6 +117,23 @@ const Gallery = () => {
       opacity: 1,
       transition: { duration: 0.5 }
     }
+  };
+
+  const handleImageClick = (index) => {
+    setSelectedImageIndex(index);
+    setSelectedImage(galleryImages[index]);
+  };
+
+  const handlePrevImage = () => {
+    const newIndex = selectedImageIndex > 0 ? selectedImageIndex - 1 : galleryImages.length - 1;
+    setSelectedImageIndex(newIndex);
+    setSelectedImage(galleryImages[newIndex]);
+  };
+
+  const handleNextImage = () => {
+    const newIndex = selectedImageIndex < galleryImages.length - 1 ? selectedImageIndex + 1 : 0;
+    setSelectedImageIndex(newIndex);
+    setSelectedImage(galleryImages[newIndex]);
   };
 
   return (
@@ -163,7 +205,7 @@ const Gallery = () => {
               whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
               whileTap={{ scale: 0.98 }}
               data-src={src}
-              onClick={() => setSelectedImage(src)}
+              onClick={() => handleImageClick(index)}
             >
               {loadedImages.includes(src) ? (
                 <img 
@@ -187,7 +229,12 @@ const Gallery = () => {
         {selectedImage && (
           <ImageModal 
             image={selectedImage} 
-            onClose={() => setSelectedImage(null)} 
+            onClose={() => {
+              setSelectedImage(null);
+              setSelectedImageIndex(null);
+            }} 
+            onNext={handleNextImage}
+            onPrev={handlePrevImage}
           />
         )}
       </AnimatePresence>

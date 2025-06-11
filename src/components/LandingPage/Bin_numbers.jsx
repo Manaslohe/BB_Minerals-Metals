@@ -66,12 +66,12 @@ const BinNumbers = () => {
     <section 
       ref={ref}
       id="bin-numbers-section"
-      className={`flex flex-col py-16 px-16 bg-gray-900 text-white w-full max-md:px-5 transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+      className={`flex flex-col py-10 pt-20 pb-0 px-16 bg-gray-900 text-white w-full max-md:px-5 max-md:pb-5 max-md:pt-16 transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
       aria-label="Bin Numbers Statistics"
     >
       <div className="flex flex-row justify-between items-start w-full max-lg:flex-col">
         <h2 
-          className={`text-6xl font-bold text-white max-w-xs max-md:text-4xl max-md:mb-10 transform transition-transform duration-700 ${isVisible ? 'translate-y-0' : 'translate-y-16'}`}
+          className={`text-6xl font-bold text-white max-w-xs max-md:text-4xl max-md:mb-10 max-md:text-center max-md:mx-auto transform transition-transform duration-700 ${isVisible ? 'translate-y-0' : 'translate-y-16'}`}
           style={{ transitionDelay: '100ms' }}
         >
           BBMAM IN <br />

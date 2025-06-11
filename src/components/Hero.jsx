@@ -1,18 +1,21 @@
 "use client";
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [dividerHeight, setDividerHeight] = useState("12rem");
+  const contentRef = useRef(null);
+  const prevSlide = useRef(currentSlide);
 
   const slides = [
     {
-      title: "MANUFACTURER & TRADER OF FERRO ALLOYS",
+      title: "MANUFACTURER &\nTRADER OF FERRO\nALLOYS",
       description: "Supplying strength, reliability, and innovation to every sector we serve empowering industries, driving growth, and shaping the future of metallurgy with every alloy we deliver."
     },
     {
-      title: "BHARAT'S LARGEST PRODUCER OF FERRO MOLYBDENUM AND LOW CARBON FERRO CHROME",
+      title: "BHARAT'S LARGEST\nPRODUCER OF\nFERRO\nMOLYBDENUM\nAND LOW CARBON\nFERRO CHROME",
       description: "DELIVERING STRENGTH, CONSISTENCY, AND PERFORMANCE THAT POWER THE NATION'S INDUSTRIAL GROWTH."
     }
   ];
@@ -24,6 +27,35 @@ function Hero() {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      const height = contentRef.current.offsetHeight;
+      const isMobile = window.innerWidth < 768;
+      const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+      let finalHeight;
+      
+      if (currentSlide === 0) {
+        if (isMobile) {
+          finalHeight = Math.min(height - 40, 180);
+        } else if (isTablet) {
+          finalHeight = Math.min(height, 220);
+        } else {
+          finalHeight = Math.min(height + 10, 260);
+        }
+      } else {
+        if (isMobile) {
+          finalHeight = Math.min(height + 60, 360);
+        } else if (isTablet) {
+          finalHeight = Math.min(height + 40, 360);
+        } else {
+          finalHeight = Math.min(height + 80, 480);
+        }
+      }
+      
+      setDividerHeight(`${finalHeight}px`);
+    }
+  }, [currentSlide]);
 
   // Handle smooth scrolling to BBInNumbers section
   const scrollToNextSection = () => {
@@ -46,7 +78,6 @@ function Hero() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        {/* Background Image */}
         <div className="absolute inset-0">
           <img
             src="/background.png"
@@ -59,16 +90,16 @@ function Hero() {
           />
         </div>
         
-        {/* Text Container Slider - Updated for tablet */}
-        <div className="absolute right-0 top-52 lg:top-52 w-full lg:w-1/2 xl:w-2/5 px-4 lg:px-0">
-          {/* Slide Indicators - Updated positioning */}
-          <div className="absolute right-4 lg:right-[15%] top-0 flex flex-row space-x-3">
+        {/* Text Container Slider */}
+        <div className="absolute right-0 top-35 md:top-52 w-[80%] md:w-1/2 xl:w-2/5 px-0 sm:px-0 md:px-0">
+          {/* Slide Indicators */}
+          <div className="absolute right-2 sm:right-4 md:right-[15%] top-0 flex flex-row space-x-3">
             {slides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentSlide === index ? "bg-amber-500 w-7 lg:w-8" : "bg-white/50"
+                className={`w-3 h-3 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+                  currentSlide === index ? "bg-white w-7 sm:w-8" : "bg-white/50"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -78,43 +109,53 @@ function Hero() {
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentSlide}
-              className="flex flex-row items-start text-white mt-10 lg:mt-0"
+              className="flex flex-row items-start text-white mt-10 sm:mt-6 md:mt-0 pr-0 w-full"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
             >
-              {/* Divider Line - Adjusted for tablet */}
-              <div className="flex items-start justify-center px-2 lg:px-4 pt-4">
-                <div className="h-48 lg:h-56 w-1.5 bg-amber-500"></div>
-              </div>
-              
-              {/* Text Content - Enhanced for tablet */}
-              <div className="p-2 lg:p-4 flex-1">
-                <motion.h1 
-                  className="text-2xl lg:text-4xl xl:text-5xl font-bold mb-4"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
-                >
-                  {slides[currentSlide].title}
-                </motion.h1>
-                <motion.p
-                  className="text-sm lg:text-lg opacity-90 max-w-[90%] lg:max-w-none"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 0.4 }}
-                >
-                  {slides[currentSlide].description}
-                </motion.p>
+              <div className="flex flex-row items-start w-full justify-end">
+                <div className="flex flex-row items-start max-w-[95%] sm:max-w-[90%] md:max-w-[85%]">
+                  {/* Divider Line - Left of Text */}
+                  <div className="flex items-start justify-center  sm:px-3 md:px-4 pt-4">
+                    <div 
+                      className="w-0.5 sm:w-0.5 bg-white transition-all duration-500 ease-in-out"
+                      style={{ 
+                        height: dividerHeight,
+                        transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                      }}
+                    ></div>
+                  </div>
+                  
+                  {/* Text Content - now with ref for height measurement */}
+                  <div ref={contentRef} className="p-2 sm:p-3 md:p-4 flex-1 pr-2 sm:pr-4">
+                    <motion.h1 
+                      className="text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold mb-4 md:mb-4 whitespace-pre-line tracking-tight leading-[1.15] sm:leading-[1]"
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.4, delay: 0.2 }}
+                    >
+                      {slides[currentSlide].title}
+                    </motion.h1>
+                    <motion.p
+                      className="text-xs sm:text-sm md:text-base lg:text-lg opacity-90 whitespace-normal md:whitespace-normal max-w-[90%] md:max-w-full leading-[1.2] sm:leading-relaxed"
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.4, delay: 0.4 }}
+                    >
+                      {slides[currentSlide].description}
+                    </motion.p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>
         </div>
         
-        {/* Scroll Indicator - Updated for tablet */}
+        {/* Scroll Indicator - enlarged for mobile */}
         <motion.div 
-          className="absolute bottom-6 lg:bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer"
+          className="absolute bottom-6 sm:bottom-8 md:bottom-10 left-1/2 transform -translate-x-1/2 cursor-pointer"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.5 }}
@@ -124,10 +165,10 @@ function Hero() {
         >
           <div className="flex flex-col items-center gap-2">
             <motion.div 
-              className="w-8 h-14 lg:w-7 lg:h-12 rounded-full border-2 border-white/80 flex justify-center items-start p-1"
+              className="w-8 h-14 sm:w-7 sm:h-12 rounded-full border-2 border-white/80 flex justify-center items-start p-1"
             >
               <motion.div 
-                className="w-2 h-2 lg:w-1.5 lg:h-1.5 bg-amber-500 rounded-full"
+                className="w-2 h-2 sm:w-1.5 sm:h-1.5 bg-white rounded-full"
                 animate={{ 
                   y: [2, 16, 2],
                 }}

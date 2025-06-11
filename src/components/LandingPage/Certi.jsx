@@ -74,7 +74,7 @@ const CertificationsCompliance = () => {
     <section 
       ref={sectionRef}
       id="certifications-section"
-      className={`w-full bg-gray-900 py-16 sm:py-20 overflow-hidden transition-opacity duration-700
+       className={`w-full bg-gray-900 py-10 pb-5 md:pb-10 pt-0 sm:pt-0 overflow-hidden transition-opacity duration-700
                 ${isVisible || hasAnimated ? 'opacity-100' : 'opacity-0'}`}
     >
       <div className="container mx-auto px-4 pt-10 pb-8 relative z-10">
@@ -105,8 +105,8 @@ const CertificationsCompliance = () => {
             className={`w-full h-full bg-cover bg-center transition-all duration-700
                       transform ${isVisible || hasAnimated ? 'scale-100 opacity-100' : 'scale-105 opacity-80'}`}
             style={{
-              backgroundImage: 'url(/certib.png)',
-              filter: 'brightness(0.8) saturate(1.3)',
+              backgroundImage: 'url(' + (window.innerWidth < 768 ? '/certi2.png' : '/certib.png') + ')',
+              filter: 'brightness(1) saturate(1.3)',
               transitionDelay: '250ms'
             }}
           ></div>

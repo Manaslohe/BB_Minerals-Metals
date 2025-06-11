@@ -331,7 +331,7 @@ function Header() {
       >
         <div className="container mx-auto px-6 py-5 flex items-center">
           <motion.div
-            className="w-[180px] flex-shrink-0"
+            className="w-[110px] sm:w-[180px] flex-shrink-0"
             variants={logoVariants}
             onClick={() => navigate("/")}
             style={{ cursor: "pointer" }}
@@ -339,9 +339,9 @@ function Header() {
             <img src="/logo.png" alt="Company logo" className="w-full" />
           </motion.div>
 
-          <div className="hidden lg:block flex-grow ml-12">
-            <nav className="flex w-full justify-end items-center pr-6">
-              <div className="flex items-center gap-38">
+           <div className="hidden lg:block flex-grow ml-40">
+            <nav className="flex w-full items-center">
+              <div className="flex items-center gap-44 w-full max-w-4xl">
                 <MenuItem
                   label="COMPANY"
                   isActive={isActive("/company")}

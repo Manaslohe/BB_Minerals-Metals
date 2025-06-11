@@ -139,7 +139,7 @@ const GlobalPresence = () => {
       className={`bg-gray-900 text-white font-sans transition-opacity duration-700
                 ${isVisible || hasAnimated ? 'opacity-100' : 'opacity-0'}`}
     >
-      <div className="container mx-auto py-10 px-4">
+      <div className="container mx-auto py-10 pb-5 px-4">
         {/* Title and Subtitle with animations */}
         <div className="mb-10 text-center sm:text-left relative">
           <div className="flex flex-col sm:flex-row sm:justify-between">

@@ -139,7 +139,7 @@ const ProductsSection = () => {
     <section 
       ref={sectionRef}
       id="products-section"
-      className={`w-full bg-gray-900 py-10 lg:py-20 overflow-hidden transition-opacity duration-700
+      className={`w-full bg-gray-900 py-10 pb-5 lg:pb-10 overflow-hidden transition-opacity duration-700
                 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
       <Helmet>
@@ -149,31 +149,28 @@ const ProductsSection = () => {
       {/* Inject structured data for SEO */}
       <ProductJsonLd />
       
-      <div className="container mx-auto px-4 pt-6 lg:pt-10 pb-4 lg:pb-8">
-        {/* Heading with persistent visibility once triggered */}
-        <div className="mb-6 lg:mb-10 text-center lg:text-left overflow-hidden">
-          {/* Updated to h1 for proper heading structure as per SEO best practices */}
-          <h1 
-            className={`text-3xl lg:text-6xl xl:text-7xl font-bold text-white mb-2 lg:mb-3 tracking-tight
-                      transform transition-all duration-700 ease-out
-                      ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-            style={{ transitionDelay: '100ms', transformOrigin: 'center lg:left' }}
-          >
-            OUR PRODUCTS
-          </h1>
-          <p 
-            className={`text-lg lg:text-2xl text-white/60 font-light
-                      transform transition-all duration-700 ease-out
-                      ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
-            style={{ transitionDelay: '200ms' }}
-          >
-            Strength You Can Rely On. Quality You Can See.
-          </p>
-        </div>
-      </div>
+      <div className="container mx-auto px-4">
+      
+          <div className="mb-16 lg:mb-20 text-center lg:text-left overflow-hidden">
+            <h1 
+              className={`text-3xl lg:text-6xl xl:text-7xl font-bold text-white mb-2 tracking-tight
+                  transform transition-all duration-700 ease-out
+                  ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+              style={{ transitionDelay: '100ms', transformOrigin: 'center lg:left' }}
+            >
+              OUR PRODUCTS
+            </h1>
+            <p 
+              className={`text-lg lg:text-2xl text-white/60 font-light
+                  transform transition-all duration-700 ease-out
+                  ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+              style={{ transitionDelay: '200ms' }}
+            >
+              Strength You Can Rely On. Quality You Can See.
+            </p>
+          </div>
 
-      <div className="container mx-auto px-4 py-6 lg:py-10">
-        {/* Container with white border for all product cards - with synchronized animation */}
+          {/* Product grid container */}
         <div 
           className={`bg-[#2C333B] border-2 border-white/50 rounded-lg lg:rounded-xl p-4 lg:p-8
                     transform transition-all duration-700 ease-out
@@ -219,10 +216,9 @@ const ProductsSection = () => {
                         />
                       </div>
 
-                      {/* View button - faster transition */}
+                      {/* View button - always visible */}
                       <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center px-3 sm:px-4 py-2 sm:py-3
-                                    transform translate-y-full group-hover:translate-y-0
-                                    transition-all duration-300 ease-out z-30">
+                                    z-30">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();

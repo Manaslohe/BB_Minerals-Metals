@@ -27,24 +27,24 @@ const Laboratory = () => {
   return (
     <section 
       id="laboratory-section"
-      className={`w-full bg-gray-900 py-12 md:py-20 overflow-hidden transition-opacity duration-700
+      className={`w-full bg-gray-900 py-10 pb-5 overflow-hidden transition-opacity duration-700
                 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
-      <div className="container mx-auto px-4 md:px-8">
+      <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start">
           {/* Left content with animations - consistent timing */}
           <div className="w-full md:w-1/2 lg:w-6/12 mb-8 md:mb-0 md:pr-8">
             <h2 
-              className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 md:mb-6 tracking-tight
+              className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 md:mb-6 tracking-tight text-center md:text-left
                         transform transition-all duration-700 ease-out
                         ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'}`}
-              style={{ transitionDelay: '100ms', transformOrigin: 'left' }}
+              style={{ transitionDelay: '100ms', transformOrigin: 'center md:left' }}
             >
               LABORATORY
             </h2>
             
             <div 
-              className={`transition-all duration-700 ease-out transform
+              className={`transition-all duration-700 ease-out transform text-center md:text-left
                         ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
               style={{ transitionDelay: '200ms' }}
             >
