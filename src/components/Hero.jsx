@@ -102,7 +102,7 @@ function Hero() {
         </div>
         
         {/* Text Container Slider */}
-        <div className="absolute right-0 top-35 md:top-52 w-[80%] md:w-1/2 xl:w-2/5 px-0 sm:px-0 md:px-0">
+        <div className="absolute right-0 top-25 md:top-52 w-[80%] md:w-1/2 xl:w-2/5 px-0 sm:px-0 md:px-0">
           {/* Slide Indicators */}
           <div className="absolute right-2 sm:right-4 md:right-[15%] top-0 flex flex-row space-x-3">
             {slides.map((_, index) => (
@@ -120,7 +120,7 @@ function Hero() {
           <AnimatePresence mode="wait">
             <motion.div 
               key={currentSlide}
-              className="flex flex-row items-start text-white mt-10 sm:mt-6 md:mt-0 pr-0 w-full"
+              className="flex flex-row items-start text-white mt-6 sm:mt-4 md:mt-0 pr-0 w-full"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
@@ -142,7 +142,7 @@ function Hero() {
                   {/* Text Content - now with ref for height measurement */}
                   <div ref={contentRef} className="p-2 sm:p-3 md:p-4 flex-1 pr-2 sm:pr-4">
                     <motion.h1 
-                      className="font-inter text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-400 mb-4 md:mb-4 whitespace-pre-line tracking-tight leading-[1.15] sm:leading-[1]"
+                      className="font-inter text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-500 mb-4 md:mb-4 whitespace-pre-line tracking-tight leading-[1.15] sm:leading-[1]"
                       initial={{ y: 20, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
                       transition={{ duration: 0.4, delay: 0.2 }}

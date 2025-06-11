@@ -394,7 +394,7 @@ function Header() {
               {isMobileMenuOpen ? (
                 <X className="h-8 w-8 text-white" />
               ) : (
-                <Menu className="h-7 w-7 text-white" />
+                <Menu className="h-8 w-9 text-white" />
               )}
             </motion.div>
           </motion.button>
