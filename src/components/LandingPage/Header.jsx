@@ -377,9 +377,7 @@ function Header() {
           </div>
 
           <motion.button
-            className="lg:hidden flex items-center justify-center 
-              bg-amber-500/90 hover:bg-amber-600 w-10 h-10 rounded-full 
-              shadow-md transition-all duration-200 mobile-menu-button ml-auto"
+            className="lg:hidden flex items-center justify-center ml-auto p-2"
             onClick={toggleMobileMenu}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             variants={buttonVariants}
@@ -394,9 +392,9 @@ function Header() {
               transition={{ duration: 0.2 }}
             >
               {isMobileMenuOpen ? (
-                <X className="h-5 w-5 text-white" />
+                <X className="h-8 w-8 text-white" />
               ) : (
-                <Menu className="h-5 w-5 text-white" />
+                <Menu className="h-7 w-7 text-white" />
               )}
             </motion.div>
           </motion.button>

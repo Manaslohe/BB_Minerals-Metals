@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [dividerHeight, setDividerHeight] = useState("12rem");
+  const [isMobile, setIsMobile] = useState(false);
   const contentRef = useRef(null);
   const prevSlide = useRef(currentSlide);
 
@@ -57,6 +58,16 @@ function Hero() {
     }
   }, [currentSlide]);
 
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Handle smooth scrolling to BBInNumbers section
   const scrollToNextSection = () => {
     const nextSection = document.getElementById("bin-numbers-section");
@@ -80,7 +91,7 @@ function Hero() {
       >
         <div className="absolute inset-0">
           <img
-            src="/background.png"
+            src={isMobile ? "/backgroundmobile.png" : "/background.png"}
             alt="Factory interior with molten metal"
             className="object-cover w-full h-full"
             onError={(e) => {
@@ -99,7 +110,7 @@ function Hero() {
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`w-3 h-3 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
-                  currentSlide === index ? "bg-white w-7 sm:w-8" : "bg-white/50"
+                  currentSlide === index ? "bg-white" : "bg-white/50"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
