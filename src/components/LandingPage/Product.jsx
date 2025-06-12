@@ -180,10 +180,9 @@ const ProductsSection = () => {
           {/* Optimized grid layout with persistent visibility once triggered */}
           <div 
             id="product-grid"
-            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8 lg:gap-10"
+            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8"
           >
             {products.map((product, index) => {
-              // Check if this is the last item and if total count is odd
               const isLastItem = index === products.length - 1;
               const isOddCount = products.length % 2 === 1;
               const shouldCenter = isLastItem && isOddCount;
@@ -193,7 +192,7 @@ const ProductsSection = () => {
                   key={product.id}
                   className={`transform transition-all duration-700 ease-out
                        ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}
-                       ${shouldCenter ? 'col-span-2 sm:col-span-1 md:col-span-1 mx-auto w-[calc(50%-8px)] sm:w-full' : ''}`}
+                       ${shouldCenter ? 'col-span-2 sm:col-span-1 mx-auto w-[calc(50%-8px)] sm:w-full' : ''}`}
                   style={{ transitionDelay: `${150 + index * 50}ms` }}
                   onMouseEnter={() => setHoveredId(product.id)}
                   onMouseLeave={() => setHoveredId(null)}
@@ -201,49 +200,48 @@ const ProductsSection = () => {
                   {/* Product Card */}
                   <div
                     onClick={() => handleViewProduct(product.id)} 
-                    className="group relative aspect-square bg-gradient-to-b from-white to-gray-50 rounded-lg sm:rounded-xl overflow-hidden 
+                    className="group relative aspect-square bg-gradient-to-b from-white to-gray-50 rounded-lg overflow-hidden 
                          cursor-pointer shadow-md hover:shadow-lg
                          transition-all duration-400 ease-out hover:-translate-y-2 mb-2 sm:mb-3"
                   >
-                    {/* Product Image - optimized for mobile with updated alt text */}
+                    {/* Product Image container */}
                     <div className="relative w-full h-full flex flex-col p-3 sm:p-4 overflow-hidden">
                       <div className="flex-1 flex items-center justify-center py-1 sm:py-2">
                         <img 
                           src={product.image} 
-                          alt={product.alt} // SEO-optimized alt text
+                          alt={product.alt}
                           className="w-4/5 h-4/5 object-contain transition-transform duration-300 ease-out group-hover:scale-110"
                           loading="lazy"
                         />
                       </div>
 
-                      {/* View button - always visible */}
-                      <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center px-3 sm:px-4 py-2 sm:py-3
-                                    z-30">
+                      {/* View button - optimized for mobile */}
+                      <div className="absolute bottom-0 left-0 right-0 flex justify-center items-center px-3 sm:px-4 py-2 sm:py-3 z-30">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             handleViewProduct(product.id);
                           }}
-                          className="bg-amber-500 text-white py-1.5 sm:py-2.5 px-3 sm:px-5 rounded-md sm:rounded-lg 
-                                    flex items-center gap-1 sm:gap-2 
-                                    w-full justify-center text-sm sm:text-base
-                                    hover:bg-amber-600 active:scale-95 transition-all duration-200 
-                                    shadow-md relative"
+                          className="bg-amber-500 text-white py-1.5 sm:py-2 px-3 sm:px-4 rounded-md
+                                   flex items-center justify-center gap-1.5 sm:gap-2 
+                                   w-full text-sm sm:text-base
+                                   hover:bg-amber-600 active:scale-95 transition-all duration-200 
+                                   shadow-md whitespace-nowrap"
                           type="button"
                           aria-label={`View details of ${product.name}`}
                         >
-                          <Eye className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                          <span className="font-medium">View Details</span>
+                          <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                          <span className="font-medium">Details</span>
                         </button>
                       </div>
                     </div>
                     
-                    {/* Border effect with faster transition */}
-                    <div className="absolute inset-0 rounded-lg sm:rounded-xl border border-gray-200/50 
+                    {/* Border effect */}
+                    <div className="absolute inset-0 rounded-lg border border-gray-200/50 
                                   group-hover:border-gray-300 transition-all duration-300" />
                   </div>
                   
-                  {/* Product name below card - changes to amber-500 on hover */}
+                  {/* Product name */}
                   <h3 className={`text-center font-medium text-sm sm:text-base transition-colors duration-300
                                 ${hoveredId === product.id ? 'text-amber-500' : 'text-white'}`}>
                     {product.name}

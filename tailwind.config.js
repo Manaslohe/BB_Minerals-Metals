@@ -4,6 +4,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '480px',
+      },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
