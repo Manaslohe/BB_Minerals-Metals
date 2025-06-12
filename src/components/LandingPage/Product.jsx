@@ -231,7 +231,7 @@ const ProductsSection = () => {
                           aria-label={`View details of ${product.name}`}
                         >
                           <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                          <span className="font-medium">Details</span>
+                          <span className="font-medium">View Details</span>
                         </button>
                       </div>
                     </div>
