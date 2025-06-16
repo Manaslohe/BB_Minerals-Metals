@@ -44,6 +44,20 @@ const ProductJsonLd = () => {
         "name": "Manganese Metal Flake",
         "url": "https://bbmam.in/products#manganese-metal-flake",
         "image": "https://bbmam.in/product5.png"
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "name": "Molybdenum Powder",
+        "url": "https://bbmam.in/products#molybdenum-powder",
+        "image": "https://bbmam.in/product6.png"
+      },
+      {
+        "@type": "ListItem",
+        "position": 7,
+        "name": "Extra Low Carbon FeCr Powder",
+        "url": "https://bbmam.in/products#extra-low-carbon-fecr-powder",
+        "image": "https://bbmam.in/product7.png"
       }
     ]
   };
@@ -132,6 +146,18 @@ const ProductsSection = () => {
       image: "/product5.png",
       name: "Manganese Metal Flake",
       alt: "Manganese Metal Flake – Used in deoxidizing steel production"
+    },
+    {
+      id: 6,
+      image: "/product6.png",
+      name: "Molybdenum Powder",
+      alt: "Molybdenum Powder – High purity powder for advanced alloy applications"
+    },
+    {
+      id: 7,
+      image: "/product7.png",
+      name: "Extra Low Carbon FeCr Powder",
+      alt: "Extra Low Carbon FeCr Powder – Specialized alloy for precision applications"
     }
   ];
 
@@ -187,12 +213,17 @@ const ProductsSection = () => {
               const isOddCount = products.length % 2 === 1;
               const shouldCenter = isLastItem && isOddCount;
               
+              // New logic for centering 2nd row in lg screens (5-column layout)
+              const isSecondRowLg = index >= 5; // Products 6 and 7 (index 5 and 6)
+              const secondRowPosition = index === 5 ? 'lg:col-start-2 lg:col-end-3' : index === 6 ? 'lg:col-start-4 lg:col-end-5' : '';
+              
               return (
                 <div
                   key={product.id}
                   className={`transform transition-all duration-700 ease-out
                        ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'}
-                       ${shouldCenter ? 'col-span-2 sm:col-span-1 mx-auto w-[calc(50%-8px)] sm:w-full' : ''}`}
+                       ${shouldCenter ? 'col-span-2 sm:col-span-1 mx-auto w-[calc(50%-8px)] sm:w-full' : ''}
+                       ${isSecondRowLg ? secondRowPosition : ''}`}
                   style={{ transitionDelay: `${150 + index * 50}ms` }}
                   onMouseEnter={() => setHoveredId(product.id)}
                   onMouseLeave={() => setHoveredId(null)}

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Environment, useProgress } from "@react-three/drei";
 import * as THREE from "three";
 import { SRGBColorSpace } from "three"; // Import SRGBColorSpace
@@ -130,6 +130,8 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
     "Low Carbon Ferro Chrome": "/blg/LOW CARBON FERO CHROME.glb",
     "Silicon Metal": "/blg/SILICON METAL.glb",
     "Manganese Metal Flake": "/blg/Magneese.glb",
+    "Molybdenum Powder": "/blg/Molybdenum.glb",
+    "Extra Low Carbon FeCr Powder": "/blg/ExtraLowCarbon.glb"
   };
 
   const modelPath = modelMapping[productName] || modelMapping["High Carbon Ferro Chrome"];
@@ -142,10 +144,65 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
     if (path.includes("Magneese")) return [0, 1.5, 7];
     if (path.includes("FEROMOLY")) return [0, 1.5, 5.8];
     if (path.includes("FERO CHROME")) return [0, 1.5, 5.8];
+    if (path.includes("Molybdenum Powder")) return [2, 2, 2]; // Custom position for Molybdenum Powder
+    if (path.includes("Extra Low Carbon FeCr Powder")) return [2, 2, 2]; // Custom position for Extra Low Carbon FeCr Powder
     return [0, 1.5, 6]; // Default closer position
   };
 
   const initialCameraPosition = getInitialCameraPosition(modelPath);
+
+  const cameraConfigs = {
+    default: {
+      position: [3, 3, 3],
+      fov: 75,
+      zoom: 1
+    },
+    "Molybdenum Powder": {
+      position: [0.8, 0.8, 0.8],  // Closer position
+      fov: 45,                    // Narrower field of view
+      zoom: 2.5,                  // Increased zoom
+      target: [0, 0, 0]
+    },
+    "Extra Low Carbon FeCr Powder": {
+      position: [0.8, 0.8, 0.8],  // Closer position
+      fov: 45,                    // Narrower field of view
+      zoom: 2.5,                  // Increased zoom
+      target: [0, 0, 0]
+    }
+  };
+
+  // Add background color configurations
+  const backgroundConfigs = {
+    "Molybdenum Powder": "#1a1a1a",
+    "Extra Low Carbon FeCr Powder": "#1a1a1a",
+    default: "#ffffff"
+  };
+
+  const Scene = ({ modelPath, productName }) => {
+    const { camera, gl, scene } = useThree();
+    
+    useEffect(() => {
+      // Set background color based on product
+      const bgColor = backgroundConfigs[productName] || backgroundConfigs.default;
+      scene.background = new THREE.Color(bgColor);
+      gl.setClearColor(bgColor);
+      
+      if (camera) {
+        const config = cameraConfigs[productName] || cameraConfigs.default;
+        camera.position.set(...config.position);
+        camera.fov = config.fov;
+        camera.zoom = config.zoom;
+        
+        if (config.target) {
+          camera.lookAt(...config.target);
+        }
+        
+        camera.updateProjectionMatrix();
+      }
+    }, [camera, scene, gl, productName]);
+
+    return null;
+  };
 
   if (!isOpen) return null;
 
@@ -250,6 +307,7 @@ const ThreeDViewer = ({ isOpen, onClose, productName }) => {
                   TWO: THREE.TOUCH.DOLLY_PAN,
                 }}
               />
+              <Scene modelPath={modelPath} productName={productName} />
             </Canvas>
           </Suspense>
         </div>

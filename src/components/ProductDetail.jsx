@@ -16,7 +16,7 @@ const productDetailsData = {
     ],
     composition: [
       { element: "Chromium (Cr)", value: "60-70%" },
-      { element: "Carbon (C)", value: "<0.1-0.2%" },
+      { element: "Carbon (C)", value: "<0.1-0.02%" },
       { element: "Silicon (Si)", value: "1-3%" },
       { element: "Sulfur (S)", value: "<0.05%" },
       { element: "Phosphorus (P)", value: "<0.05%" }
@@ -65,12 +65,13 @@ const productDetailsData = {
       { title: "Castings & Foundry Industry", desc: "– Provides improved strength and oxidation resistance in metal" }
     ],
     composition: [
-      { element: "Molybdenum (Mo)", value: "60-75%" },
+      { element: "Molybdenum (Mo)", value: "60%/65%/70%" },
       { element: "Carbon (C)", value: "<0.1%" },
       { element: "Silicon (Si)", value: "<1.0%" },
       { element: "Sulfur (S)", value: "<0.08%" },
       { element: "Phosphorus (P)", value: "<0.05%" },
-      { element: "Copper(CU)", value: "<0.5%" }
+      { element: "Copper(Cu)", value: "<0.5%" },
+      { element: "Size", value: "Lumps and Powder" }
     ],
     properties: [
       "Enhances strength, toughness, and hardness of steel",
@@ -124,6 +125,57 @@ const productDetailsData = {
       "Rapidly dissolves in molten metals, ensuring efficient alloying",
       "Enhances strength, hardness, and wear resistance of steels",
       "Provides excellent deoxidizing capability for cleaner steel production"
+    ],
+    hasTypes: false
+  },
+  "Molybdenum Powder": {
+    overview: "ELC Ferro Molybdenum Powder is a finely processed alloy of molybdenum and iron, engineered with ultra-low carbon content to meet the stringent demands of high-performance alloy production. It offers a clean molybdenum source where carbon pickup must be strictly controlled, particularly in vacuum and high-purity steelmaking applications.",
+    uses: [
+      { title: "Superalloys", desc: " – For aerospace and turbine blades" },
+      { title: "Medical Grade and Low-carbon Stainless Steels", desc: " – For specialized applications" },
+      { title: "Tool Steels and High-speed Steels", desc: " – For enhanced performance" },
+      { title: "Welding Consumables", desc: " – For low hydrogen electrodes" },
+      { title: "Additive Manufacturing", desc: " – For metal injection molding (MIM)" }
+    ],
+    composition: [
+      { element: "Molybdenum(Mo)", value: "60-75%" },
+      { element: "Carbon(C)", value: "≤0.1%" },
+      { element: "Silicon(Si)", value: "≤1.0%" },
+      { element: "Sulfur(S)", value: "≤0.05%" },
+      { element: "Phosphorus(P)", value: "≤0.5%" },
+      { element: "Copper(Cu)", value: "0.5%" },
+      { element: "Size", value: "+40 mesh (as per specified)" }
+    ],
+    properties: [
+      "Low Carbon Content: Ideal for precise alloying",
+      "High Temperature Strength: Improves creep resistance in steels",
+      "Corrosion Resistance: Enhances stainless and specialty steel properties",
+      "Powder Form: Suitable for use in powder metallurgy, cored wire, and vacuum melting"
+    ],
+    hasTypes: false
+  },
+  "Extra Low Carbon FeCr Powder": {
+    overview: "Extra Low Carbon Ferro Chrome (ELC FeCr) Powder is a specialized alloy composed primarily of chromium (Cr) and iron (Fe), with an extremely low carbon content. This material is critical for industries that require precise control over carbon levels, such as superalloy production, aerospace, nuclear, and stainless steel manufacturing.",
+    uses: [
+      { title: "Superalloys", desc: " – Used in turbine engines, aerospace, etc." },
+      { title: "Stainless steels", desc: " – Especially low-carbon grades like 304L, 316L" },
+      { title: "Welding electrodes and flux-cored wires", desc: " – For precision welding" },
+      { title: "Powder metallurgy applications", desc: " – For specialized components" },
+      { title: "Nuclear reactor components", desc: " – Due to low carbon contamination" }
+    ],
+    composition: [
+      { element: "Chromium (Cr)", value: "≥70%" },
+      { element: "Carbon (C)", value: "≤ 0.3%" },
+      { element: "Silicon (Si)", value: "≤ 1.0%" },
+      { element: "Sulfur (S)", value: "≤0.010%" },
+      { element: "Phosphorus (P)", value: "≤0.010%" },
+      { element: "Size", value: "+40 mesh (as per specified)" }
+    ],
+    properties: [
+      "Excellent corrosion and oxidation resistance",
+      "Superior hardness and wear resistance",
+      "Enhanced thermal stability at high temperatures",
+      "Compatible with vacuum melting and precision alloying"
     ],
     hasTypes: false
   }
@@ -255,7 +307,11 @@ function ProductDetail({ product, isClosing = false }) {
               <img
                 src={productImage}
                 alt={productName}
-                className="h-56 md:h-72 lg:h-96 object-contain mx-auto drop-shadow-2xl"
+                className={`object-contain mx-auto drop-shadow-2xl
+                  ${(productName === "Molybdenum Powder" || productName === "Extra Low Carbon FeCr Powder")
+                    ? 'h-64 md:h-[24rem] lg:h-[32rem]'  // Larger size for powder products
+                    : 'h-56 md:h-72 lg:h-96'            // Original size for other products
+                  }`}
                 style={{
                   filter: "drop-shadow(0px 20px 25px rgba(0, 0, 0, 0.6))",
                   transformOrigin: "center center"
